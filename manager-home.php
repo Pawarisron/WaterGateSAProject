@@ -1,3 +1,21 @@
+<?php
+    session_start();
+    require_once 'db.php';
+    if(isset($_SESSION['manager_login'])){
+        echo 'MANAGER';
+    }
+    else if($_SESSION['employee_login']){
+        echo 'EMPLOYEE';
+    }
+    else{
+        echo 'ERROR';
+        header('location: login.php');
+    }
+
+    
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +30,7 @@
   <link href="css/templatemo-style.css" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link href="file/ผังระบายตะวันออก3.xlsx" rel="filesheet">
-  <title>Homepage Employee/Staff</title>
+  <title>Homepage Manager</title>
 </head>
 
 <body>  
@@ -27,10 +45,10 @@
       <nav class="templatemo-left-nav">          
         <ul>
           <li><a href="#" class="active"><i class='bx bx-home' ></i> หน้าหลัก</a></li>
-          <li><a href="staff-wg-reporter.html"><i class='bx bx-notepad'></i> บันทึกระดับน้ำประจำวัน</a></li>
-          <li><a href="staff-water-report.html"><i class='bx bxs-report'></i> รายงานบันทึกระดับน้ำทั้งหมด</a></li>
-          <li><a href="staff-wg-assignment.html"><i class='bx bx-briefcase-alt-2'></i> ตรวจสอบการสั่งงาน</a></li>
-          <li><a href="login.html"><i class='bx bx-log-out'></i> ออกจากระบบ</a></li>
+          <li><a href="data-visualization.html"><i class='bx bx-briefcase-alt-2'></i> การสั่งการประจำวัน</a></li>
+          <li><a href="manager-water-reporte.html"><i class='bx bxs-report'></i> รายงานบันทึกระดับน้ำทั้งหมด</a></li>
+          <li><a href="data-visualization.html"><i class='bx bx-terminal'></i> บันทึกการสั่งงานทั้งหมด</a></li>
+          <li><a href="logout.php"><i class='bx bx-log-out'></i> ออกจากระบบ</a></li>
         </ul>  
       </nav>
     </div>

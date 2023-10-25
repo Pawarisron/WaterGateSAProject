@@ -1,3 +1,8 @@
+<?php
+  require_once 'db.php';
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,18 +17,18 @@
 
 <body>
   <div class="wrapper">
-    <form action="">
+    <form action="./controller/logincontroller.php" method='post'>
       <h1>Sign In</h1>
       <p>ระบบจัดการประตูระบายน้ำฝั่งตะวันออก สำนักงานชลประทานที่ 11</p>
       <div class="input-box">
-        <input type="text" placeholder="Username" required>
+        <input name='employee_ID' type="text" placeholder="Username" required>
         <i class='bx bxs-user'></i>
       </div>
       <div class="input-box">
-        <input type="password" placeholder="Password" required>
+        <input name = 'password' type="password" placeholder="Password" required>
         <i class='bx bxs-lock-alt'></i>
       </div>
-      <button type="submit" class="btn">Login</button>
+      <button name ='signin' type="submit" class="btn">Login</button>
     </form>
   </div>
   <script src="js/script.js"></script>
