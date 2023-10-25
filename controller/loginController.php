@@ -18,30 +18,29 @@
                         if($password == $row['password']){
                             if ($row['role'] == 'Manager'){
                                 $_SESSION['manager_login'] = $row['employee_ID'];
-                                header("location: ../manager-home.php");
+                                header("location: ../view/manager/manager-home.php");
                                 
                             }
                             else if ($row['role'] == 'Employee'){
                                 $_SESSION['employee_login'] = $row['employee_ID'];
-                                header("location: ../employee-home.php");
+                                header("location: ../view/employee/employee-home.php");
 
                             }
                             
                         } 
                         else {
-                            echo 'hi';
-                            $_SESSION['error'] = 'รหัสผ่านผิด';
+                            // $_SESSION['error'] = 'รหัสผ่านผิด';
                             header('location: ../login.php');
                             
                         }
                     } else {
-                        echo 'hi2';
-                        $_SESSION['error'] = 'อีเมล์ผิด';
+                        
+                        // $_SESSION['error'] = 'อีเมล์ผิด';
                         header('location: ../login.php');
                     }
                 }
                 else{
-                    $_SESSION['error'] = "ไม่มีข้อมูลในระบบ";
+                    // $_SESSION['error'] = "ไม่มีข้อมูลในระบบ";
                     header("location: ../login.php");
                 }
 

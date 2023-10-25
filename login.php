@@ -17,7 +17,7 @@
 
 <body>
   <div class="wrapper">
-    <form action="./controller/logincontroller.php" method='post'>
+    <form action="controller/logincontroller.php" method='post'>
       <h1>Sign In</h1>
       <p>ระบบจัดการประตูระบายน้ำฝั่งตะวันออก สำนักงานชลประทานที่ 11</p>
       <div class="input-box">
