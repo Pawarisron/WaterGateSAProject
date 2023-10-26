@@ -93,7 +93,7 @@
           </div>
           <div class="col-lg-6 col-md-6 form-group">
             <label for="timestamp">วันที่</label>
-            <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="">
+            <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="" required>
           </div>
           <div class="col-lg-12 has-success form-group">                  
             <label for="inputWaterFlow">อัตราการไหล (ลบ.ม./วินาที)</label>
