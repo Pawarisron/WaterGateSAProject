@@ -8,7 +8,7 @@
         $employee_ID = $_POST['employee_ID'];
         $password = $_POST['password'];
             try{
-                $check_data = $conn->prepare("SELECT * FROM users WHERE employee_ID = :employee_ID");
+                $check_data = $conn->prepare("SELECT * FROM employee WHERE employee_ID = :employee_ID");
                 $check_data->bindParam(":employee_ID", $employee_ID);
                 $check_data->execute();
                 $row = $check_data->fetch(PDO::FETCH_ASSOC);
