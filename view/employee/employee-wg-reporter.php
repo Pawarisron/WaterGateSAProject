@@ -1,5 +1,5 @@
 <?php
-    /*session_start();
+    session_start();
     require_once '../../db.php';
     if(isset($_SESSION['manager_login'])){
         echo 'MANAGER';
@@ -10,7 +10,7 @@
     else{
         echo 'ERROR';
         header('location: login.php');
-    }*/
+    }
 
 ?>
 
@@ -32,7 +32,8 @@
   <title>Water Gate Reporter Employee/Staff</title>
 </head>
 
-<body>  
+<body>
+  
   <!-- Left column -->
   <div class="templatemo-flex-row">
     <div class="templatemo-sidebar">
@@ -63,15 +64,31 @@
           </nav>
         </div>
       </div>
-      <form action="">
+      <form action="../../controller/employee-wg-reporter-controller.php" method='post'>
         <div class="water-gate-reporter" style="text-align: left; margin: 20px;">
           <h2 style="margin: 20px;">บันทึกระดับน้ำประจำวัน</h2>
           <!--หาวิธีดึงชื่อประตูระบายน้ำมาเป็น option-->
+          
           <div class="col-lg-6 col-md-6 form-group"> 
             <label class="control-label templatemo-block">Single Selection Control</label>                 
-            <select class="form-control">
-              <option value="html">ประตูน้ำที่ 1</option>
-              <option value="plain">ประตูน้ำที่ 2</option>                      
+            <select name = "watergate_ID" class="form-control">
+              <?php
+
+                $sql = "SELECT watergate_ID FROM watergate";
+                $result = $conn->query($sql);
+                // $result->execute();
+                while ($row = $result->fetch()):
+              ?>
+                <option value="<?php echo $row['watergate_ID']; ?>"> 
+                  <?php echo $row['watergate_ID'] ?>
+                </option>
+                <?php 
+                  endwhile;
+                ?>
+              
+
+
+
             </select>
           </div>
           <div class="col-lg-6 col-md-6 form-group">
@@ -80,19 +97,19 @@
           </div>
           <div class="col-lg-12 has-success form-group">                  
             <label for="inputWaterFlow">อัตราการไหล (ลบ.ม./วินาที)</label>
-            <input type="float" class="form-control" id="inputWaterFlow" required>                  
+            <input name = 'flow_rate'type="float" class="form-control" id="inputWaterFlow" required>                  
           </div>
           <div class="col-lg-12 has-success form-group">                  
             <label for="inputUpstream">ระดับน้ำเหนือน้ำ (ม.รทก.)</label>
-            <input type="float" class="form-control" id="inputUpstream" required>                  
+            <input name='upstream'type="float" class="form-control" id="inputUpstream" required>                  
           </div>
           <div class="col-lg-12 has-success form-group">                  
             <label for="inpuDownpstream">ระดับน้ำท้ายน้ำ (ม.รทก.)</label>
-            <input type="float" class="form-control" id="inputDownstream" required>                  
+            <input name = 'downstream'type="float" class="form-control" id="inputDownstream" required>                  
           </div>
         </div>
         <div style="margin: 480px 20px 20px 35px;">
-          <button type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
+          <button name='submitReport' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
         </div>
       </form>
     </div>

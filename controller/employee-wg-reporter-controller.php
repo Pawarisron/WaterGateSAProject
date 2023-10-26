@@ -3,35 +3,52 @@
     session_start();
     require_once '../db.php';
 
+
+
+
     if(isset($_POST['submitReport'])){
         
-        $employee_ID = $_POST['employee_ID'];
-        $employee_name = $_POST['employee_name'];
-        $password = $_POST['password'];
-        $role = $_POST['role'];
-
+        $watergate_ID = $_POST['watergate_ID'];
+        $flow_rate = $_POST['flow_rate'];
+        $upstream = $_POST['upstream'];
+        $downstream = $_POST['downstream'];
+        $timestamp = $_POST['timestamp'];
+        $employee_report_ID = $_SESSION['employee_login'];
+        
             try{
 
                 
 
-                $message = "INSERT INTO users (employee_ID, employee_name, password, role) 
-                VALUES (:employee_ID, :employee_name, :password, :role)";
+                $message = "INSERT INTO daily_report(employee_report_ID, 
+                watergate_report_ID, upstream, downstream, flow_rate) 
+                VALUES (:employee_report_ID, :watergate_ID, :upstream, :downstream, :flow_rate)";
+                
                 $check_data = $conn->prepare($message);
 
-                $check_data->bindParam(':employee_ID', $employee_ID, PDO::PARAM_STR);
-                $check_data->bindParam(':employee_name', $employee_name, PDO::PARAM_STR);
-                $check_data->bindParam(':password', $password, PDO::PARAM_STR);
-                $check_data->bindParam(':role', $role, PDO::PARAM_STR);
-
+                $check_data->bindParam(':employee_report_ID', $employee_report_ID, PDO::PARAM_STR);
+                $check_data->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
+                $check_data->bindParam(':upstream', $upstream, PDO::PARAM_STR);
+                $check_data->bindParam(':downstream', $downstream, PDO::PARAM_STR);
+                $check_data->bindParam(':flow_rate', $flow_rate, PDO::PARAM_STR);
+                
+                
                 $check_data->execute();
-                header("location: ../view/employee/employee-home.php");
-
                 
 
+                // try{
+                //     $message2 = "INSERT INTO daily_report_time(report_time_ID, report_date) VALUES ('[value-1]','[value-2]')";
+                //     $check_data->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
+                // }
+                // catch(PDOException $e){
+                //     echo $e->getMessage();
+
+                // }
+                header('location: ../view/employee/employee-wg-reporter.php');
             }catch(PDOException $e){
                 echo $e->getMessage();
             }
         }
+    
     
 
 ?>
