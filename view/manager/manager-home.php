@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    /*session_start();
     require_once '../../db.php';
     if(isset($_SESSION['manager_login'])){
         echo 'MANAGER';
@@ -10,7 +10,7 @@
     else{
         echo 'ERROR';
         header('location: login.php');
-    }
+    }*/
 
     
 ?>
@@ -45,9 +45,9 @@
       <nav class="templatemo-left-nav">          
         <ul>
           <li><a href="#" class="active"><i class='bx bx-home' ></i> หน้าหลัก</a></li>
-          <li><a href="data-visualization.html"><i class='bx bx-briefcase-alt-2'></i> การสั่งการประจำวัน</a></li>
-          <li><a href="manager-water-reporte.php"><i class='bx bxs-report'></i> รายงานบันทึกระดับน้ำทั้งหมด</a></li>
-          <li><a href="data-visualization.html"><i class='bx bx-terminal'></i> บันทึกการสั่งงานทั้งหมด</a></li>
+          <li><a href="manager-assignment-order.php"><i class='bx bx-briefcase-alt-2'></i> การสั่งการประจำวัน</a></li>
+          <li><a href="manager-water-report.php"><i class='bx bxs-report'></i> รายงานบันทึกระดับน้ำทั้งหมด</a></li>
+          <li><a href="manager-assignment-check.php"><i class='bx bx-terminal'></i> บันทึกการสั่งงานทั้งหมด</a></li>
           <!-- Logout -->
           <li><a href="../../logout.php"><i class='bx bx-log-out'></i> ออกจากระบบ</a></li>
         </ul>  

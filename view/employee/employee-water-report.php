@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    /*session_start();
     require_once '../../db.php';
     if(isset($_SESSION['manager_login'])){
         echo 'MANAGER';
@@ -10,7 +10,7 @@
     else{
         echo 'ERROR';
         header('location: login.php');
-    }
+    }*/
 
     
 ?>
