@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    /*session_start();
     require_once '../../db.php';
     if(isset($_SESSION['manager_login'])){
         echo 'MANAGER';
@@ -10,7 +10,7 @@
     else{
         echo 'ERROR';
         header('location: login.php');
-    }
+    }*/
 
 ?>
 
@@ -66,23 +66,6 @@
       <form action="">
         <div class="water-gate-reporter" style="text-align: left; margin: 20px;">
           <h2 style="margin: 20px;">บันทึกระดับน้ำประจำวัน</h2>
-          <div class="col-lg-6 col-md-6 form-group">  
-            <!--ไปหาโค้ดที่มันดึงค่าใส่อัตโนมัติดู ถ้าไม่ได้ก็ค่อยให้กรอกก็ได้-->                
-            <label for="inputFirstName">ชื่อ</label>
-            <input type="text" class="form-control" id="inputFirstName" placeholder="">                  
-          </div>
-          <div class="col-lg-6 col-md-6 form-group">                  
-            <label for="inputLastName">นามสกุล</label>
-            <input type="text" class="form-control" id="inputLastName" placeholder="">                  
-          </div>
-          <div class="col-lg-6 col-md-6 form-group">                  
-            <label for="inputDate">วันที่</label>
-            <input type="text" class="form-control" id="inputDate" placeholder="">                  
-          </div>
-          <div class="col-lg-6 col-md-6 form-group">                  
-            <label for="inputTime">เวลา</label>
-            <input type="text" class="form-control" id="inputTime" placeholder="">                  
-          </div>
           <!--หาวิธีดึงชื่อประตูระบายน้ำมาเป็น option-->
           <div class="col-lg-6 col-md-6 form-group"> 
             <label class="control-label templatemo-block">Single Selection Control</label>                 
@@ -90,6 +73,10 @@
               <option value="html">ประตูน้ำที่ 1</option>
               <option value="plain">ประตูน้ำที่ 2</option>                      
             </select>
+          </div>
+          <div class="col-lg-6 col-md-6 form-group">
+            <label for="timestamp">วันที่</label>
+            <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="">
           </div>
           <div class="col-lg-12 has-success form-group">                  
             <label for="inputWaterFlow">อัตราการไหล (ลบ.ม./วินาที)</label>

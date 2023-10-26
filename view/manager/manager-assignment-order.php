@@ -15,6 +15,7 @@
     
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +30,7 @@
   <link href="../../css/templatemo-style.css" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link href="file/ผังระบายตะวันออก3.xlsx" rel="filesheet">
-  <title>Water Gate Assignment Employee/Staff</title>
+  <title>Homepage Manager</title>
 </head>
 
 <body>  
@@ -43,10 +44,10 @@
       
       <nav class="templatemo-left-nav">          
         <ul>
-          <li><a href="employee-home.php"><i class='bx bx-home' ></i> หน้าหลัก</a></li>
-          <li><a href="employee-wg-reporter.php"><i class='bx bx-notepad'></i> บันทึกระดับน้ำประจำวัน</a></li>
-          <li><a href="employee-water-report.php"><i class='bx bxs-report'></i> รายงานบันทึกระดับน้ำทั้งหมด</a></li>
-          <li><a href="#" class="active"><i class='bx bx-briefcase-alt-2'></i> ตรวจสอบการสั่งงาน</a></li>
+          <li><a href="manager-home.php"><i class='bx bx-home' ></i> หน้าหลัก</a></li>
+          <li><a href="#" class="active"><i class='bx bx-briefcase-alt-2'></i> การสั่งการประจำวัน</a></li>
+          <li><a href="manager-water-report.php"><i class='bx bxs-report'></i> รายงานบันทึกระดับน้ำทั้งหมด</a></li>
+          <li><a href="manager-assignment-check.php"><i class='bx bx-terminal'></i> บันทึกการสั่งงานทั้งหมด</a></li>
           <li><a href="../../logout.php"><i class='bx bx-log-out'></i> ออกจากระบบ</a></li>
         </ul>  
       </nav>
@@ -63,8 +64,34 @@
           </nav>
         </div>
       </div>
-      <div class="water-gate-map" style="text-align: center;">
-        <p>test</p>
+      <div class="water-gate-map"  style="text-align: center; margin: 20px;">
+        <h2 style="margin: 20px;">ตารางแสดงผลประตูน้ำในสถานะวิกฤติ</h2>
+        <div class="panel panel-default table-responsive">
+          <table class="table table-striped table-bordered templatemo-user-table">
+            <thead>
+              <tr>
+                <td>ID</td>
+                <td>ชื่อประตูระบายน้ำ</td>
+                <td>สถานะปัจจุบัน</td>
+                <td>แก้ไข</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>WG001</td>
+                <td>ประตูน้ำที่ 1</td>
+                <td>วิกฤติ</td>
+                <td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">แก้ไข</a></td>
+              </tr>
+              <tr>
+                <td>WG002</td>
+                <td>ประตูน้ำที่ 2</td>
+                <td>วิกฤติ</td>
+                <td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">แก้ไข</a></td>
+              </tr>                   
+            </tbody>
+          </table>    
+        </div>
       </div>
     </div>
 
