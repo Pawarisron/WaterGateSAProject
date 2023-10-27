@@ -97,7 +97,7 @@
       <div class="water-gate-report" style="text-align: center; margin: 20px;">
         <h2 style="margin: 20px;">รายงานบันทึกระดับน้ำทั้งหมด</h2>
         <div class="panel panel-default table-responsive">
-          <table class="table table-striped table-bordered templatemo-user-table">
+          <table class="table table-striped table-bordered templatemo-user-table"  style="text-align: center;">
             <thead>
               <tr>
                 <td colspan="7"><a href="" class="templatemo-link"><i class='bx bx-chevron-left' style="color: white;"></i></a> September <a href="" class="templatemo-link"><i class='bx bx-chevron-right' style="color: white;"></i></a></td>

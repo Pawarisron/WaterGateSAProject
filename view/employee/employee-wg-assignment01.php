@@ -1,5 +1,5 @@
 <?php
-    /*session_start();
+    session_start();
     require_once '../../db.php';
     if(isset($_SESSION['manager_login'])){
         echo 'MANAGER';
@@ -10,7 +10,7 @@
     else{
         echo 'ERROR';
         header('location: login.php');
-    }*/
+    }
 
     
 ?>
@@ -114,7 +114,7 @@
                 <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="">
               </div>
               <div class="form-group" style="text-align: right; padding-top: 20px;">
-                <button name='submitReport' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
+                <button name='submitAssignment' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
               </div>
             </form>
           </div>
