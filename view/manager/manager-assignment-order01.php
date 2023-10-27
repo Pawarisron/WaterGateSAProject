@@ -63,9 +63,26 @@
           </nav>
         </div>
       </div>
-      <div class="water-gate-map"  style="text-align: center; margin: 20px;">
-        <h2 style="margin: 20px;">test</h2>
-        
+      <div class="gen-wg-route"  style="text-align: center; margin: 20px;">
+        <h2 style="margin: 20px;">สร้างเส้นทางระบายน้ำ</h2>
+        <div class="table-responsive" style="padding: 20px;">
+          <table class="table">
+            <tbody style="text-align: left; padding-left: 40px;">
+              <tr>
+                <td><b>1.</b></td>
+                <td>WG001</td>
+                <td>ประตูที่ 1</td>
+                <td>0.50</td>
+              </tr>
+              <tr>
+                <td><b>2.</b></td>
+                <td>WG002</td>
+                <td>ประตูที่ 2</td>
+                <td>0.32</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

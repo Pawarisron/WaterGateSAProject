@@ -68,7 +68,10 @@
         <div class="panel panel-default table-responsive">
           <table class="table table-striped table-bordered templatemo-user-table">
             <thead>
-            <tr>
+              <tr>
+                <td colspan="7"><a href="" class="templatemo-link"><i class='bx bx-chevron-left' style="color: white;"></i></a> September <a href="" class="templatemo-link"><i class='bx bx-chevron-right' style="color: white;"></i></a></td>
+              </tr>
+              <tr>
                 <td>ID</td>
                 <td>ชื่อประตูระบายน้ำ</td>
                 <td>สถานะปัจจุบัน</td>

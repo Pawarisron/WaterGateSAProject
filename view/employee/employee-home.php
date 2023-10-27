@@ -68,14 +68,16 @@
           <table class="table table-striped table-bordered templatemo-user-table">
             <thead>
               <tr>
+                <td colspan="7"><a href="" class="templatemo-link"><i class='bx bx-chevron-left' style="color: white;"></i></a> September <a href="" class="templatemo-link"><i class='bx bx-chevron-right' style="color: white;"></i></a></td>
+              </tr>
+              <tr>
                 <td>ID</td>
                 <td>ชื่อประตูระบายน้ำ</td>
                 <td>สถานะปัจจุบัน</td>
                 <td>วันที่บันทึกผลล่าสุด</td>
-                <td>อัตราการไหล<br>(ลบ.ม./วินาที)</td>
-                <td>ระดับน้ำเหนือน้ำ<br>(ม.รทก.)</td>
-                <td>ระดับน้ำท้ายน้ำ<br>(ม.รทก.)</td>
-                
+                <td>อัตราการไหล (ลบ.ม./วินาที)</td>
+                <td>ระดับน้ำเหนือน้ำ (ม.รทก.)</td>
+                <td>ระดับน้ำท้ายน้ำ (ม.รทก.)</td>
               </tr>
             </thead>
             <tbody>

@@ -76,7 +76,7 @@
                 <td>เกณฑ์ควบคุมระดับน้ำ<br>เหนือน้ำ (ม.รทก.)</td>
                 <td>ระดับน้ำท้ายน้ำ<br>(ม.รทก.)</td>
                 <td>เกณฑ์ควบคุมระดับน้ำ<br>ท้ายน้ำ (ม.รทก.)</td>
-                <td>แก้ไข</td>
+                <td>ดำเนินการแก้ไข</td>
               </tr>
             </thead>
             <tbody>
@@ -88,7 +88,7 @@
                 <td>1.20</td>
                 <td>0.98</td>
                 <td>0.80</td>
-                <td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">แก้ไข</a></td>
+                <td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">สั่งการ</a></td>
               </tr>
               <tr>
                 <td>WG002</td>
@@ -98,7 +98,7 @@
                 <td>1.20</td>
                 <td>0.46</td>
                 <td>0.80</td>
-                <td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">แก้ไข</a></td>
+                <td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">สั่งการ</a></td>
               </tr>                   
             </tbody>
           </table>    
