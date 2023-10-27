@@ -1,5 +1,5 @@
 <?php
-    /*session_start();
+    session_start();
     require_once '../../db.php';
     if(isset($_SESSION['manager_login'])){
         echo 'MANAGER';
@@ -10,8 +10,39 @@
     else{
         echo 'ERROR';
         header('location: login.php');
-    }*/
+    }
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
 
+    $sql = "
+    SELECT
+        d.report_ID,
+        d.employee_report_ID,
+        d.watergate_report_ID,
+        d.upstream,
+        d.downstream,
+        d.flow_rate,
+        t.report_date,
+        g.gate_status,
+        g.water_source_name,
+        g.criterion,
+        g.gate_route_ID,
+        r.gate_name
+    FROM daily_report AS d
+    JOIN daily_report_time AS t ON d.report_ID = t.report_time_ID
+    JOIN watergate AS g ON d.watergate_report_ID = g.watergate_ID
+    JOIN watergate_name AS r ON g.watergate_ID = r.watergate_name_ID
+    WHERE (d.watergate_report_ID, t.report_date) IN (
+        SELECT d1.watergate_report_ID, MAX(t1.report_date)
+        FROM daily_report_time AS t1
+        JOIN daily_report AS d1 ON t1.report_time_ID = d1.report_ID
+        GROUP BY d1.watergate_report_ID
+    );
+    ";
+
+    // $result = mysqli_query($connection, $query);
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
     
 ?>
 
@@ -83,24 +114,19 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>WG001</td>
-                <td>ประตูน้ำที่ 1</td>
-                <td>ปกติ</td>
-                <td>22/09/2023 08:12</td>
-                <td>0.00</td>
-                <td>1.29</td>
-                <td>0.98</td>
-              </tr>
-              <tr>
-                <td>WG002</td>
-                <td>ประตูน้ำที่ 2</td>
-                <td>ปกติ</td>
-                <td>22/09/2023 07:52</td>
-                <td>8.84</td>
-                <td>2.56</td>
-                <td>1.85</td>
-              </tr>                
+            <?php
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    echo '<tr>';
+                    echo '<td>' . $row['watergate_report_ID'] . '</td>';
+                    echo '<td>' . $row['gate_name'] . '</td>';
+                    echo '<td>' . $row['gate_status'] . '</td>';
+                    echo '<td>' . $row['report_date'] . '</td>';
+                    echo '<td>' . $row['flow_rate'] . '</td>';
+                    echo '<td>' . $row['upstream'] . '</td>';
+                    echo '<td>' . $row['downstream'] . '</td>';
+                    echo '</tr>';
+                }
+                ?>
             </tbody>
           </table>    
         </div>

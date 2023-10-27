@@ -19,7 +19,7 @@
                         
                         if($password == $row['password']){
                             
-                            if (strtoupper($row['role']) == 'Manager'){
+                            if (strtoupper($row['role']) == 'MANAGER'){
                                 $_SESSION['manager_login'] = $row['employee_ID'];
                                 header("location: ../view/manager/manager-home.php");
                                 
