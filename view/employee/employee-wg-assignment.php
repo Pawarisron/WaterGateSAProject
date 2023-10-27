@@ -104,6 +104,8 @@ ON
                     echo '<td>' . $row['command_ID'] . '</td>';
                     echo '<td>' . $row['command_time'] . '</td>';
                     echo '<td>' . $row['gate_name'] . '</td>';
+                    echo '<td><a href="employee-wg-assignment01.php?command_ID=' . $row['command_ID'] . '">รายละเอียดคำสั่ง</a></td>';
+
                 }
                 ?>       
             </tbody>
