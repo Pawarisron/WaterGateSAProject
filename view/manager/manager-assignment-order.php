@@ -46,7 +46,6 @@
         <ul>
           <li><a href="manager-home.php"><i class='bx bx-home' ></i> หน้าหลัก</a></li>
           <li><a href="#" class="active"><i class='bx bx-briefcase-alt-2'></i> การสั่งการประจำวัน</a></li>
-          <li><a href="manager-water-report.php"><i class='bx bxs-report'></i> รายงานบันทึกระดับน้ำทั้งหมด</a></li>
           <li><a href="manager-assignment-check.php"><i class='bx bx-terminal'></i> บันทึกการสั่งงานทั้งหมด</a></li>
           <li><a href="../../logout.php"><i class='bx bx-log-out'></i> ออกจากระบบ</a></li>
         </ul>  
@@ -64,8 +63,8 @@
           </nav>
         </div>
       </div>
-      <div class="water-gate-map"  style="text-align: center; margin: 20px;">
-        <h2 style="margin: 20px;">ตารางแสดงผลประตูน้ำในสถานะวิกฤติ</h2>
+      <div class="water-gate-critical-table"  style="text-align: center; margin: 20px;">
+        <h2 style="margin: 20px;">ประตูน้ำที่อยู่สถานะวิกฤติ</h2>
         <div class="panel panel-default table-responsive">
           <table class="table table-striped table-bordered templatemo-user-table">
             <thead>
@@ -73,6 +72,10 @@
                 <td>ID</td>
                 <td>ชื่อประตูระบายน้ำ</td>
                 <td>สถานะปัจจุบัน</td>
+                <td>ระดับน้ำเหนือน้ำ<br>(ม.รทก.)</td>
+                <td>เกณฑ์ควบคุมระดับน้ำ<br>เหนือน้ำ (ม.รทก.)</td>
+                <td>ระดับน้ำท้ายน้ำ<br>(ม.รทก.)</td>
+                <td>เกณฑ์ควบคุมระดับน้ำ<br>ท้ายน้ำ (ม.รทก.)</td>
                 <td>แก้ไข</td>
               </tr>
             </thead>
@@ -81,12 +84,20 @@
                 <td>WG001</td>
                 <td>ประตูน้ำที่ 1</td>
                 <td>วิกฤติ</td>
+                <td>1.04</td>
+                <td>1.20</td>
+                <td>0.98</td>
+                <td>0.80</td>
                 <td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">แก้ไข</a></td>
               </tr>
               <tr>
                 <td>WG002</td>
                 <td>ประตูน้ำที่ 2</td>
                 <td>วิกฤติ</td>
+                <td>1.65</td>
+                <td>1.20</td>
+                <td>0.46</td>
+                <td>0.80</td>
                 <td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">แก้ไข</a></td>
               </tr>                   
             </tbody>

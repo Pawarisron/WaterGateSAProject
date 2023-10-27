@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    /*session_start();
     require_once '../../db.php';
     if(isset($_SESSION['manager_login'])){
         echo 'MANAGER';
@@ -10,7 +10,7 @@
     else{
         echo 'ERROR';
         header('location: login.php');
-    }
+    }*/
 
 ?>
 
@@ -46,7 +46,6 @@
         <ul>
           <li><a href="employee-home.php"><i class='bx bx-home' ></i> หน้าหลัก</a></li>
           <li><a href="#" class="active"><i class='bx bx-notepad'></i> บันทึกระดับน้ำประจำวัน</a></li>
-          <li><a href="employee-water-report.php"><i class='bx bxs-report'></i> รายงานบันทึกระดับน้ำทั้งหมด</a></li>
           <li><a href="employee-wg-assignment.php"><i class='bx bx-briefcase-alt-2'></i> ตรวจสอบการสั่งงาน</a></li>
           <li><a href="../../logout.php"><i class='bx bx-log-out'></i> ออกจากระบบ</a></li>
         </ul>  
@@ -66,29 +65,24 @@
       </div>
       <form action="../../controller/employee-wg-reporter-controller.php" method='post'>
         <div class="water-gate-reporter" style="text-align: left; margin: 20px;">
-          <h2 style="margin: 20px;">บันทึกระดับน้ำประจำวัน</h2>
+          <h2 style="text-align: center;">บันทึกระดับน้ำประจำวัน</h2>
           <!--หาวิธีดึงชื่อประตูระบายน้ำมาเป็น option-->
           
           <div class="col-lg-6 col-md-6 form-group"> 
-            <label class="control-label templatemo-block">Single Selection Control</label>                 
+            <label class="control-label templatemo-block">เลือกประตูน้ำ</label>                 
             <select name = "watergate_ID" class="form-control">
               <?php
-
-                $sql = "SELECT watergate_ID FROM watergate";
-                $result = $conn->query($sql);
-                // $result->execute();
-                while ($row = $result->fetch()):
+              $sql = "SELECT watergate_ID FROM watergate";
+              $result = $conn->query($sql);
+              // $result->execute();
+              while ($row = $result->fetch()):
               ?>
-                <option value="<?php echo $row['watergate_ID']; ?>"> 
-                  <?php echo $row['watergate_ID'] ?>
-                </option>
-                <?php 
-                  endwhile;
-                ?>
-              
-
-
-
+              <option value="<?php echo $row['watergate_ID']; ?>"> 
+                <?php echo $row['watergate_ID'] ?>
+              </option>
+              <?php 
+                endwhile;
+              ?>
             </select>
           </div>
           <div class="col-lg-6 col-md-6 form-group">
@@ -103,14 +97,15 @@
             <label for="inputUpstream">ระดับน้ำเหนือน้ำ (ม.รทก.)</label>
             <input name='upstream'type="float" class="form-control" id="inputUpstream" required>                  
           </div>
-          <div class="col-lg-12 has-success form-group">                  
+          <div class="col-lg-12 has-success form-group" style="padding-bottom: 40px;">                  
             <label for="inpuDownpstream">ระดับน้ำท้ายน้ำ (ม.รทก.)</label>
             <input name = 'downstream'type="float" class="form-control" id="inputDownstream" required>                  
           </div>
+          <div class="form-group" style="margin: 15px;">
+            <button name='submitReport' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
+          </div>
         </div>
-        <div style="margin: 480px 20px 20px 35px;">
-          <button name='submitReport' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
-        </div>
+        
       </form>
     </div>
 

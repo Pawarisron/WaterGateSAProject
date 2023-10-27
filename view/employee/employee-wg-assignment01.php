@@ -62,33 +62,62 @@
           </nav>
         </div>
       </div>
-      <div class="assignment-table"  style="text-align: center; margin: 20px;">
+      <div class="assignment-sheet"  style="text-align: center; margin: 20px;">
         <h2 style="margin: 20px;">รายการการสั่งงานประจำวัน</h2>
-        <div class="panel panel-default table-responsive">
-          <table class="table table-striped table-bordered templatemo-user-table">
-            <thead>
+        <div class="table-responsive" style="padding: 20px;">
+          <table class="table">
+            <tbody style="text-align: left; padding-left: 40px;">
               <tr>
-                <td>ID</td>
-                <td>วันที่</td>
-                <td>ประตูน้ำ</td>
-                <td>คำสั่ง</td>
+                <td><b>ID</b></td>
+                <td>WG001</td>
               </tr>
-            </thead>
-            <tbody>
               <tr>
-                <td>001</td>
-                <td>22/09/2023 18:45</td>
+                <td><b>ชื่อประตู</b></td>
                 <td>ประตูที่ 1</td>
-                <td><a href="employee-wg-assignment01.php" class="templatemo-link">รายละเอียดคำสั่ง</a></td>
               </tr>
               <tr>
-                <td>002</td>
+                <td><b>สถานะ</b></td>
+                <td>วิกฤติ</td>
+              </tr>
+              <tr>
+                <td><b>วันที่ออกคำสั่ง</b></td>
                 <td>22/09/2023 18:45</td>
-                <td>ประตูที่ 2</td>
-                <td><a href="employee-wg-assignment01.php" class="templatemo-link">รายละเอียดคำสั่ง</a></td>
-              </tr>                   
+              </tr>
+              <tr>
+                <td><b>วันเวลาเปิด</b></td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td><b>วันเวลาปิด</b></td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td><b>หมายเหตุ</b></td>
+                <td>ปริมาณน้ำระบายออก 0.50 ม.รทก. โดยเทียบกับอัตราการไหลปัจจุบัน<br>กรุณาเปิดประตูระบายน้ำภายในเวลา 08:00 น. วันที่ 23/09/2023</td>
+              </tr>
             </tbody>
-          </table>    
+          </table>
+        </div>
+        <div class="panel panel-default margin-10">
+          <div class="panel-heading">
+            <h2>อัพเดตหลังเปิดประตูน้ำ</h2>
+          </div>
+          <div class="panel-body">
+            <!--ฝากเติมตรง action ด้วยต้าฟ-->
+            <form action="" class="templatemo-login-form" style="text-align: left;">
+              <div class="form-group">
+                <label for="timestamp">วันเวลาเปิด</label>
+                <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="">
+              </div>
+              <div class="form-group">
+                <label for="timestamp">วันเวลาปิด</label>
+                <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="">
+              </div>
+              <div class="form-group" style="text-align: right; padding-top: 20px;">
+                <button name='submitReport' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

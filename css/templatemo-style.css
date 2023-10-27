@@ -257,20 +257,20 @@ footer { padding: 15px; }
   z-index: 100;
   transition: all 0.3s ease;
 }
-.fa-heart:hover { color: #39ADB4; }
+.fa-heart:hover { color: #A1C4E3; }
 .progress {	display: block; }
 .panel-default>.panel-heading {
-	background-color: #39ADB4;
+	background-color: #A1C4E3;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
-	color: #e4e4e4;
+	color: white;
 	padding: 15px;
 }
 .panel-default .fa-times {
 	top: 12px;
 	background-color: #67B5B9;
 }
-.panel-default .fa-times:hover { background-color: #297B7F;	}
+.panel-default .fa-times:hover { background-color: #A1C4E3;	}
 .panel { border-radius: 10px; }
 .pagination-wrap {
 	margin-right: 10px;
@@ -425,8 +425,8 @@ input[type="radio"]:checked + label span {
 	transition: all 0.3s ease;
 }
 .templatemo-edit-btn:hover {
-	background-color: #50c8cf;
-	border: 1px solid #39ADB4;
+	background-color: #5083cf;
+	border: 1px solid #3979b4;
 	color: white;
 }
 .templatemo-link { color: black; }

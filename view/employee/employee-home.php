@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    /*session_start();
     require_once '../../db.php';
     if(isset($_SESSION['manager_login'])){
         echo 'MANAGER';
@@ -10,7 +10,7 @@
     else{
         echo 'ERROR';
         header('location: login.php');
-    }
+    }*/
 
     
 ?>
@@ -45,9 +45,7 @@
         <ul>
           <li><a href="#" class="active"><i class='bx bx-home' ></i> หน้าหลัก</a></li>
           <li><a href="employee-wg-reporter.php"><i class='bx bx-notepad'></i> บันทึกระดับน้ำประจำวัน</a></li>
-          <li><a href="employee-water-report.php"><i class='bx bxs-report'></i> รายงานบันทึกระดับน้ำทั้งหมด</a></li>
           <li><a href="employee-wg-assignment.php"><i class='bx bx-briefcase-alt-2'></i> ตรวจสอบการสั่งงาน</a></li>
-          <!-- logout -->
           <li><a href="../../logout.php"><i class='bx bx-log-out'></i> ออกจากระบบ</a></li>
         </ul>  
       </nav>
@@ -64,8 +62,44 @@
           </nav>
         </div>
       </div>
-      <div class="water-gate-map" style="text-align: center;">
-        <p>test</p>
+      <div class="water-gate-report" style="text-align: center; margin: 20px;">
+        <h2 style="margin: 20px;">รายงานบันทึกระดับน้ำทั้งหมด</h2>
+        <div class="panel panel-default table-responsive">
+          <table class="table table-striped table-bordered templatemo-user-table">
+            <thead>
+              <tr>
+                <td>ID</td>
+                <td>ชื่อประตูระบายน้ำ</td>
+                <td>สถานะปัจจุบัน</td>
+                <td>วันที่บันทึกผลล่าสุด</td>
+                <td>อัตราการไหล<br>(ลบ.ม./วินาที)</td>
+                <td>ระดับน้ำเหนือน้ำ<br>(ม.รทก.)</td>
+                <td>ระดับน้ำท้ายน้ำ<br>(ม.รทก.)</td>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>WG001</td>
+                <td>ประตูน้ำที่ 1</td>
+                <td>ปกติ</td>
+                <td>22/09/2023 08:12</td>
+                <td>0.00</td>
+                <td>1.29</td>
+                <td>0.98</td>
+              </tr>
+              <tr>
+                <td>WG002</td>
+                <td>ประตูน้ำที่ 2</td>
+                <td>ปกติ</td>
+                <td>22/09/2023 07:52</td>
+                <td>8.84</td>
+                <td>2.56</td>
+                <td>1.85</td>
+              </tr>                    
+            </tbody>
+          </table>    
+        </div>
       </div>
     </div>
 
