@@ -12,7 +12,7 @@
         $flow_rate = $_POST['flow_rate'];
         $upstream = $_POST['upstream'];
         $downstream = $_POST['downstream'];
-        $timestamp = $_POST['timestamp'];
+        $report_date = $_POST['timestamp'];
         $employee_report_ID = $_SESSION['employee_login'];
         
             try{
@@ -34,17 +34,23 @@
                 
                 $check_data->execute();
                 
+                $lastInsertId = $conn->lastInsertId();
+                try{
+                    $message2 = "INSERT INTO daily_report_time(report_time_ID, report_date) VALUES (:report_time_ID, :report_date)";
+                    $check_data = $conn->prepare($message2);
+                    $check_data->bindParam(':report_time_ID', $lastInsertId);
+                    $check_data->bindParam(':report_date', $report_date, PDO::PARAM_STR);
+                    $check_data->execute();
 
-                // try{
-                //     $message2 = "INSERT INTO daily_report_time(report_time_ID, report_date) VALUES ('[value-1]','[value-2]')";
-                //     $check_data->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
-                // }
-                // catch(PDOException $e){
-                //     echo $e->getMessage();
+                    header('location: ../view/employee/employee-wg-reporter.php');
+                }
+                catch(PDOException $e){
+                    echo $e->getMessage();
 
-                // }
-                header('location: ../view/employee/employee-wg-reporter.php');
-            }catch(PDOException $e){
+                }
+    
+            }
+            catch(PDOException $e){
                 echo $e->getMessage();
             }
         }
