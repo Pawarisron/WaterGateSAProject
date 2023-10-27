@@ -1,5 +1,5 @@
 <?php
-    /*session_start();
+    session_start();
     require_once '../../db.php';
     if(isset($_SESSION['manager_login'])){
         echo 'MANAGER';
@@ -10,8 +10,21 @@
     else{
         echo 'ERROR';
         header('location: login.php');
-    }*/
+    }
 
+    $sql = "SELECT
+            cl.command_ID,
+            cl.employee_com_ID,
+            cl.watergate_com_ID,
+            cl.note,
+            clt.command_time FROM
+            commands_log AS cl JOIN
+            commands_log_time AS clt ON
+            cl.command_ID = clt.command_time_ID;"
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+            
 ?>
 
 
