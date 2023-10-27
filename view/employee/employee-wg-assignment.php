@@ -12,7 +12,30 @@
         header('location: login.php');
     }
 
-    
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    $sql = "SELECT
+    cl.command_ID,
+    cl.employee_com_ID,
+    cl.watergate_com_ID,
+    wn.gate_name,
+    cl.note,
+    clt.command_time
+FROM
+    commands_log AS cl
+JOIN
+    commands_log_time AS clt
+ON
+    cl.command_ID = clt.command_time_ID
+JOIN
+    watergate_name AS wn
+ON
+    cl.watergate_com_ID = wn.watergate_name_ID;";
+
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
 ?>
 
 <!DOCTYPE html>
@@ -75,18 +98,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>001</td>
-                <td>22/09/2023 18:45</td>
-                <td>ประตูที่ 1</td>
-                <td><a href="employee-wg-assignment01.php" class="templatemo-link">รายละเอียดคำสั่ง</a></td>
-              </tr>
-              <tr>
-                <td>002</td>
-                <td>22/09/2023 18:45</td>
-                <td>ประตูที่ 2</td>
-                <td><a href="employee-wg-assignment01.php" class="templatemo-link">รายละเอียดคำสั่ง</a></td>
-              </tr>                   
+            <?php
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    echo '<tr>';
+                    echo '<td>' . $row['command_ID'] . '</td>';
+                    echo '<td>' . $row['command_time'] . '</td>';
+                    echo '<td>' . $row['gate_name'] . '</td>';
+                    echo '<td><a href="employee-wg-assignment01.php?command_ID=' . $row['command_ID'] . '">รายละเอียดคำสั่ง</a></td>';
+
+                }
+                ?>       
             </tbody>
           </table>    
         </div>

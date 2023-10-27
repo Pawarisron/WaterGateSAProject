@@ -10,8 +10,43 @@
     else{
         echo 'ERROR';
         header('location: login.php');
-    }
+    } 
+    $command_ID = $_GET['command_ID'];
+    
+    $sql = "SELECT
+    cl.command_ID,
+    cl.employee_com_ID,
+    cl.watergate_com_ID,
+    wn.gate_name,
+    cl.note,
+    clt.command_time,
+    wg.gate_status
+FROM
+    commands_log AS cl
+JOIN
+    commands_log_time AS clt
+ON
+    cl.command_ID = clt.command_time_ID
+JOIN
+    watergate_name AS wn
+ON
+    cl.watergate_com_ID = wn.watergate_name_ID
+JOIN
+    watergate AS wg
+ON
+    cl.watergate_com_ID = wg.watergate_ID
+WHERE
+    cl.command_ID = :command_ID";
 
+    
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':command_ID', $command_ID, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $result = $stmt->fetch();
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
     
 ?>
 
@@ -45,7 +80,7 @@
         <ul>
           <li><a href="employee-home.php"><i class='bx bx-home' ></i> หน้าหลัก</a></li>
           <li><a href="employee-wg-reporter.php"><i class='bx bx-notepad'></i> บันทึกระดับน้ำประจำวัน</a></li>
-          <li><a href="#" class="active"><i class='bx bx-briefcase-alt-2'></i> ตรวจสอบการสั่งงาน</a></li>
+          <li><a href="employee-wg-assignment.php" class="active"><i class='bx bx-briefcase-alt-2'></i> ตรวจสอบการสั่งงาน</a></li>
           <li><a href="../../logout.php"><i class='bx bx-log-out'></i> ออกจากระบบ</a></li>
         </ul>  
       </nav>
@@ -69,19 +104,20 @@
             <tbody style="text-align: left; padding-left: 40px;">
               <tr>
                 <td><b>ID</b></td>
-                <td>WG001</td>
+                <td><?php echo $result['command_ID']; ?></td>
               </tr>
               <tr>
                 <td><b>ชื่อประตู</b></td>
-                <td>ประตูที่ 1</td>
+                <td><?php echo $result['gate_name']; ?></td>
               </tr>
               <tr>
                 <td><b>สถานะ</b></td>
-                <td>วิกฤติ</td>
+                <td><td><?php echo $result['gate_status'] == 0 ? "ปกติ" : "วิกฤติ"; ?></td>
+</td>
               </tr>
               <tr>
                 <td><b>วันที่ออกคำสั่ง</b></td>
-                <td>22/09/2023 18:45</td>
+                <td><?php echo $result['command_time']; ?></td>
               </tr>
               <tr>
                 <td><b>วันเวลาเปิด</b></td>
@@ -93,7 +129,7 @@
               </tr>
               <tr>
                 <td><b>หมายเหตุ</b></td>
-                <td>ปริมาณน้ำระบายออก 0.50 ม.รทก. โดยเทียบกับอัตราการไหลปัจจุบัน<br>กรุณาเปิดประตูระบายน้ำภายในเวลา 08:00 น. วันที่ 23/09/2023</td>
+                <td><?php echo $result['note']; ?></td>
               </tr>
             </tbody>
           </table>
