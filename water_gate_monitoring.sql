@@ -2,8 +2,8 @@
 -- version 5.1.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3001
--- Generation Time: Oct 28, 2023 at 10:20 AM
+-- Host: localhost:3301
+-- Generation Time: Oct 28, 2023 at 03:58 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `water_gate_monitoring`
 --
+CREATE DATABASE IF NOT EXISTS `water_gate_monitoring` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `water_gate_monitoring`;
 
 -- --------------------------------------------------------
 
@@ -49,15 +51,16 @@ CREATE TABLE `commands_log` (
   `command_ID` varchar(255) NOT NULL,
   `employee_com_ID` varchar(255) NOT NULL,
   `watergate_com_ID` varchar(255) NOT NULL,
-  `note` varchar(255) NOT NULL
+  `note` varchar(255) NOT NULL,
+  `amount` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `commands_log`
 --
 
-INSERT INTO `commands_log` (`command_ID`, `employee_com_ID`, `watergate_com_ID`, `note`) VALUES
-('C001', 'E001', 'A', 'เปิด watergate A เวลา 8:00 ต้องปิด 11:00');
+INSERT INTO `commands_log` (`command_ID`, `employee_com_ID`, `watergate_com_ID`, `note`, `amount`) VALUES
+('C001', 'E001', 'A', 'เปิด watergate A เวลา 8:00 ต้องปิด 11:00', 0);
 
 -- --------------------------------------------------------
 
