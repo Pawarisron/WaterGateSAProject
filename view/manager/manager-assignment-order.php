@@ -99,7 +99,7 @@
                 <td>0.46</td>
                 <td>0.80</td>
                 <td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">สั่งการ</a></td>
-              </tr>                   
+              </tr>
             </tbody>
           </table>    
         </div>

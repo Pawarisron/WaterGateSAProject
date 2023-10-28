@@ -70,7 +70,7 @@
           
           <div class="col-lg-6 col-md-6 form-group"> 
             <label class="control-label templatemo-block">เลือกประตูน้ำ</label>                 
-            <select name = "watergate_ID" class="form-control">
+            <select name = "watergate_ID" class="form-control" require>
               <?php
               $sql = "SELECT watergate_ID FROM watergate";
               $result = $conn->query($sql);

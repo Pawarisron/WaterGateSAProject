@@ -150,7 +150,7 @@ WHERE
                 <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="">
               </div>
               <div class="form-group" style="text-align: right; padding-top: 20px;">
-                <button name='submitReport' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
+                <button name='submitAssignment' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
               </div>
             </form>
           </div>

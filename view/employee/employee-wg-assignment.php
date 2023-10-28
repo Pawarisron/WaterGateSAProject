@@ -88,7 +88,7 @@ ON
       <div class="assignment-table"  style="text-align: center; margin: 20px;">
         <h2 style="margin: 20px;">รายการการสั่งงานประจำวัน</h2>
         <div class="panel panel-default table-responsive">
-          <table class="table table-striped table-bordered templatemo-user-table">
+          <table class="table table-striped table-bordered templatemo-user-table" style="text-align: center;">
             <thead>
               <tr>
                 <td>ID</td>

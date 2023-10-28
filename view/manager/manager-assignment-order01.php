@@ -83,6 +83,36 @@
             </tbody>
           </table>
         </div>
+        <div class="panel panel-default margin-10">
+          <div class="panel-heading">
+            <h2>เลือกประตูน้ำถัดไป</h2>
+          </div>
+          <div class="panel-body">
+            <!--ฝากเติมตรง action ด้วยต้าฟ-->
+            <form action="" class="templatemo-login-form" style="text-align: left;" require>
+              <div class="col-lg-12 col-md-12 form-group">
+                <label for="wgName">ชื่อประตู</label>
+                <select class="form-control">
+                  <option value="wgName">ประตูที่ 1</option>
+                  <option value="wgName">ประตูที่ 2</option>
+                  <!--option เป็นประตูที่มันอยู่ต่อกัน-->
+                </select>
+              </div>
+              <div class="col-lg-12 col-md-12 form-group">
+                <label for="timestamp">วันที่</label>
+                <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="" required>
+              </div>
+              <div class="col-lg-12 col-md-12 form-group">
+                <label for="note">หมายเหตุ</label>
+                <textarea class="form-control" id="inputNote" rows="3"></textarea>
+              </div>
+              <div class="form-group" style="text-align: center; padding-top: 20px;">
+                <button name='nextNode' type="submit" class="btn-primary" style="font-size: 16px;">Next</button>
+                <button name='finishRoute' type="submit" class="btn-primary" style="font-size: 16px; margin-left: 55%">Finish</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
 
