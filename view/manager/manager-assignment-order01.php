@@ -30,7 +30,7 @@
   <link href="../../css/templatemo-style.css" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link href="file/ผังระบายตะวันออก3.xlsx" rel="filesheet">
-  <title>Homepage Manager</title>
+  <title>Daily Command Manager</title>
 </head>
 
 <body>  
@@ -63,8 +63,9 @@
           </nav>
         </div>
       </div>
-      <div class="gen-wg-route"  style="text-align: center; margin: 20px;">
-        <h2 style="margin: 20px;">สร้างเส้นทางระบายน้ำ</h2>
+      <div class="panel panel-default margin-10" style="text-align: center; margin: 20px; padding: 20px;">
+        <h2 style="text-align: left;"><a href="manager-assignment-order.php" class="templatemo-link"><i class='bx bx-arrow-back'></i></a></h2>
+        <h2>สร้างเส้นทางระบายน้ำ</h2>
         <div class="table-responsive" style="padding: 20px;">
           <table class="table">
             <tbody style="text-align: left; padding-left: 40px;">
@@ -73,49 +74,65 @@
                 <td>WG001</td>
                 <td>ประตูที่ 1</td>
                 <td>0.50</td>
+                <td style="width: 50%;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
               </tr>
               <tr>
                 <td><b>2.</b></td>
                 <td>WG002</td>
                 <td>ประตูที่ 2</td>
                 <td>0.32</td>
+                <td style="width: 50%;">เปิดประตูไม่เกิน 08:00 น.</td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div class="panel panel-default margin-10">
-          <div class="panel-heading">
-            <h2>เลือกประตูน้ำถัดไป</h2>
+      </div>
+
+      <div class="templatemo-flex-row flex-content-row">
+        <div class="col-1">
+          <div class="panel panel-default margin-10" style="text-align: center; margin: 20px;">
+            <div class="panel-heading">
+              <h2>คำนวณปริมาณน้ำระบายออก</h2>
+            </div>
+            <div class="panel-body">
+              <!--คำนวณไงดีหนอ นึกไม่ออก-->
+            </div>
           </div>
-          <div class="panel-body">
-            <!--ฝากเติมตรง action ด้วยต้าฟ-->
-            <form action="" class="templatemo-login-form" style="text-align: left;" require>
-              <div class="col-lg-12 col-md-12 form-group">
-                <label for="wgName">ชื่อประตู</label>
-                <select class="form-control">
-                  <option value="wgName">ประตูที่ 1</option>
-                  <option value="wgName">ประตูที่ 2</option>
-                  <!--option เป็นประตูที่มันอยู่ต่อกัน-->
-                </select>
-              </div>
-              <div class="col-lg-12 col-md-12 form-group">
-                <label for="timestamp">วันที่</label>
-                <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="" required>
-              </div>
-              <div class="col-lg-12 col-md-12 form-group">
-                <label for="note">หมายเหตุ</label>
-                <textarea class="form-control" id="inputNote" rows="3"></textarea>
-              </div>
-              <div class="form-group" style="text-align: center; padding-top: 20px;">
-                <button name='nextNode' type="submit" class="btn-primary" style="font-size: 16px;">Next</button>
-                <button name='finishRoute' type="submit" class="btn-primary" style="font-size: 16px; margin-left: 55%">Finish</button>
-              </div>
-            </form>
+        </div>
+        <div class="col-1">
+          <div class="panel panel-default margin-10" style="text-align: center; margin: 20px;">
+            <div class="panel-heading">
+              <h2>เลือกประตูน้ำถัดไป</h2>
+            </div>
+            <div class="panel-body">
+              <!--ฝากเติมตรง action ด้วยต้าฟ-->
+              <form action="" class="templatemo-login-form" style="text-align: left;" require>
+                <div class="col-lg-12 col-md-12 form-group">
+                  <label for="wgName">ชื่อประตู</label>
+                  <select class="form-control">
+                    <option value="wgName">ประตูที่ 1</option>
+                    <option value="wgName">ประตูที่ 2</option>
+                    <!--option เป็นประตูที่มันอยู่ต่อกัน-->
+                  </select>
+                </div>
+                <div class="col-lg-12 col-md-12 form-group">
+                  <label for="timestamp">วันที่</label>
+                  <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="" required>
+                </div>
+                <div class="col-lg-12 col-md-12 form-group">
+                  <label for="note">หมายเหตุ</label>
+                  <textarea class="form-control" id="inputNote" rows="3"></textarea>
+                </div>
+                <div class="form-group" style="text-align: center; padding-top: 20px;">
+                  <button name='nextNode' type="submit" class="btn-primary" style="font-size: 16px;">Next</button>
+                  <button name='finishRoute' type="submit" class="btn-primary" style="font-size: 16px; margin-left: 55%">Finish</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
   
   <script src="../../js/script.js"></script> 

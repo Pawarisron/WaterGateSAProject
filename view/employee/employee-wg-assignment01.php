@@ -97,8 +97,9 @@ WHERE
           </nav>
         </div>
       </div>
-      <div class="assignment-sheet"  style="text-align: center; margin: 20px;">
-        <h2 style="margin: 20px;">รายการการสั่งงานประจำวัน</h2>
+      <div class="panel panel-default margin-10" style="text-align: center; margin: 20px; padding: 20px;">
+        <h2 style="text-align: left;"><a href="employee-wg-assignment.php" class="templatemo-link"><i class='bx bx-arrow-back'></i></a></h2>
+        <h2>รายการการสั่งงานประจำวัน</h2>
         <div class="table-responsive" style="padding: 20px;">
           <table class="table">
             <tbody style="text-align: left; padding-left: 40px;">
@@ -112,8 +113,7 @@ WHERE
               </tr>
               <tr>
                 <td><b>สถานะ</b></td>
-                <td><td><?php echo $result['gate_status'] == 0 ? "ปกติ" : "วิกฤติ"; ?></td>
-</td>
+                <td><?php echo $result['gate_status'] == 0 ? "ปกติ" : "วิกฤติ"; ?></td>
               </tr>
               <tr>
                 <td><b>วันที่ออกคำสั่ง</b></td>
@@ -127,6 +127,12 @@ WHERE
                 <td><b>วันเวลาปิด</b></td>
                 <td>-</td>
               </tr>
+              <!--เพิ่มมาใหม่ง้าบ-->
+              <tr>
+                <td><b>ปริมาณน้ำระบายออก</b></td>
+                <td>0.50</td>
+              </tr>
+              <!---->
               <tr>
                 <td><b>หมายเหตุ</b></td>
                 <td><?php echo $result['note']; ?></td>
@@ -134,26 +140,26 @@ WHERE
             </tbody>
           </table>
         </div>
-        <div class="panel panel-default margin-10">
-          <div class="panel-heading">
-            <h2>อัพเดตหลังเปิดประตูน้ำ</h2>
-          </div>
-          <div class="panel-body">
-            <!--ฝากเติมตรง action ด้วยต้าฟ-->
-            <form action="" class="templatemo-login-form" style="text-align: left;">
-              <div class="form-group">
-                <label for="timestamp">วันเวลาเปิด</label>
-                <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="">
-              </div>
-              <div class="form-group">
-                <label for="timestamp">วันเวลาปิด</label>
-                <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="">
-              </div>
-              <div class="form-group" style="text-align: right; padding-top: 20px;">
-                <button name='submitAssignment' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
-              </div>
-            </form>
-          </div>
+      </div>
+      <div class="panel panel-default margin-10" style="text-align: center; margin: 20px;">
+        <div class="panel-heading">
+          <h2>อัพเดตหลังเปิดประตูน้ำ</h2>
+        </div>
+        <div class="panel-body">
+          <!--ฝากเติมตรง action ด้วยต้าฟ-->
+          <form action="" class="templatemo-login-form" style="text-align: left;">
+            <div class="form-group">
+              <label for="timestamp">วันเวลาเปิด</label>
+              <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="">
+            </div>
+            <div class="form-group">
+              <label for="timestamp">วันเวลาปิด</label>
+              <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="">
+            </div>
+            <div class="form-group" style="text-align: right; padding-top: 20px;">
+              <button name='submitAssignment' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

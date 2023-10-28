@@ -98,7 +98,7 @@ ON
               </tr>
             </thead>
             <tbody>
-            <?php
+              <?php
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     echo '<tr>';
                     echo '<td>' . $row['command_ID'] . '</td>';
@@ -107,7 +107,7 @@ ON
                     echo '<td><a href="employee-wg-assignment01.php?command_ID=' . $row['command_ID'] . '">รายละเอียดคำสั่ง</a></td>';
 
                 }
-                ?>       
+              ?>       
             </tbody>
           </table>    
         </div>

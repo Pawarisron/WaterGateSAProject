@@ -63,27 +63,52 @@
           </nav>
         </div>
       </div>
-      <div class="assignment-table-rdu" style="text-align: center; margin: 20px;">
-        <h2 style="margin: 20px;">บันทึกการสั่งงานทั้งหมด</h2>
-        <div class="panel panel-default table-responsive">
-          <table class="table table-striped table-bordered templatemo-user-table" style="text-align: center;">
-            <thead>
+      <div class="panel panel-default margin-10" style="text-align: center; margin: 20px; padding: 20px;">
+        <h2 style="text-align: left;"><a href="manager-assignment-check.php" class="templatemo-link"><i class='bx bx-arrow-back'></i></a></h2>
+        <h2>บันทึกการสั่งงาน</h2>
+        <div class="table-responsive" style="padding: 20px;">
+          <table class="table">
+            <tbody style="text-align: left; padding-left: 40px;">
               <tr>
-                <td>ID</td>
-                <td>วันที่</td>
-                <td>ประตูน้ำ</td>
-                <td>ปริมาณน้ำระบายออก</td>
-                <td>คำสั่ง</td>
+                <td><b>ID</b></td>
+                <td><?php echo $result['command_ID']; ?></td>
               </tr>
-            </thead>
-            <tbody>
-              <td>ID</td>
-              <td>วันที่</td>
-              <td>ประตูน้ำที่ 1</td>
-              <td>0.50</td>
-              <td><a href="manager-assignment-check01.php" class="templatemo-link">รายละเอียดคำสั่ง</a></td>
+              <tr>
+                <td><b>ชื่อประตู</b></td>
+                <td><?php echo $result['gate_name']; ?></td>
+              </tr>
+              <tr>
+                <td><b>สถานะ</b></td>
+                <td><?php echo $result['gate_status'] == 0 ? "ปกติ" : "วิกฤติ"; ?></td>
+              </tr>
+              <tr>
+                <td><b>วันที่ออกคำสั่ง</b></td>
+                <td><?php echo $result['command_time']; ?></td>
+              </tr>
+              <tr>
+                <td><b>วันเวลาเปิด</b></td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td><b>วันเวลาปิด</b></td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td><b>ปริมาณน้ำระบายออก</b></td>
+                <td>0.50</td>
+              </tr>
+              <tr>
+                <td><b>หมายเหตุ</b></td>
+                <td><?php echo $result['note']; ?></td>
+              </tr>
             </tbody>
-          </table>    
+          </table>
+        </div>
+        <div class="form-group" style="text-align: right; padding-top: 20px;">
+          <button name='editButton' type="edit" class="btn-primary" style="font-size: 16px; margin-right: 20px;">Edit</button>
+        </div>
+        <div class="form-group" style="text-align: right; padding-top: 20px;">
+          <button name='deleteButton' type="delete" class="btn-primary" style="font-size: 16px; margin-right: 20px;">Delete</button>
         </div>
       </div>
     </div>
