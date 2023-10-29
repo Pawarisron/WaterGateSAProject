@@ -20,7 +20,9 @@
     wn.gate_name,
     cl.note,
     clt.command_time,
-    wg.gate_status
+    wg.gate_status,
+    ctc.closing_time,
+    otc.openning_time
 FROM
     commands_log AS cl
 JOIN
@@ -35,6 +37,14 @@ JOIN
     watergate AS wg
 ON
     cl.watergate_com_ID = wg.watergate_ID
+LEFT JOIN
+    closing_time_commands AS ctc
+ON
+    cl.command_ID = ctc.close_command_ID
+LEFT JOIN
+    openning_time_commands AS otc
+ON
+    cl.command_ID = otc.open_command_ID
 WHERE
     cl.command_ID = :command_ID";
 
@@ -113,19 +123,40 @@ WHERE
               </tr>
               <tr>
                 <td><b>สถานะ</b></td>
-                <td><?php echo $result['gate_status'] == 0 ? "ปกติ" : "วิกฤติ"; ?></td>
+                <td>
+                <?php
+                  $status = $result['gate_status'];
+                  switch ($status) {
+                      case 0:
+                          $statusLabel = "ปกติ";
+                          break;
+                      case 1:
+                          $statusLabel = "วิกฤติ";
+                          break;
+                      case 2:
+                          $statusLabel = "กำลังแก้ไข";
+                          break;
+                      case 3:
+                          $statusLabel = "รอตรวจสอบ";
+                          break;
+                      default:
+                          $statusLabel = "ปกติ";
+                  }
+                  echo $statusLabel;
+                ?>
+                </td>
               </tr>
               <tr>
-                <td><b>วันที่ออกคำสั่ง</b></td>
+                <<td><b>วันที่ออกคำสั่ง</b></td>
                 <td><?php echo $result['command_time']; ?></td>
               </tr>
               <tr>
                 <td><b>วันเวลาเปิด</b></td>
-                <td>-</td>
+                <td><?php echo $result['openning_time']; ?></td>
               </tr>
               <tr>
                 <td><b>วันเวลาปิด</b></td>
-                <td>-</td>
+                <td><?php echo $result['closing_time']; ?></td>
               </tr>
               <!--เพิ่มมาใหม่ง้าบ-->
               <tr>
@@ -147,15 +178,16 @@ WHERE
         </div>
         <div class="panel-body">
           <!--ฝากเติมตรง action ด้วยต้าฟ-->
-          <form action="" class="templatemo-login-form" style="text-align: left;">
+          <form action="../../controller/employee-wg-assignment01-controller.php" method="post" class="templatemo-login-form" style="text-align: left;">
             <div class="form-group">
-              <label for="timestamp">วันเวลาเปิด</label>
-              <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="">
+              <label for="openTimestamp">วันเวลาเปิด</label>
+              <input name='openTimestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="" required>
             </div>
             <div class="form-group">
-              <label for="timestamp">วันเวลาปิด</label>
-              <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="">
+              <label for="closeTimestamp">วันเวลาปิด</label>
+              <input name='closeTimestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="" required>
             </div>
+            <input type="hidden" name="command_ID" value="<?php echo $command_ID; ?>">
             <div class="form-group" style="text-align: right; padding-top: 20px;">
               <button name='submitAssignment' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
             </div>
