@@ -91,15 +91,15 @@
           </div>
           <div class="col-lg-12 has-success form-group">                  
             <label for="inputWaterFlow">อัตราการไหล (ลบ.ม./วินาที)</label>
-            <input name = 'flow_rate'type="float" class="form-control" id="inputWaterFlow" required>                  
+            <input name = 'flow_rate'type="number" step="0.000001" class="form-control" id="inputWaterFlow" required>                  
           </div>
           <div class="col-lg-12 has-success form-group">                  
             <label for="inputUpstream">ระดับน้ำเหนือน้ำ (ม.รทก.)</label>
-            <input name='upstream'type="float" class="form-control" id="inputUpstream" required>                  
+            <input name='upstream'type="number" step="0.000001" class="form-control" id="inputUpstream" required>                  
           </div>
           <div class="col-lg-12 has-success form-group" style="padding-bottom: 40px;">                  
             <label for="inpuDownpstream">ระดับน้ำท้ายน้ำ (ม.รทก.)</label>
-            <input name = 'downstream'type="float" class="form-control" id="inputDownstream" required>                  
+            <input name = 'downstream'type="number" step="0.000001" class="form-control" id="inputDownstream" required>                  
           </div>
           <div class="form-group" style="margin: 15px;">
             <button name='submitReport' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>

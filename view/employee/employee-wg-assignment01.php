@@ -90,7 +90,7 @@ WHERE
         <ul>
           <li><a href="employee-home.php"><i class='bx bx-home' ></i> หน้าหลัก</a></li>
           <li><a href="employee-wg-reporter.php"><i class='bx bx-notepad'></i> บันทึกระดับน้ำประจำวัน</a></li>
-          <li><a href="employee-wg-assignment.php" class="active"><i class='bx bx-briefcase-alt-2'></i> ตรวจสอบการสั่งงาน</a></li>
+          <li><a href="#" class="active"><i class='bx bx-briefcase-alt-2'></i> ตรวจสอบการสั่งงาน</a></li>
           <li><a href="../../logout.php"><i class='bx bx-log-out'></i> ออกจากระบบ</a></li>
         </ul>  
       </nav>
@@ -147,7 +147,7 @@ WHERE
                 </td>
               </tr>
               <tr>
-                <<td><b>วันที่ออกคำสั่ง</b></td>
+                <td><b>วันที่ออกคำสั่ง</b></td>
                 <td><?php echo $result['command_time']; ?></td>
               </tr>
               <tr>

@@ -105,9 +105,6 @@
           </table>
         </div>
         <div class="form-group" style="text-align: right; padding-top: 20px;">
-          <button name='editButton' type="edit" class="btn-primary" style="font-size: 16px; margin-right: 20px;">Edit</button>
-        </div>
-        <div class="form-group" style="text-align: right; padding-top: 20px;">
           <button name='deleteButton' type="delete" class="btn-primary" style="font-size: 16px; margin-right: 20px;">Delete</button>
         </div>
       </div>

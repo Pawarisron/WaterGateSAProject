@@ -95,7 +95,32 @@
               <h2>คำนวณปริมาณน้ำระบายออก</h2>
             </div>
             <div class="panel-body">
-              <!--คำนวณไงดีหนอ นึกไม่ออก-->
+              <div class="table-responsive" style="padding: 20px;">
+                <table class="table">
+                  <tbody style="text-align: center; padding-left: 40px;">
+                    <tr>
+                      <td><b>ID</b></td>
+                      <td><b>ชื่อประตู</b></td>
+                      <td><b>ปริมาณน้ำที่สามารถรองรับได้</b></td>
+                    </tr>
+                    <tr style="color: #E14311;">
+                      <td>ID ประตูที่เลือก</td>
+                      <td>ชื่อประตูที่เลือก</td>
+                      <td>เกณฑ์ควบคุมระดับน้ำ-ระดับน้ำปัจจุบัน</td>
+                    </tr>
+                    <tr>
+                      <td>ID ประตูที่อยู่ติดกัน</td>
+                      <td>ชื่อประตูที่อยู่ติดกัน</td>
+                      <td>เกณฑ์ควบคุมระดับน้ำ-ระดับน้ำปัจจุบัน</td>
+                    </tr>
+                    <tr>
+                      <td>ID ประตูที่อยู่ติดกัน</td>
+                      <td>ชื่อประตูที่อยู่ติดกัน</td>
+                      <td>เกณฑ์ควบคุมระดับน้ำ-ระดับน้ำปัจจุบัน</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -106,18 +131,23 @@
             </div>
             <div class="panel-body">
               <!--ฝากเติมตรง action ด้วยต้าฟ-->
-              <form action="" class="templatemo-login-form" style="text-align: left;" require>
+              <form action="" class="templatemo-login-form" style="text-align: left;">
                 <div class="col-lg-12 col-md-12 form-group">
                   <label for="wgName">ชื่อประตู</label>
-                  <select class="form-control">
+                  <select class="form-control" require>
                     <option value="wgName">ประตูที่ 1</option>
                     <option value="wgName">ประตูที่ 2</option>
-                    <!--option เป็นประตูที่มันอยู่ต่อกัน-->
+                    <!--เฉพาะรอบแรกจะมีตัวเลือกแค่ประตูที่เลือกจากหน้าก่อน-->
+                    <!--รอบต่อไปจะเป็นตัวเลือกที่เป็นประตูที่มันอยู่ต่อกัน-->
                   </select>
                 </div>
                 <div class="col-lg-12 col-md-12 form-group">
                   <label for="timestamp">วันที่</label>
                   <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="" required>
+                </div>
+                <div class="col-lg-12 col-md-12 form-group">
+                  <label for="waterQuantity">ปริมาณน้ำระบายออก</label>
+                  <input name='waterQuantity' type="number" step="0.000001" class="form-control" id="waterQuantity" placeholder="" required>
                 </div>
                 <div class="col-lg-12 col-md-12 form-group">
                   <label for="note">หมายเหตุ</label>
