@@ -1,5 +1,5 @@
 <?php
-    /*session_start();
+    session_start();
     require_once '../../db.php';
     if(isset($_SESSION['manager_login'])){
         echo 'MANAGER';
@@ -10,9 +10,29 @@
     else{
         echo 'ERROR';
         header('location: login.php');
-    }*/
+    }
 
+    $sql = "SELECT wg.*, wn.gate_name, dr.upstream, dr.downstream, dr.flow_rate
+    FROM watergate wg
+    JOIN watergate_name wn ON wg.watergate_ID = wn.watergate_name_ID
+    JOIN (
+        SELECT dr1.watergate_report_ID, MAX(drt.report_date) AS max_report_date
+        FROM daily_report dr1
+        JOIN daily_report_time drt ON dr1.report_ID = drt.report_time_ID
+        WHERE dr1.watergate_report_ID IN (
+            SELECT watergate_ID FROM watergate WHERE gate_status = 1
+        )
+        GROUP BY dr1.watergate_report_ID
+    ) recent_dr ON wg.watergate_ID = recent_dr.watergate_report_ID
+    JOIN daily_report dr ON recent_dr.watergate_report_ID = dr.watergate_report_ID
+    JOIN daily_report_time drt ON dr.report_ID = drt.report_time_ID AND drt.report_date = recent_dr.max_report_date
+    WHERE wg.gate_status = 1;";
     
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
 ?>
 
 
@@ -80,26 +100,38 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>WG001</td>
-                <td>ประตูน้ำที่ 1</td>
-                <td>วิกฤติ</td>
-                <td>1.04</td>
-                <td>1.20</td>
-                <td>0.98</td>
-                <td>0.80</td>
-                <td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">สั่งการ</a></td>
-              </tr>
-              <tr>
-                <td>WG002</td>
-                <td>ประตูน้ำที่ 2</td>
-                <td>วิกฤติ</td>
-                <td>1.65</td>
-                <td>1.20</td>
-                <td>0.46</td>
-                <td>0.80</td>
-                <td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">สั่งการ</a></td>
-              </tr>
+              <?php
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    echo '<tr>';
+                    echo '<td>' . $row['watergate_ID'] . '</td>';
+                    echo '<td>' . $row['gate_name'] . '</td>';
+                    $gateStatus = $row['gate_status'];
+                    $statusLabel = '';
+                    switch ($gateStatus) {
+                        case 0:
+                            $statusLabel = "ปกติ";
+                            break;
+                        case 1:
+                            $statusLabel = "วิกฤติ";
+                            break;
+                        case 2:
+                            $statusLabel = "กำลังแก้ไข";
+                            break;
+                        case 3:
+                            $statusLabel = "รอตรวจสอบ";
+                            break;
+                        default:
+                            $statusLabel = "ปกติ";
+                    }
+                    echo '<td>' . $statusLabel . '</td>';
+                    echo '<td>' . $row['upstream'] . '</td>';
+                    echo '<td>' . "...." . '</td>';
+                    echo '<td>' . $row['downstream'] . '</td>';
+                    echo '<td>' . "...." . '</td>';
+                    echo '<td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">สั่งการ</a></td>';
+                    echo '</tr>';
+                }
+                ?>      
             </tbody>
           </table>    
         </div>
