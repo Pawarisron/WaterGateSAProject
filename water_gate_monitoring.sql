@@ -2,8 +2,8 @@
 -- version 5.1.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3301
--- Generation Time: Oct 28, 2023 at 03:58 PM
+-- Host: localhost:3001
+-- Generation Time: Nov 02, 2023 at 02:51 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `water_gate_monitoring`
 --
-CREATE DATABASE IF NOT EXISTS `water_gate_monitoring` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `water_gate_monitoring`;
 
 -- --------------------------------------------------------
 
@@ -39,7 +37,7 @@ CREATE TABLE `closing_time_commands` (
 --
 
 INSERT INTO `closing_time_commands` (`close_command_ID`, `closing_time`) VALUES
-('C001', '2023-10-25 01:56:35');
+('C001', '2023-10-02 14:48:00');
 
 -- --------------------------------------------------------
 
@@ -51,16 +49,15 @@ CREATE TABLE `commands_log` (
   `command_ID` varchar(255) NOT NULL,
   `employee_com_ID` varchar(255) NOT NULL,
   `watergate_com_ID` varchar(255) NOT NULL,
-  `note` varchar(255) NOT NULL,
-  `amount` float NOT NULL
+  `note` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `commands_log`
 --
 
-INSERT INTO `commands_log` (`command_ID`, `employee_com_ID`, `watergate_com_ID`, `note`, `amount`) VALUES
-('C001', 'E001', 'A', 'เปิด watergate A เวลา 8:00 ต้องปิด 11:00', 0);
+INSERT INTO `commands_log` (`command_ID`, `employee_com_ID`, `watergate_com_ID`, `note`) VALUES
+('C001', 'E001', 'A', 'เปิด watergate A เวลา 8:00 ต้องปิด 11:00');
 
 -- --------------------------------------------------------
 
@@ -168,7 +165,7 @@ CREATE TABLE `openning_time_commands` (
 --
 
 INSERT INTO `openning_time_commands` (`open_command_ID`, `openning_time`) VALUES
-('C001', '2023-10-25 04:56:06');
+('C001', '2023-10-01 14:48:00');
 
 -- --------------------------------------------------------
 
@@ -207,8 +204,8 @@ CREATE TABLE `watergate` (
 --
 
 INSERT INTO `watergate` (`watergate_ID`, `gate_status`, `water_source_name`, `criterion`, `gate_route_ID`) VALUES
-('A', 0, 'แหล่งน้ำ A', 0.1, 'rout_AB'),
-('B', 0, 'แหล่งน้ำ A', 0.6, NULL);
+('A', 1, 'แหล่งน้ำ A', 0.1, 'rout_AB'),
+('B', 1, 'แหล่งน้ำ A', 0.6, NULL);
 
 -- --------------------------------------------------------
 
