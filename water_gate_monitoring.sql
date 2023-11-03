@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3001
--- Generation Time: Nov 03, 2023 at 04:12 AM
+-- Generation Time: Nov 03, 2023 at 01:27 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -329,7 +329,7 @@ ALTER TABLE `closing_time_commands`
 -- Indexes for table `commands_log`
 --
 ALTER TABLE `commands_log`
-  ADD PRIMARY KEY (`command_ID`),
+  ADD PRIMARY KEY (`command_ID`,`watergate_com_ID`),
   ADD KEY `commands_log_ibfk_1` (`employee_com_ID`),
   ADD KEY `commands_log_ibfk_2` (`watergate_com_ID`);
 
