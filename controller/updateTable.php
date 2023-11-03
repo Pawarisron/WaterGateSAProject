@@ -61,7 +61,7 @@ ON
 
             if (!empty($update_query)) {
                 $stmt2 = $conn->prepare($update_query);
-                $stmt2->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_INT);
+                $stmt2->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
                 $stmt2->execute();
 }
             
