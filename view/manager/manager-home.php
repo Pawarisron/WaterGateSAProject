@@ -13,6 +13,8 @@
     }
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
+    require_once '../../controller/updateTable.php';
+    updateGateStatus($conn);
 
     $sql = "
     SELECT
@@ -26,7 +28,6 @@
         g.gate_status,
         g.water_source_name,
         g.criterion,
-        g.gate_route_ID,
         r.gate_name
     FROM daily_report AS d
     JOIN daily_report_time AS t ON d.report_ID = t.report_time_ID

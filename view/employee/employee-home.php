@@ -12,6 +12,12 @@
         header('location: login.php');
     }
 
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    require_once '../../controller/updateTable.php';
+    updateGateStatus($conn);
+    
+    
     $sql = "
     SELECT
         d.report_ID,
@@ -24,7 +30,6 @@
         g.gate_status,
         g.water_source_name,
         g.criterion,
-        g.gate_route_ID,
         r.gate_name
     FROM daily_report AS d
     JOIN daily_report_time AS t ON d.report_ID = t.report_time_ID
@@ -35,10 +40,10 @@
         FROM daily_report_time AS t1
         JOIN daily_report AS d1 ON t1.report_time_ID = d1.report_ID
         GROUP BY d1.watergate_report_ID
-    );
-    ";
+    );";
 
-    // $result = mysqli_query($connection, $query);
+    
+    
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     

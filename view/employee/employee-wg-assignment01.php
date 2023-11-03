@@ -13,6 +13,12 @@
     } 
     $command_ID = $_GET['command_ID'];
     
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    require_once '../../controller/updateTable.php';
+    updateGateStatus($conn);
+
+
     $sql = "SELECT
     cl.command_ID,
     cl.employee_com_ID,
@@ -55,8 +61,7 @@ WHERE
     $stmt->execute();
 
     $result = $stmt->fetch();
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
+   
     
 ?>
 

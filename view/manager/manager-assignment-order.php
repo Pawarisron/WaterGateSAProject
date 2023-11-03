@@ -11,6 +11,11 @@
         echo 'ERROR';
         header('location: login.php');
     }
+    
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    require_once '../../controller/updateTable.php';
+    updateGateStatus($conn);
 
     $sql = "SELECT wg.*, wn.gate_name, dr.upstream, dr.downstream, dr.flow_rate
     FROM watergate wg
@@ -28,8 +33,7 @@
     JOIN daily_report_time drt ON dr.report_ID = drt.report_time_ID AND drt.report_date = recent_dr.max_report_date
     WHERE wg.gate_status = 1;";
     
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
+    
     
     $stmt = $conn->prepare($sql);
     $stmt->execute();
