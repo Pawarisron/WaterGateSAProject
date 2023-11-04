@@ -27,8 +27,8 @@
     cl.note,
     clt.command_time,
     wg.gate_status,
-    ctc.closing_time,
-    otc.openning_time
+    cl.open_time,
+    cl.close_time
 FROM
     commands_log AS cl
 JOIN
@@ -43,21 +43,14 @@ JOIN
     watergate AS wg
 ON
     cl.watergate_com_ID = wg.watergate_ID
-LEFT JOIN
-    closing_time_commands AS ctc
-ON
-    cl.command_ID = ctc.close_command_ID
-LEFT JOIN
-    openning_time_commands AS otc
-ON
-    cl.command_ID = otc.open_command_ID
 WHERE
-    cl.command_ID = :command_ID";
+    cl.command_ID = :command_ID
+  ";
 
     
 
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':command_ID', $command_ID, PDO::PARAM_INT);
+    $stmt->bindParam(':command_ID', $command_ID, PDO::PARAM_STR);
     $stmt->execute();
 
     $result = $stmt->fetch();
@@ -161,11 +154,11 @@ WHERE
               </tr>
               <tr>
                 <td><b>วันเวลาเปิด</b></td>
-                <td><?php echo $result['openning_time']; ?></td>
+                <td><?php echo $result['open_time']; ?></td>
               </tr>
               <tr>
                 <td><b>วันเวลาปิด</b></td>
-                <td><?php echo $result['closing_time']; ?></td>
+                <td><?php echo $result['close_time']; ?></td>
               </tr>
               <!--เพิ่มมาใหม่ง้าบ-->
               <tr>
@@ -198,7 +191,7 @@ WHERE
             </div>
             <input type="hidden" name="command_ID" value="<?php echo $command_ID; ?>">
             <div class="form-group" style="text-align: right; padding-top: 20px;">
-              <button name='submitAssignment' type="submit" class="btn-primary" style="font-size: 16px;" onclick="alertWGtimestamp()">Submit</button>
+              <button name='submitAssignment' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
             </div>
           </form>
         </div>

@@ -6,42 +6,28 @@
     
     if(isset($_POST['submitAssignment'])){
 
-        $openning_time = $_POST['openTimestamp'];
-        $closing_time = $_POST['closeTimestamp'];
+        $open_time = $_POST['openTimestamp'];
+        $close_time = $_POST['closeTimestamp'];
         $command_ID = $_POST['command_ID'];
 
         try{
             error_reporting(E_ALL);
             ini_set('display_errors', 1);
-            $message = "INSERT INTO closing_time_commands 
-            (close_command_ID, closing_time) 
-            VALUES (:close_command_ID, :closing_time)
-            ON DUPLICATE KEY UPDATE closing_time = :closing_time";
+
+            $message = "UPDATE commands_log
+                        SET open_time = :open_time, close_time = :close_time
+                        WHERE command_ID = :command_ID;";
 
             $data = $conn->prepare($message);
-            $data->bindParam(':close_command_ID', $command_ID);
-            $data->bindParam(':closing_time', $closing_time);
+            $data->bindParam(':command_ID', $command_ID);
+            $data->bindParam(':close_time', $close_time);
+            $data->bindParam(':open_time', $open_time);
             $data->execute();
 
-            try{
-                $message2 = "INSERT INTO openning_time_commands 
-                (open_command_ID, openning_time) 
-                VALUES (:open_command_ID, :openning_time)
-                ON DUPLICATE KEY UPDATE openning_time = :openning_time";
-
-                $data2 = $conn->prepare($message2);
-                $data2->bindParam(':open_command_ID', $command_ID);
-                $data2->bindParam(':openning_time', $openning_time);
-                $data2->execute();
-                
-                header("location: ../view/employee/employee-wg-assignment01.php?command_ID=$command_ID");
+            header("location: ../view/employee/employee-wg-assignment01.php?command_ID=$command_ID");
                 
 
-            }
-            catch(PDOException $e){
-                echo $e->getMessage();
-
-            }
+            
 
         }
         catch(PDOException $e){
