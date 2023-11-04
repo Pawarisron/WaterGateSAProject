@@ -78,7 +78,11 @@ WHERE
   <link href="../../css/bootstrap.min.css" rel="stylesheet">
   <link href="../../css/templatemo-style.css" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link href="file/ผังระบายตะวันออก3.xlsx" rel="filesheet">
+  <script type="text/javascript">
+    function alertWGtimestamp() {
+      alert("บันทึกผลสำเร็จ");
+    }
+  </script>
   <title>Water Gate Assignment Employee/Staff</title>
 </head>
 
@@ -194,7 +198,7 @@ WHERE
             </div>
             <input type="hidden" name="command_ID" value="<?php echo $command_ID; ?>">
             <div class="form-group" style="text-align: right; padding-top: 20px;">
-              <button name='submitAssignment' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
+              <button name='submitAssignment' type="submit" class="btn-primary" style="font-size: 16px;" onclick="alertWGtimestamp()">Submit</button>
             </div>
           </form>
         </div>
@@ -202,8 +206,6 @@ WHERE
     </div>
 
   </div>
-  
-  <script src="../../js/script.js"></script> 
 
 </body>
 </html>

@@ -53,7 +53,6 @@ ON
   <link href="../../css/bootstrap.min.css" rel="stylesheet">
   <link href="../../css/templatemo-style.css" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link href="file/ผังระบายตะวันออก3.xlsx" rel="filesheet">
   <title>Water Gate Assignment Employee/Staff</title>
 </head>
 
