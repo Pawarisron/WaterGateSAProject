@@ -76,21 +76,24 @@
           <!--หาวิธีดึงชื่อประตูระบายน้ำมาเป็น option-->
           
           <div class="col-lg-6 col-md-6 form-group"> 
-            <label class="control-label templatemo-block">เลือกประตูน้ำ</label>                 
-            <select name = "watergate_ID" class="form-control" require>
-              <?php
-              $sql = "SELECT watergate_ID FROM watergate";
+            <label class="control-label templatemo-block">เลือกประตูน้ำ</label>  
+
+             <select name = "watergate_name" class="form-control" require>
+             <?php
+              $sql = "SELECT * FROM watergate_name";
               $result = $conn->query($sql);
               // $result->execute();
               while ($row = $result->fetch()):
               ?>
-              <option value="<?php echo $row['watergate_ID']; ?>"> 
-                <?php echo $row['watergate_ID'] ?>
+              <option value="<?php echo $row['watergate_name_ID']; ?>"> 
+                <?php echo $row['gate_name'] ?>
               </option>
               <?php 
                 endwhile;
               ?>
-            </select>
+            </select> 
+
+
           </div>
           <div class="col-lg-6 col-md-6 form-group">
             <label for="timestamp">วันที่</label>

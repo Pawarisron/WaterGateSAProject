@@ -8,7 +8,7 @@
 
     if(isset($_POST['submitReport'])){
         
-        $watergate_ID = $_POST['watergate_ID'];
+        $watergate_ID = $_POST['watergate_name'];
         $flow_rate = $_POST['flow_rate'];
         $upstream = $_POST['upstream'];
         $downstream = $_POST['downstream'];
