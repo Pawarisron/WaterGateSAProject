@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3001
--- Generation Time: Nov 03, 2023 at 01:27 PM
+-- Generation Time: Nov 04, 2023 at 10:37 AM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -24,40 +24,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `closing_time_commands`
---
-
-CREATE TABLE `closing_time_commands` (
-  `close_command_ID` varchar(255) NOT NULL,
-  `closing_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `closing_time_commands`
---
-
-INSERT INTO `closing_time_commands` (`close_command_ID`, `closing_time`) VALUES
-('C001', '2023-10-02 14:48:00');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `commands_log`
 --
 
 CREATE TABLE `commands_log` (
   `command_ID` varchar(255) NOT NULL,
-  `employee_com_ID` varchar(255) NOT NULL,
   `watergate_com_ID` varchar(255) NOT NULL,
-  `note` varchar(255) NOT NULL
+  `employee_com_ID` varchar(255) NOT NULL,
+  `note` varchar(255) NOT NULL,
+  `amount` float NOT NULL,
+  `open_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `close_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `commands_log`
---
-
-INSERT INTO `commands_log` (`command_ID`, `employee_com_ID`, `watergate_com_ID`, `note`) VALUES
-('C001', 'E099', 'WG11101', 'เปิด watergate A เวลา 8:00 ต้องปิด 11:00');
 
 -- --------------------------------------------------------
 
@@ -69,13 +47,6 @@ CREATE TABLE `commands_log_time` (
   `command_time_ID` varchar(255) NOT NULL,
   `command_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `commands_log_time`
---
-
-INSERT INTO `commands_log_time` (`command_time_ID`, `command_time`) VALUES
-('C001', '2023-10-27 05:39:25');
 
 -- --------------------------------------------------------
 
@@ -102,7 +73,8 @@ INSERT INTO `daily_report` (`report_ID`, `employee_report_ID`, `watergate_report
 (3, 'E099', 'WG11101', 332, 23, 123),
 (4, 'E099', 'WG11102', 1.1, 2.9, 1.2),
 (5, 'E099', 'WG11102', 5, 5, 5),
-(6, 'E099', 'WG11101', 99, 99, 99);
+(6, 'E099', 'WG11101', 99, 99, 99),
+(7, 'E001', 'WG11101', 2.8, 2.5, 28);
 
 -- --------------------------------------------------------
 
@@ -125,7 +97,8 @@ INSERT INTO `daily_report_time` (`report_time_ID`, `report_date`) VALUES
 (3, '2023-10-12 08:18:00'),
 (4, '2023-10-05 11:01:00'),
 (5, '2023-10-28 11:59:00'),
-(6, '2023-10-30 12:02:00');
+(6, '2023-10-30 12:02:00'),
+(7, '2023-11-03 20:20:00');
 
 -- --------------------------------------------------------
 
@@ -160,24 +133,6 @@ INSERT INTO `employee` (`employee_ID`, `employee_Fname`, `employee_Lname`, `role
 ('M001', 'Naradon', 'Duangwoa', 'MANAGER', '123456789'),
 ('M002', 'Pawarisron', 'Wittaya', 'MANAGER', '1212312121'),
 ('M003', 'Kylie', 'Gray', 'MANAGER', '4dligl5');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `openning_time_commands`
---
-
-CREATE TABLE `openning_time_commands` (
-  `open_command_ID` varchar(255) NOT NULL,
-  `openning_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `openning_time_commands`
---
-
-INSERT INTO `openning_time_commands` (`open_command_ID`, `openning_time`) VALUES
-('C001', '2023-10-01 14:48:00');
 
 -- --------------------------------------------------------
 
@@ -250,7 +205,7 @@ CREATE TABLE `watergate` (
 
 INSERT INTO `watergate` (`watergate_ID`, `gate_status`, `water_source_name`, `criterion`) VALUES
 ('WG11101', 0, 'แม่น้ำเจ้าพระยา', 3.2),
-('WG11102', 0, 'คลองระพีพัฒน์แยกใต', 3.2),
+('WG11102', 1, 'คลองระพีพัฒน์แยกใต', 3.2),
 ('WG11103', 0, 'คลองรังสิตประยูรศักดิ์', 2.18),
 ('WG11104', 0, 'คลองระพีพัฒน์แยกตก', 3.2),
 ('WG11105', 0, 'คลอง1', 2.2),
@@ -320,12 +275,6 @@ INSERT INTO `watergate_name` (`watergate_name_ID`, `gate_name`) VALUES
 --
 
 --
--- Indexes for table `closing_time_commands`
---
-ALTER TABLE `closing_time_commands`
-  ADD PRIMARY KEY (`close_command_ID`);
-
---
 -- Indexes for table `commands_log`
 --
 ALTER TABLE `commands_log`
@@ -360,12 +309,6 @@ ALTER TABLE `employee`
   ADD PRIMARY KEY (`employee_ID`);
 
 --
--- Indexes for table `openning_time_commands`
---
-ALTER TABLE `openning_time_commands`
-  ADD PRIMARY KEY (`open_command_ID`);
-
---
 -- Indexes for table `route`
 --
 ALTER TABLE `route`
@@ -393,17 +336,11 @@ ALTER TABLE `watergate_name`
 -- AUTO_INCREMENT for table `daily_report`
 --
 ALTER TABLE `daily_report`
-  MODIFY `report_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `report_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `closing_time_commands`
---
-ALTER TABLE `closing_time_commands`
-  ADD CONSTRAINT `closing_time_commands_ibfk_1` FOREIGN KEY (`close_command_ID`) REFERENCES `commands_log` (`command_ID`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `commands_log`
@@ -430,12 +367,6 @@ ALTER TABLE `daily_report`
 --
 ALTER TABLE `daily_report_time`
   ADD CONSTRAINT `daily_report_time_ibfk_1` FOREIGN KEY (`report_time_ID`) REFERENCES `daily_report` (`report_ID`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `openning_time_commands`
---
-ALTER TABLE `openning_time_commands`
-  ADD CONSTRAINT `openning_time_commands_ibfk_1` FOREIGN KEY (`open_command_ID`) REFERENCES `commands_log` (`command_ID`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `route`
