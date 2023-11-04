@@ -33,7 +33,11 @@
   <link href="../../css/bootstrap.min.css" rel="stylesheet">
   <link href="../../css/templatemo-style.css" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link href="file/ผังระบายตะวันออก3.xlsx" rel="filesheet">
+  <script type="text/javascript">
+    function alertFinish(){
+      alert("บันทึกการสั่งการสำเร็จ");
+    }
+  </script>
   <title>Daily Command Manager</title>
 </head>
 
@@ -159,7 +163,7 @@
                 </div>
                 <div class="form-group" style="text-align: center; padding-top: 20px;">
                   <button name='nextNode' type="submit" class="btn-primary" style="font-size: 16px;">Next</button>
-                  <button name='finishRoute' type="submit" class="btn-primary" style="font-size: 16px; margin-left: 55%">Finish</button>
+                  <button name='finishRoute' type="submit" class="btn-primary" style="font-size: 16px; margin-left: 55%" online="alertFinish()">Finish</button>
                 </div>
               </form>
             </div>

@@ -91,19 +91,18 @@
         <h2 style="margin: 20px;">ประตูน้ำที่อยู่สถานะวิกฤติ</h2>
         <div class="panel panel-default table-responsive">
           <table class="table table-striped table-bordered templatemo-user-table">
-            <thead>
+            <thead style="text-align: center;">
               <tr>
                 <td>ID</td>
                 <td>ชื่อประตูระบายน้ำ</td>
                 <td>สถานะปัจจุบัน</td>
-                <td>ระดับน้ำเหนือน้ำ<br>(ม.รทก.)</td>
-                <td>เกณฑ์ควบคุมระดับน้ำ<br>เหนือน้ำ (ม.รทก.)</td>
-                <td>ระดับน้ำท้ายน้ำ<br>(ม.รทก.)</td>
-                <td>เกณฑ์ควบคุมระดับน้ำ<br>ท้ายน้ำ (ม.รทก.)</td>
+                <td>ระดับน้ำเหนือน้ำ(ม.รทก.)</td>
+                <td>ระดับน้ำท้ายน้ำ(ม.รทก.)</td>
+                <td>เกณฑ์ควบคุมระดับน้ำเหนือน้ำ (ม.รทก.)</td>
                 <td>ดำเนินการแก้ไข</td>
               </tr>
             </thead>
-            <tbody>
+            <tbody style="text-align: center;">
               <?php
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     echo '<tr>';
@@ -129,7 +128,6 @@
                     }
                     echo '<td>' . $statusLabel . '</td>';
                     echo '<td>' . $row['upstream'] . '</td>';
-                    echo '<td>' . "...." . '</td>';
                     echo '<td>' . $row['downstream'] . '</td>';
                     echo '<td>' . "...." . '</td>';
                     echo '<td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">สั่งการ</a></td>';

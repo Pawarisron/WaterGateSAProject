@@ -31,7 +31,11 @@
   <link href="../../css/bootstrap.min.css" rel="stylesheet">
   <link href="../../css/templatemo-style.css" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link href="file/ผังระบายตะวันออก3.xlsx" rel="filesheet">
+  <script type="text/javascript">
+    function alertRecord() {
+      alert("บันทึกระดับน้ำประจำวันสำเร็จ");
+    }
+  </script>
   <title>Water Gate Reporter Employee/Staff</title>
 </head>
 
@@ -105,7 +109,7 @@
             <input name = 'downstream'type="number" step="0.000001" class="form-control" id="inputDownstream" required>                  
           </div>
           <div class="form-group" style="margin: 15px;">
-            <button name='submitReport' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
+            <button name='submitReport' type="submit" class="btn-primary" style="font-size: 16px;" onclick="alertRecord()">Submit</button>
           </div>
         </div>
         
@@ -113,8 +117,6 @@
     </div>
 
   </div>
-  
-  <script src="../../js/script.js"></script> 
 
 </body>
 </html>
