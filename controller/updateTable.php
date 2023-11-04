@@ -52,9 +52,9 @@ ON
             $update_query = '';
 
             if ($latest_upstream !== null) {
-                if ($latest_upstream >= $criterion && $gate_status == 0) {
+                if ($latest_upstream > $criterion && $gate_status == 0) {
                     $update_query = "UPDATE watergate SET gate_status = 1 WHERE watergate_ID = :watergate_ID";
-                } elseif ($latest_upstream < $criterion && $gate_status == 1) {
+                } elseif ($latest_upstream <= $criterion && $gate_status == 1) {
                     $update_query = "UPDATE watergate SET gate_status = 0 WHERE watergate_ID = :watergate_ID";
                 }
             }

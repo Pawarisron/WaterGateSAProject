@@ -130,7 +130,13 @@
                     echo '<td>' . $row['upstream'] . '</td>';
                     echo '<td>' . $row['downstream'] . '</td>';
                     echo '<td>' . "...." . '</td>';
-                    echo '<td><a href="manager-assignment-order01.php" class="templatemo-edit-btn">สั่งการ</a></td>';
+                    
+                    // echo '<td><a href="manager-assignment-order01.php?watergate_ID=' . $row['watergate_ID'] . '">สั่งการ</a></td>';
+                    echo '<td><a href="manager-assignment-order01.php">สั่งการ</a></td>';
+                    // echo '<td><a href="manager-assignment-order01.php?watergate_ID=' . $row['watergate_ID'] . '">สั่งการ</a></td>';
+
+                    
+                    $_SESSION['watergate_ID'] = $row['watergate_ID'];
                     echo '</tr>';
                 }
                 ?>      

@@ -12,8 +12,8 @@
         header('location: login.php');
     }
 
-    // error_reporting(E_ALL);
-    // ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
     require_once '../../controller/updateTable.php';
     updateGateStatus($conn);
 
@@ -35,8 +35,7 @@ JOIN
 ON
     cl.watergate_com_ID = wn.watergate_name_ID;";
 
-  error_reporting(E_ALL);
-  ini_set('display_errors', 1);
+    
     $stmt = $conn->prepare($sql);
     $stmt->execute();
 ?>
