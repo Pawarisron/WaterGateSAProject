@@ -16,6 +16,25 @@
     ini_set('display_errors', 1);
     require_once '../../controller/updateTable.php';
     updateGateStatus($conn);
+
+    //get parameter
+    $command_ID = $_GET['command_ID'];
+    $watergate_com_ID = $_GET['watergate_com_ID'];
+
+    $sql = "SELECT command_ID, gate_name, gate_status, command_time, open_time, close_time, amount, note
+    FROM commands_log
+    JOIN commands_log_time ON command_ID = command_time_ID
+    JOIN watergate ON watergate_com_ID = watergate_ID
+    JOIN watergate_name ON watergate_com_ID = watergate_name_ID
+    Where command_ID = :command_ID AND watergate_com_ID = :watergate_com_ID";
+
+    //get data from DB
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(":command_ID", $command_ID);
+    $stmt->bindParam(":watergate_com_ID", $watergate_com_ID);
+    
+    $stmt->execute();
+    $result = $stmt->fetch();
 ?>
 
 
@@ -89,15 +108,15 @@
               </tr>
               <tr>
                 <td><b>วันเวลาเปิด</b></td>
-                <td>-</td>
+                <td><?php echo $result['open_time'] == null ? "ยังไม่ลงเวลา" : $result['open_time']; ?></td>
               </tr>
               <tr>
                 <td><b>วันเวลาปิด</b></td>
-                <td>-</td>
+                <td><?php echo $result['close_time'] == null ? "ยังไม่ลงเวลา" : $result['close_time']; ?></td>
               </tr>
               <tr>
                 <td><b>ปริมาณน้ำระบายออก</b></td>
-                <td>0.50</td>
+                <td><?php echo $result['amount']; ?></td>
               </tr>
               <tr>
                 <td><b>หมายเหตุ</b></td>
@@ -106,8 +125,10 @@
             </tbody>
           </table>
         </div>
+        
+
         <div class="form-group" style="text-align: right; padding-top: 20px;">
-          <button name='deleteButton' type="delete" class="btn-primary" style="font-size: 16px; margin-right: 20px;">Delete</button>
+          <button name='confirmButton' type="delete" class="btn-primary" style="font-size: 16px; margin-right: 20px;">Delete</button>
         </div>
       </div>
     </div>
