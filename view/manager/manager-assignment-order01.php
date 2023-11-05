@@ -172,7 +172,9 @@
                 </div>
                 <div class="form-group" style="text-align: center; padding-top: 20px;">
                   <button name="nextNode" type="button" class="btn-primary" style="font-size: 16px;" onclick="addData()">Add</button>
-                  <button name="finishRoute" type="submit" class="btn-primary" style="font-size: 16px; margin-left: 55% " onclick="sendDataToPHP()"  >Finish</button>
+                  <button name="finishRoute" type="button" class="btn-primary" style="font-size: 16px; margin-left: 55%" onclick="sendDataToPHP()">Finish</button>
+
+
                   <!-- <button name="finishRoute" type="submit" class="btn-primary" style="font-size: 16px; margin-left: 55%" formnovalidate >Finish</button> -->
                 </div>
               
@@ -191,10 +193,21 @@
 </body>
 
 <script >
-    var watergate_ID = <?php echo json_encode($_SESSION['watergate_ID']); ?>;
+    var watergate = {
+    _watergate_ID: <?php echo json_encode($_SESSION['watergate_ID']); ?>,
+    
+    get watergate_ID() {
+        return this._watergate_ID;
+    },
+    
+    set watergate_ID(newID) {
+        this._watergate_ID = newID;
+    }
+    };
+
     function addData() {
         var wgNameSelect = document.getElementById('wgName');
-        
+        var tempo = wgNameSelect.options[wgNameSelect.selectedIndex].value;
         if (wgNameSelect) {
             
             
@@ -202,7 +215,7 @@
             var waterQuantity = document.getElementById('waterQuantity').value;
             var inputNote = document.getElementById('inputNote').value;
         
-            if (watergate_ID === '' || timestamp === '' || waterQuantity === '' || inputNote === '') {
+            if (watergate.watergate_ID === '' || timestamp === '' || waterQuantity === '' || inputNote === '') {
                 alert('Please fill in all fields');
                 return; // Do not proceed if any of the fields are empty
             }
@@ -217,27 +230,27 @@
             var cell4 = newRow.insertCell(3);
         
             // Set values for each cell in the new row
-            cell1.innerHTML = watergate_ID;
+            cell1.innerHTML = watergate.watergate_ID;
             cell2.innerHTML = timestamp;
             cell3.innerHTML = waterQuantity;
             cell4.innerHTML = inputNote;
-        
-            // Clear input fields to prepare for new data entry
+
+            // console.log("watergate_ID: " + watergate_ID);
+            // console.log("timestamp: " + timestamp);
+            // console.log("waterQuantity: " + waterQuantity);
+            // console.log("inputNote: " + inputNote);
+
+
+            watergate.watergate_ID = tempo;
+            
+
+
             document.getElementById('wgName').value = '';
             document.getElementById('timestamp').value = '';
             document.getElementById('waterQuantity').value = '';
             document.getElementById('inputNote').value = '';
-        
-            //watergate_ID = wgNameSelect.options[wgNameSelect.selectedIndex].value;
-            updateWgNameDropdown(watergate_ID);
-        
-            // Load watergate options again
-            loadWatergateOptions(watergate_ID);
-            console.log("watergate_ID: " + watergate_ID);
-            console.log("timestamp: " + timestamp);
-            console.log("waterQuantity: " + waterQuantity);
-            console.log("inputNote: " + inputNote);
-            
+            updateWgNameDropdown(watergate.watergate_ID);
+            //  console.log(watergate.watergate_ID);
         } else {
             console.error("wgNameSelect is not defined or doesn't exist.");
         }
@@ -246,9 +259,24 @@
     }
 
     function sendDataToPHP() {
+        //console.log(watergate.watergate_ID);
         var dataTable = document.getElementById('dataTable');
         var dataRows = dataTable.getElementsByTagName('tr');  // ดึงแถวทั้งหมดในตาราง
+
+
+        var newRow = dataTable.insertRow(dataTable.rows.length);
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+        var cell3 = newRow.insertCell(2);
+        var cell4 = newRow.insertCell(3);
+        cell1.innerHTML = watergate.watergate_ID;
+        cell2.innerHTML = '';
+        cell3.innerHTML = '';
+        cell4.innerHTML = '';
         
+        updateWgNameDropdown(watergate_ID);
+        dataTable = document.getElementById('dataTable');
+        //
         // สร้างอาร์เรย์เพื่อเก็บข้อมูลที่คุณต้องการส่ง
         var dataToSend = [];
         
@@ -279,7 +307,8 @@
         
         // แล้วเปลี่ยนหน้าเป็น PHP และส่งข้อมูลผ่าน URL parameters
         window.location.href = 'manager-assignment-order01-controller.php?' + params;
-
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
 
 
     }
@@ -291,35 +320,9 @@
 
       // เพื่อโหลดข้อมูลใน Dropdown เมื่อหน้าเว็บโหลด
       document.addEventListener("DOMContentLoaded", function () {
-        loadWatergateOptions(<?php echo json_encode($watergate_ID); ?>);
-      });
+        updateWgNameDropdown(<?php echo json_encode($watergate_ID); ?>);
+      })
 
-      function loadWatergateOptions(watergateID) {
-        const wgNameSelect = document.querySelector('#wgName');
-
-        // สร้าง XMLHttpRequest เพื่อโหลดข้อมูลจากเซิร์ฟเวอร์และเพิ่มตัวเลือกใน Dropdown
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", `load_watergate_options.php?watergate_ID=${watergateID}`, true);
-
-        xhr.onload = function () {
-          if (xhr.status === 200) {
-            const options = JSON.parse(xhr.responseText);
-
-            // เคลียร์ตัวเลือกเดิม
-            wgNameSelect.innerHTML = '';
-
-            // เพิ่มตัวเลือกใหม่
-            for (const option of options) {
-              const optionElement = document.createElement("option");
-              optionElement.value = option.value;
-              optionElement.textContent = option.text;
-              wgNameSelect.appendChild(optionElement);
-            }
-          }
-        };
-
-        xhr.send();
-      }
 
       function updateWgNameDropdown(watergateID) {
         const wgNameSelect = document.getElementById('wgName');

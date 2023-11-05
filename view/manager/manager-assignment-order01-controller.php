@@ -24,8 +24,20 @@
             foreach ($data as $row) {
                 $watergate_ID = $row['watergate_ID'];
                 $timestamp = $row['timestamp'];
-                $waterQuantity = $row['waterQuantity'];
-                $inputNote = $row['inputNote'];
+                
+                if($row['waterQuantity'] == NULL){
+                    $waterQuantity = 0;
+                }else{
+                    $waterQuantity = $row['waterQuantity'];
+                }
+
+                if($row['inputNote'] == NULL){
+                    $inputNote = "นี่คือประตูสุดท้ายของคำสั่ง " . $command_ID . " ไม่ต้องกระทำการใดๆต่อ" ;
+                }else{
+                    $inputNote = $row['inputNote'];
+                }
+
+                
                 
                 $sql = "INSERT INTO commands_log(command_ID, watergate_com_ID, employee_com_ID, note, amount, open_time, close_time) 
                 VALUES (:command_ID, :watergate_com_ID, :employee_report_ID, :note, :amount, NULL, NULL)";
