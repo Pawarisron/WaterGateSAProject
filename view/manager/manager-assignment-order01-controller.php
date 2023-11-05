@@ -52,13 +52,22 @@
                 $stmt->bindParam(':amount', $waterQuantity, PDO::PARAM_STR);
                 $stmt->bindParam(':note', $inputNote, PDO::PARAM_STR);
 
-                
-
-
                 if (!$stmt->execute() ) {
                     $success = false;
                     break; 
                 }
+
+                $newStatus = 2;
+                $sql3 = "UPDATE watergate SET gate_status = :gate_status WHERE watergate_ID = :watergate_ID";
+                $stmt3 = $conn->prepare($sql3);
+                $stmt3->bindParam(':gate_status', $newStatus, PDO::PARAM_INT);
+                $stmt3->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
+
+                if (!$stmt3->execute() ) {
+                    $success = false;
+                    break; 
+                }
+
             }
 
             $sql2 = "INSERT INTO commands_log_time(command_time_ID) VALUES (:command_time_ID)";
