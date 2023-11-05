@@ -17,24 +17,28 @@
     require_once '../../controller/updateTable.php';
     updateGateStatus($conn);
 
-    //get parameter
-    $command_ID = $_GET['command_ID'];
-    $watergate_com_ID = $_GET['watergate_com_ID'];
-
-    $sql = "SELECT command_ID, gate_name, gate_status, command_time, open_time, close_time, amount, note
-    FROM commands_log
-    JOIN commands_log_time ON command_ID = command_time_ID
-    JOIN watergate ON watergate_com_ID = watergate_ID
-    JOIN watergate_name ON watergate_com_ID = watergate_name_ID
-    Where command_ID = :command_ID AND watergate_com_ID = :watergate_com_ID";
-
-    //get data from DB
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(":command_ID", $command_ID);
-    $stmt->bindParam(":watergate_com_ID", $watergate_com_ID);
     
-    $stmt->execute();
-    $result = $stmt->fetch();
+
+  
+    $command_ID = $_GET["command_ID"];
+    $watergate_com_ID = $_GET["watergate_com_ID"];
+
+
+
+    // $sql = "SELECT command_ID, gate_name, gate_status, command_time, open_time, close_time, amount, note
+    // FROM commands_log
+    // JOIN commands_log_time ON command_ID = command_time_ID
+    // JOIN watergate ON watergate_com_ID = watergate_ID
+    // JOIN watergate_name ON watergate_com_ID = watergate_name_ID
+    // Where command_ID = :command_ID AND watergate_com_ID = :watergate_com_ID";
+
+    // //get data from DB
+    // $stmt = $conn->prepare($sql);
+    // $stmt->bindParam(":command_ID", $command_ID);
+    // $stmt->bindParam(":watergate_com_ID", $watergate_com_ID);
+    
+    // $stmt->execute();
+    // $result = $stmt->fetch();
 ?>
 
 
@@ -85,42 +89,16 @@
         </div>
       </div>
       <div class="panel panel-default margin-10" style="text-align: center; margin: 20px; padding: 20px;">
-        <h2 style="text-align: left;"><a href="manager-assignment-check.php" class="templatemo-link"><i class='bx bx-arrow-back'></i></a></h2>
-        <h2>บันทึกการสั่งงาน</h2>
+      <h2 style="text-align: left;"><a href="manager-assignment-check.php" class="templatemo-link"><i class='bx bx-arrow-back'></i></a></h2>
+        <h2>ยืนยันการลบ</h2>
         <div class="table-responsive" style="padding: 20px;">
           <table class="table">
             <tbody style="text-align: left; padding-left: 40px;">
               <tr>
-                <td><b>ID</b></td>
-                <td><?php echo $result['command_ID']; ?></td>
+                <td><b>คุณต้องการจะบันทึกของคำสั่งนี้หรือไม่ลบหรือไม่</b></td>
               </tr>
               <tr>
-                <td><b>ชื่อประตู</b></td>
-                <td><?php echo $result['gate_name']; ?></td>
-              </tr>
-              <tr>
-                <td><b>สถานะ</b></td>
-                <td><?php echo $result['gate_status'] == 0 ? "ปกติ" : "วิกฤติ"; ?></td>
-              </tr>
-              <tr>
-                <td><b>วันที่ออกคำสั่ง</b></td>
-                <td><?php echo $result['command_time']; ?></td>
-              </tr>
-              <tr>
-                <td><b>วันเวลาเปิด</b></td>
-                <td><?php echo $result['open_time'] == null ? "ยังไม่ลงเวลา" : $result['open_time']; ?></td>
-              </tr>
-              <tr>
-                <td><b>วันเวลาปิด</b></td>
-                <td><?php echo $result['close_time'] == null ? "ยังไม่ลงเวลา" : $result['close_time']; ?></td>
-              </tr>
-              <tr>
-                <td><b>ปริมาณน้ำระบายออก</b></td>
-                <td><?php echo $result['amount']; ?></td>
-              </tr>
-              <tr>
-                <td><b>หมายเหตุ</b></td>
-                <td><?php echo $result['note']; ?></td>
+                <!-- <td><b><?php echo $command_ID ?></b></td> -->
               </tr>
             </tbody>
           </table>
@@ -129,13 +107,30 @@
 
         <div class="form-group" style="text-align: right; padding-top: 20px;">
         
-        <form id="deleteForm" action="manager-assignment-check02.php">
-
-          <input type="hidden" name="command_ID" value= <?php echo $command_ID?>> 
-          <input type="hidden" name="watergate_com_ID" value= <?php echo $watergate_com_ID?>>
-
-          <button class="btn-primary" style="font-size: 16px; margin-right: 20px;" >Delete</button>
+        <form method="post" >
+          <button name='confirmButton' type="delete" class="btn-primary" style="font-size: 16px; margin-right: 20px;">Delete Command</button>
         </form>
+        <?php  
+        if ($_SERVER["REQUEST_METHOD"] == "POST"){
+            
+            // ทำการลบข้อมูลหรือกระทำที่เกี่ยวข้องที่นี่
+            $dSql = "DELETE FROM commands_log Where command_ID = :command_ID AND watergate_com_ID = :watergate_com_ID";
+            
+              $stmt = $conn->prepare($dSql);
+              $stmt->bindParam(":command_ID", $command_ID);
+              $stmt->bindParam(":watergate_com_ID", $watergate_com_ID);
+              $stmt->execute();
+            
+            header("location: manager-assignment-check.php");
+          }
+        
+        ?>
+        <form action="manager-assignment-check.php">
+          <button name='confirmButton' type="delete" class="btn-primary" style="font-size: 16px; margin-right: 20px; margin-top: 20px;">Cancel</button>
+        </form>
+        </div>
+        <div class="form-group" style="text-align: left; padding-top: 20px;">
+          
         </div>
       </div>
     </div>
