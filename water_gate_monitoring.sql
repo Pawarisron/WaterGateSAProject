@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3001
--- Generation Time: Nov 05, 2023 at 12:07 PM
+-- Generation Time: Nov 05, 2023 at 07:55 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -42,8 +42,10 @@ CREATE TABLE `commands_log` (
 --
 
 INSERT INTO `commands_log` (`command_ID`, `watergate_com_ID`, `employee_com_ID`, `note`, `amount`, `open_time`, `close_time`) VALUES
+('ABC', 'WG11104', 'E001', 'ไม่รู้ๆ', 2, NULL, NULL),
 ('AWDAWD', 'WG11101', 'E001', 'HEHEHEHE', 5, '2023-11-11 14:28:00', '2023-11-18 14:28:00'),
-('AWDAWD', 'WG11102', 'E001', 'HEHEHEHE\r\n', 6, '2023-11-04 14:41:00', '2023-11-04 14:41:00');
+('AWDAWD', 'WG11102', 'E001', 'HEHEHEHE\r\n', 6, '2023-11-04 14:41:00', '2023-11-04 14:41:00'),
+('T', 'WG11101', 'E005', 't', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -61,6 +63,7 @@ CREATE TABLE `commands_log_time` (
 --
 
 INSERT INTO `commands_log_time` (`command_time_ID`, `command_time`) VALUES
+('ABC', '2023-11-05 13:33:59'),
 ('AWDAWD', '2023-10-25 16:53:48');
 
 -- --------------------------------------------------------
@@ -372,7 +375,7 @@ ALTER TABLE `commands_log`
 -- Constraints for table `commands_log_time`
 --
 ALTER TABLE `commands_log_time`
-  ADD CONSTRAINT `commands_log_time_ibfk_1` FOREIGN KEY (`command_time_ID`) REFERENCES `commands_log` (`command_ID`);
+  ADD CONSTRAINT `commands_log_time_ibfk_1` FOREIGN KEY (`command_time_ID`) REFERENCES `commands_log` (`command_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `daily_report`
