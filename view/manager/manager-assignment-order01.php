@@ -18,10 +18,18 @@
     require_once '../../controller/updateTable.php';
     updateGateStatus($conn);
 
-    if (isset($_SESSION['watergate_ID'])) {
-      $watergate_ID = $_SESSION['watergate_ID'];
-      
-    } 
+    // if (isset($_SESSION['watergate_ID'])) {
+    //   $watergate_ID = $_SESSION['watergate_ID'];
+    //   echo $_SESSION['watergate_ID'];
+    // } 
+
+    if (isset($_GET['watergate_ID'])) {
+          $_SESSION['watergate_ID'] = $_GET['watergate_ID'];
+          $watergate_ID = $_SESSION['watergate_ID'];
+          echo  $_SESSION['watergate_ID'];
+    }
+
+    
 
 
 ?>
@@ -138,26 +146,7 @@
 
 
 
-                    <!-- <tr>
-                      <td><b>ID</b></td>
-                      <td><b>ชื่อประตู</b></td>
-                      <td><b>ปริมาณน้ำที่สามารถรองรับได้</b></td>
-                    </tr>
-                    <tr style="color: #E14311;">
-                      <td>ID ประตูที่เลือก</td>
-                      <td>ชื่อประตูที่เลือก</td>
-                      <td>เกณฑ์ควบคุมระดับน้ำ-ระดับน้ำปัจจุบัน</td>
-                    </tr>
-                    <tr>
-                      <td>ID ประตูที่อยู่ติดกัน</td>
-                      <td>ชื่อประตูที่อยู่ติดกัน</td>
-                      <td>เกณฑ์ควบคุมระดับน้ำ-ระดับน้ำปัจจุบัน</td>
-                    </tr>
-                    <tr>
-                      <td>ID ประตูที่อยู่ติดกัน</td>
-                      <td>ชื่อประตูที่อยู่ติดกัน</td>
-                      <td>เกณฑ์ควบคุมระดับน้ำ-ระดับน้ำปัจจุบัน</td>
-                    </tr> -->
+                  
                   </tbody>
                 </table>
               </div>
@@ -227,10 +216,11 @@
         this._watergate_ID = newID;
     }
     };
-
+    // console.log(watergate.watergate_ID);
     function addData() {
         var wgNameSelect = document.getElementById('wgName');
         var tempo = wgNameSelect.options[wgNameSelect.selectedIndex].value;
+        
         if (wgNameSelect) {
             var waterQuantity = document.getElementById('waterQuantity').value;
             var inputNote = document.getElementById('inputNote').value;
@@ -264,16 +254,17 @@
             var xhr = new XMLHttpRequest();
             
             xhr.open("GET", `load_SecondDataTable_options.php?watergate_ID=${watergate.watergate_ID}`, true);
-            
+            console.log(watergate.watergate_ID + ' แรก');
+            var tempo2 = watergate.watergate_ID;
             xhr.onreadystatechange = function () {
               if (xhr.readyState == 4 && xhr.status == 200) {
-                  
+                  console.log(tempo2 + ' สอง');
                   // console.log(xhr.responseText);
                   if (xhr.responseText  ) {
                           response = JSON.parse(xhr.responseText);
-                          cell_1.innerHTML = watergate.watergate_ID;
+                          cell_1.innerHTML = tempo2;
                           cell_2.innerHTML = response.gate_name;
-                          cell_3.innerHTML = response.upstream + " - " + response.criterion + " = " + (response.upstream - response.criterion);
+                          cell_3.innerHTML = response.upstream + " - " + waterQuantity + " = " + (response.upstream - waterQuantity);
                           console.log(watergate.watergate_ID);
                           console.log(response.gate_name);
                           console.log(response.upstream);
@@ -286,6 +277,7 @@
               };
             }
             xhr.send();
+            console.log(watergate.watergate_ID + ' สาม');
 
             
 

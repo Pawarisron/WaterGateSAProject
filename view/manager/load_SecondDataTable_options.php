@@ -26,7 +26,7 @@ if (isset($_GET['watergate_ID'])) {
     $stmt->execute();
 
     
-    // $option = array();
+    
     if($row = $stmt->fetch()){
         $option = array(
             "watergate_ID" => $row['watergate_ID'],
