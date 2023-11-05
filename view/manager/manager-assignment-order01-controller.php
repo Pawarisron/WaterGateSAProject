@@ -21,9 +21,11 @@
         if ($data !== null) {
             $employee_report_ID = $_SESSION['manager_login'];
             $command_ID = generateCommandID($conn);
+            $success = true;
             foreach ($data as $row) {
                 $watergate_ID = $row['watergate_ID'];
-                $timestamp = $row['timestamp'];
+                
+
                 
                 if($row['waterQuantity'] == NULL){
                     $waterQuantity = 0;
@@ -50,18 +52,36 @@
                 $stmt->bindParam(':amount', $waterQuantity, PDO::PARAM_STR);
                 $stmt->bindParam(':note', $inputNote, PDO::PARAM_STR);
 
-                if ($stmt->execute()) {
-                    header('location: manager-assignment-order.php');
-                } else {
-                    echo "เกิดข้อผิดพลาดในการบันทึกข้อมูล: " . $stmt->errorInfo();
+                
+
+
+                if (!$stmt->execute() ) {
+                    $success = false;
+                    break; 
                 }
             }
 
-        } 
-        else {
+            $sql2 = "INSERT INTO commands_log_time(command_time_ID) VALUES (:command_time_ID)";
+            $stmt2 = $conn->prepare($sql2);
+            $stmt2->bindParam(':command_time_ID', $command_ID, PDO::PARAM_STR);
+            if (!$stmt2->execute()) {
+                $success = false;
+                
+            }
+
+            if ($success) {
+
+                header('location: manager-assignment-order.php');
+            } else {
+                echo "เกิดข้อผิดพลาดในการบันทึกข้อมูล: " . $stmt->errorInfo();
+            }
+    
+
+        } else {
             // รับข้อมูล JSON ผิดพลาด
             echo "Invalid JSON data";
         }
+        
     }
 
 

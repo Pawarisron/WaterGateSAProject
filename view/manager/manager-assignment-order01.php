@@ -158,10 +158,7 @@
 
                   </select>
                 </div>
-                <div class="col-lg-12 col-md-12 form-group">
-                  <label for="timestamp">วันที่</label>
-                  <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="" >
-                </div>
+                
                 <div class="col-lg-12 col-md-12 form-group">
                   <label for="waterQuantity">ปริมาณน้ำระบายออก</label>
                   <input name='waterQuantity' type="number" step="0.000001" class="form-control" id="waterQuantity" placeholder="" >
@@ -209,13 +206,10 @@
         var wgNameSelect = document.getElementById('wgName');
         var tempo = wgNameSelect.options[wgNameSelect.selectedIndex].value;
         if (wgNameSelect) {
-            
-            
-            var timestamp = document.getElementById('timestamp').value;
             var waterQuantity = document.getElementById('waterQuantity').value;
             var inputNote = document.getElementById('inputNote').value;
         
-            if (watergate.watergate_ID === '' || timestamp === '' || waterQuantity === '' || inputNote === '') {
+            if (watergate.watergate_ID === '' || waterQuantity === '' || inputNote === '') {
                 alert('Please fill in all fields');
                 return; // Do not proceed if any of the fields are empty
             }
@@ -227,13 +221,15 @@
             var cell1 = newRow.insertCell(0);
             var cell2 = newRow.insertCell(1);
             var cell3 = newRow.insertCell(2);
-            var cell4 = newRow.insertCell(3);
+            
         
             // Set values for each cell in the new row
+            // 0
             cell1.innerHTML = watergate.watergate_ID;
-            cell2.innerHTML = timestamp;
-            cell3.innerHTML = waterQuantity;
-            cell4.innerHTML = inputNote;
+            // 1
+            cell2.innerHTML = waterQuantity;
+            // 2
+            cell3.innerHTML = inputNote;
 
             // console.log("watergate_ID: " + watergate_ID);
             // console.log("timestamp: " + timestamp);
@@ -246,7 +242,6 @@
 
 
             document.getElementById('wgName').value = '';
-            document.getElementById('timestamp').value = '';
             document.getElementById('waterQuantity').value = '';
             document.getElementById('inputNote').value = '';
             updateWgNameDropdown(watergate.watergate_ID);
@@ -268,11 +263,11 @@
         var cell1 = newRow.insertCell(0);
         var cell2 = newRow.insertCell(1);
         var cell3 = newRow.insertCell(2);
-        var cell4 = newRow.insertCell(3);
+        
         cell1.innerHTML = watergate.watergate_ID;
         cell2.innerHTML = '';
         cell3.innerHTML = '';
-        cell4.innerHTML = '';
+        
         
         updateWgNameDropdown(watergate_ID);
         dataTable = document.getElementById('dataTable');
@@ -284,19 +279,17 @@
             var cells = dataRows[i].getElementsByTagName('td');
             
             var watergate_ID = cells[0].textContent;
-            var timestamp = cells[1].textContent;
-            var waterQuantity = cells[2].textContent;
-            var inputNote = cells[3].textContent;
+            var waterQuantity = cells[1].textContent;
+            var inputNote = cells[2].textContent;
 
 
             console.log(cells[0].textContent);
             console.log(cells[1].textContent);
             console.log(cells[2].textContent);
-            console.log(cells[3].textContent);        
+                 
             // เพิ่มข้อมูลลงในอาร์เรย์
             dataToSend.push({
                 watergate_ID: watergate_ID,
-                timestamp: timestamp,
                 waterQuantity: waterQuantity,
                 inputNote: inputNote
             });
