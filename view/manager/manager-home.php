@@ -116,7 +116,25 @@
                     echo '<tr>';
                     echo '<td>' . $row['watergate_report_ID'] . '</td>';
                     echo '<td>' . $row['gate_name'] . '</td>';
-                    echo '<td>' . $row['gate_status'] . '</td>';
+                    $gateStatus = $row['gate_status'];
+                    $statusLabel = '';
+                    switch ($gateStatus) {
+                        case 0:
+                            $statusLabel = "ปกติ";
+                            break;
+                        case 1:
+                            $statusLabel = "วิกฤติ";
+                            break;
+                        case 2:
+                            $statusLabel = "กำลังแก้ไข";
+                            break;
+                        case 3:
+                            $statusLabel = "รอตรวจสอบ";
+                            break;
+                        default:
+                            $statusLabel = "ปกติ";
+                    }
+                    echo '<td>' . $statusLabel . '</td>';
                     echo '<td>' . $row['report_date'] . '</td>';
                     echo '<td>' . $row['flow_rate'] . '</td>';
                     echo '<td>' . $row['upstream'] . '</td>';
