@@ -264,7 +264,7 @@
                           response = JSON.parse(xhr.responseText);
                           cell_1.innerHTML = tempo2;
                           cell_2.innerHTML = response.gate_name;
-                          cell_3.innerHTML = response.upstream + " - " + waterQuantity + " = " + (response.upstream - waterQuantity);
+                          cell_3.innerHTML = "ระดับน้ำคงเหลือ " + response.upstream + " - " + waterQuantity + " = " + (response.upstream - waterQuantity);
                           console.log(watergate.watergate_ID);
                           console.log(response.gate_name);
                           console.log(response.upstream);
