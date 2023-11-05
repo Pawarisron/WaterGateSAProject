@@ -128,9 +128,6 @@
                         case 2:
                             $statusLabel = "กำลังแก้ไข";
                             break;
-                        case 3:
-                            $statusLabel = "รอตรวจสอบ";
-                            break;
                         default:
                             $statusLabel = "ปกติ";
                     }

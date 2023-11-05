@@ -96,7 +96,7 @@
 
           </div>
           <div class="col-lg-6 col-md-6 form-group">
-            <label for="timestamp">วันที่</label>
+            <label for="timestamp">เวลาที่บันทึกระดับน้ำ</label>
             <input name='timestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="" required>
           </div>
           <div class="col-lg-12 has-success form-group">                  
@@ -112,7 +112,7 @@
             <input name = 'downstream'type="number" step="0.000001" class="form-control" id="inputDownstream" required>                  
           </div>
           <div class="form-group" style="margin: 15px;">
-            <button name='submitReport' type="submit" class="btn-primary" style="font-size: 16px;" onclick="alertRecord()">Submit</button>
+            <button name='submitReport' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
           </div>
         </div>
         

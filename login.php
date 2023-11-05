@@ -21,7 +21,7 @@
       <h1>Sign In</h1>
       <p>ระบบจัดการประตูระบายน้ำฝั่งตะวันออก สำนักงานชลประทานที่ 11</p>
       <div class="input-box">
-        <input name='employee_ID' type="text" placeholder="Username" required>
+        <input name='employee_ID' type="text" placeholder="UserID" required>
         <i class='bx bxs-user'></i>
       </div>
       <div class="input-box">
