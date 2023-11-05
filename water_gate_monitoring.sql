@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3001
--- Generation Time: Nov 04, 2023 at 10:37 AM
+-- Generation Time: Nov 05, 2023 at 12:07 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -33,9 +33,17 @@ CREATE TABLE `commands_log` (
   `employee_com_ID` varchar(255) NOT NULL,
   `note` varchar(255) NOT NULL,
   `amount` float NOT NULL,
-  `open_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `close_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `open_time` timestamp NULL DEFAULT NULL,
+  `close_time` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `commands_log`
+--
+
+INSERT INTO `commands_log` (`command_ID`, `watergate_com_ID`, `employee_com_ID`, `note`, `amount`, `open_time`, `close_time`) VALUES
+('AWDAWD', 'WG11101', 'E001', 'HEHEHEHE', 5, '2023-11-11 14:28:00', '2023-11-18 14:28:00'),
+('AWDAWD', 'WG11102', 'E001', 'HEHEHEHE\r\n', 6, '2023-11-04 14:41:00', '2023-11-04 14:41:00');
 
 -- --------------------------------------------------------
 
@@ -47,6 +55,13 @@ CREATE TABLE `commands_log_time` (
   `command_time_ID` varchar(255) NOT NULL,
   `command_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `commands_log_time`
+--
+
+INSERT INTO `commands_log_time` (`command_time_ID`, `command_time`) VALUES
+('AWDAWD', '2023-10-25 16:53:48');
 
 -- --------------------------------------------------------
 
@@ -74,7 +89,9 @@ INSERT INTO `daily_report` (`report_ID`, `employee_report_ID`, `watergate_report
 (4, 'E099', 'WG11102', 1.1, 2.9, 1.2),
 (5, 'E099', 'WG11102', 5, 5, 5),
 (6, 'E099', 'WG11101', 99, 99, 99),
-(7, 'E001', 'WG11101', 2.8, 2.5, 28);
+(7, 'E001', 'WG11101', 2.8, 2.5, 28),
+(8, 'E001', 'WG11103', 7, 7, 7),
+(9, 'E001', 'WG11104', 8, 8, 8);
 
 -- --------------------------------------------------------
 
@@ -98,7 +115,9 @@ INSERT INTO `daily_report_time` (`report_time_ID`, `report_date`) VALUES
 (4, '2023-10-05 11:01:00'),
 (5, '2023-10-28 11:59:00'),
 (6, '2023-10-30 12:02:00'),
-(7, '2023-11-03 20:20:00');
+(7, '2023-11-03 20:20:00'),
+(8, '2023-11-07 20:20:00'),
+(9, '2023-11-23 01:21:00');
 
 -- --------------------------------------------------------
 
@@ -171,7 +190,7 @@ INSERT INTO `route` (`route_ID`, `to_ID_gate`, `from_ID_gate`) VALUES
 ('RT19', 'WG11202', 'WG11108'),
 ('RT20', 'WG11202', 'WG11109'),
 ('RT21', 'WG11208', 'WG11202'),
-('RT22', 'WG11205', 'WG11103'),
+('RT22', 'WG11205', 'WG11105'),
 ('RT23', 'WG11213', 'WG11103'),
 ('RT24', 'WG11214', 'WG11103'),
 ('RT25', 'WG11215', 'WG11103'),
@@ -206,8 +225,8 @@ CREATE TABLE `watergate` (
 INSERT INTO `watergate` (`watergate_ID`, `gate_status`, `water_source_name`, `criterion`) VALUES
 ('WG11101', 0, 'แม่น้ำเจ้าพระยา', 3.2),
 ('WG11102', 1, 'คลองระพีพัฒน์แยกใต', 3.2),
-('WG11103', 0, 'คลองรังสิตประยูรศักดิ์', 2.18),
-('WG11104', 0, 'คลองระพีพัฒน์แยกตก', 3.2),
+('WG11103', 1, 'คลองรังสิตประยูรศักดิ์', 2.18),
+('WG11104', 1, 'คลองระพีพัฒน์แยกตก', 3.2),
 ('WG11105', 0, 'คลอง1', 2.2),
 ('WG11106', 0, 'คลอง6', 2.6),
 ('WG11107', 0, 'คลอง8', 2.8),
@@ -336,7 +355,7 @@ ALTER TABLE `watergate_name`
 -- AUTO_INCREMENT for table `daily_report`
 --
 ALTER TABLE `daily_report`
-  MODIFY `report_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `report_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
