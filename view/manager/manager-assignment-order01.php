@@ -114,9 +114,31 @@
             </div>
             <div class="panel-body">
               <div class="table-responsive" style="padding: 20px;">
-                <table class="table">
+                <table name = "secondDataTable" id="secondDataTable"class="table">
                   <tbody style="text-align: center; padding-left: 40px;">
-                    <tr>
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- <tr>
                       <td><b>ID</b></td>
                       <td><b>ชื่อประตู</b></td>
                       <td><b>ปริมาณน้ำที่สามารถรองรับได้</b></td>
@@ -135,7 +157,7 @@
                       <td>ID ประตูที่อยู่ติดกัน</td>
                       <td>ชื่อประตูที่อยู่ติดกัน</td>
                       <td>เกณฑ์ควบคุมระดับน้ำ-ระดับน้ำปัจจุบัน</td>
-                    </tr>
+                    </tr> -->
                   </tbody>
                 </table>
               </div>
@@ -189,6 +211,10 @@
   
 </body>
 
+<?php 
+  require_once '../../db.php';
+?>
+
 <script >
     var watergate = {
     _watergate_ID: <?php echo json_encode($_SESSION['watergate_ID']); ?>,
@@ -215,21 +241,57 @@
             }
         
             var dataTable = document.getElementById('dataTable');
-            
-            // Create a new row
+            //var secondDataTable = document.getElementById('secondDataTable');
+
             var newRow = dataTable.insertRow(dataTable.rows.length);
             var cell1 = newRow.insertCell(0);
             var cell2 = newRow.insertCell(1);
             var cell3 = newRow.insertCell(2);
             
-        
-            // Set values for each cell in the new row
-            // 0
+
             cell1.innerHTML = watergate.watergate_ID;
-            // 1
             cell2.innerHTML = waterQuantity;
-            // 2
             cell3.innerHTML = inputNote;
+            
+            
+            var newRow2 = secondDataTable.insertRow(secondDataTable.rows.length);
+            var cell_1 = newRow2.insertCell(0);
+            var cell_2 = newRow2.insertCell(1);
+            var cell_3 = newRow2.insertCell(2);
+        
+            // สร้าง XMLHttpRequest object
+
+            var xhr = new XMLHttpRequest();
+            
+            xhr.open("GET", `load_SecondDataTable_options.php?watergate_ID=${watergate.watergate_ID}`, true);
+            
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState == 4 && xhr.status == 200) {
+                  
+                  // console.log(xhr.responseText);
+                  if (xhr.responseText  ) {
+                          response = JSON.parse(xhr.responseText);
+                          cell_1.innerHTML = watergate.watergate_ID;
+                          cell_2.innerHTML = response.gate_name;
+                          cell_3.innerHTML = response.upstream + " - " + response.criterion + " = " + (response.upstream - response.criterion);
+                          console.log(watergate.watergate_ID);
+                          console.log(response.gate_name);
+                          console.log(response.upstream);
+                          
+                      } else {
+                          cell_2.innerHTML = "_";
+                          cell_2.innerHTML = "_";
+                          cell_3.innerHTML = "_";
+                      }
+              };
+            }
+            xhr.send();
+
+            
+
+      
+            
+        
 
             // console.log("watergate_ID: " + watergate_ID);
             // console.log("timestamp: " + timestamp);
@@ -252,7 +314,7 @@
         
 
     }
-
+ 
     function sendDataToPHP() {
         //console.log(watergate.watergate_ID);
         var dataTable = document.getElementById('dataTable');
@@ -305,17 +367,16 @@
 
 
     }
-
-
-
-
-
-
-      // เพื่อโหลดข้อมูลใน Dropdown เมื่อหน้าเว็บโหลด
-      document.addEventListener("DOMContentLoaded", function () {
+    // เพื่อโหลดข้อมูลใน Dropdown เมื่อหน้าเว็บโหลด
+    document.addEventListener("DOMContentLoaded", function () {
         updateWgNameDropdown(<?php echo json_encode($watergate_ID); ?>);
       })
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      
+      
 
       function updateWgNameDropdown(watergateID) {
         const wgNameSelect = document.getElementById('wgName');
