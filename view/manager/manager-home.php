@@ -17,31 +17,18 @@
     updateGateStatus($conn);
 
     $sql = "
-    SELECT
-        d.report_ID,
-        d.employee_report_ID,
-        d.watergate_report_ID,
-        d.upstream,
-        d.downstream,
-        d.flow_rate,
-        t.report_date,
-        g.gate_status,
-        g.water_source_name,
-        g.criterion,
-        r.gate_name
-    FROM daily_report AS d
-    JOIN daily_report_time AS t ON d.report_ID = t.report_time_ID
-    JOIN watergate AS g ON d.watergate_report_ID = g.watergate_ID
-    JOIN watergate_name AS r ON g.watergate_ID = r.watergate_name_ID
-    WHERE (d.watergate_report_ID, t.report_date) IN (
-        SELECT d1.watergate_report_ID, MAX(t1.report_date)
-        FROM daily_report_time AS t1
-        JOIN daily_report AS d1 ON t1.report_time_ID = d1.report_ID
-        GROUP BY d1.watergate_report_ID
-    );
+    SELECT w.*, r.*
+    FROM watergate w
+    INNER JOIN (
+        SELECT watergate_ID, MAX(report_time) AS max_report_time
+        FROM daily_report
+        GROUP BY watergate_ID
+    ) latest_reports
+    ON w.watergate_ID = latest_reports.watergate_ID
+    JOIN daily_report r
+    ON latest_reports.watergate_ID = r.watergate_ID AND latest_reports.max_report_time = r.report_time;
     ";
 
-    // $result = mysqli_query($connection, $query);
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     

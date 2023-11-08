@@ -13,8 +13,8 @@
     }
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    require_once '../../controller/updateTable.php';
-    updateGateStatus($conn);
+    // require_once '../../controller/updateTable.php';
+    // updateGateStatus($conn);
 ?>
 
 
@@ -70,7 +70,7 @@
           </nav>
         </div>
       </div>
-      <form action="../../controller/employee-wg-reporter-controller.php" method='post'>
+      <form action="../../controller/employee-wg-reporter-controller.php" method='post' onsubmit="return validateForm()">
         <div class="water-gate-reporter" style="text-align: left; margin: 20px;">
           <h2 style="text-align: center;">บันทึกระดับน้ำประจำวัน</h2>
           <!--หาวิธีดึงชื่อประตูระบายน้ำมาเป็น option-->
@@ -79,18 +79,23 @@
             <label class="control-label templatemo-block">เลือกประตูน้ำ</label>  
 
              <select name = "watergate_name" class="form-control" require>
+
+
              <?php
-              $sql = "SELECT * FROM watergate_name";
+              $sql = "SELECT * FROM watergate";
               $result = $conn->query($sql);
               // $result->execute();
               while ($row = $result->fetch()):
               ?>
-              <option value="<?php echo $row['watergate_name_ID']; ?>"> 
+              <option value="<?php echo $row['watergate_ID']; ?>"> 
                 <?php echo $row['gate_name'] ?>
               </option>
               <?php 
                 endwhile;
               ?>
+
+
+
             </select> 
 
 
@@ -117,6 +122,33 @@
         </div>
         
       </form>
+      <script>
+        function validateForm() {
+            var flow_rate = document.getElementById('inputWaterFlow').value;
+            var upstream = document.getElementById('inputUpstream').value;
+            var downstream = document.getElementById('inputDownstream').value;
+
+            var errorMessage = '';
+
+            if (flow_rate < 0) {
+                errorMessage += "อัตราการไหลน้ำไม่สามารถมีค่าน้อยกว่า 0\n\n";
+            }
+            if (upstream < 0) {
+                errorMessage += "ค่าเหนือน้ำไม่สามารถมีค่าน้อยกว่า 0\n\n";
+            }
+            if (downstream < 0) {
+                errorMessage += "ค่าท้ายน้ำไม่สามารถมีค่าน้อยกว่า 0\n\n";
+            }
+
+            if (errorMessage !== '') {
+                alert(errorMessage);
+                return false;
+            }
+            return true; 
+        }
+        </script>
+
+
     </div>
 
   </div>

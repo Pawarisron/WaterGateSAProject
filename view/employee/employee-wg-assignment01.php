@@ -12,45 +12,29 @@
         header('location: login.php');
     } 
     $command_ID = $_GET['command_ID'];
-    
+    $watergate_ID = $_GET['watergate_ID'];
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    require_once '../../controller/updateTable.php';
-    updateGateStatus($conn);
+    // require_once '../../controller/updateTable.php';
+    // updateGateStatus($conn);
 
 
-    $sql = "SELECT
-    cl.command_ID,
-    cl.employee_com_ID,
-    cl.watergate_com_ID,
-    wn.gate_name,
-    cl.note,
-    clt.command_time,
-    wg.gate_status,
-    cl.open_time,
-    cl.close_time
-FROM
-    commands_log AS cl
-JOIN
-    commands_log_time AS clt
-ON
-    cl.command_ID = clt.command_time_ID
-JOIN
-    watergate_name AS wn
-ON
-    cl.watergate_com_ID = wn.watergate_name_ID
-JOIN
-    watergate AS wg
-ON
-    cl.watergate_com_ID = wg.watergate_ID
-WHERE
-    cl.command_ID = :command_ID
-  ";
+    $sql = "SELECT c.*, w.*, att.*
+    FROM commands_log as c
+    JOIN watergate as w
+    ON c.watergate_ID = w.watergate_ID
+    JOIN assign_time as att
+    ON c.command_ID = att.command_ID
+    WHERE
+        c.command_ID = :command_ID AND c.watergate_ID = :watergate_ID
+        AND att.command_ID = :command_ID;
+      ";
 
     
 
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':command_ID', $command_ID, PDO::PARAM_STR);
+    $stmt->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
     $stmt->execute();
 
     $result = $stmt->fetch();
@@ -151,16 +135,32 @@ WHERE
               </tr>
               <tr>
                 <td><b>วันเวลาเปิด</b></td>
-                <td><?php echo $result['open_time']; ?></td>
+                <td><?php 
+                if($result['open_time'] == NULL){
+                  echo "ยังไม่มีเวลาเปิด";
+                }
+                else{
+                  echo $result['open_time'];
+                }
+                
+                 ?></td>
               </tr>
               <tr>
                 <td><b>วันเวลาปิด</b></td>
-                <td><?php echo $result['close_time']; ?></td>
+                <td><?php 
+                if($result['close_time'] == NULL){
+                  echo "ยังไม่มีเวลาปิด";
+                }
+                else{
+                  echo $result['close_time'];
+                }
+                
+                 ?></td>
               </tr>
               <!--เพิ่มมาใหม่ง้าบ-->
               <tr>
                 <td><b>ปริมาณน้ำระบายออก</b></td>
-                <td>0.50</td>
+                <td><?php echo $result['amount'] ?></td>
               </tr>
               <!---->
               <tr>
@@ -177,20 +177,39 @@ WHERE
         </div>
         <div class="panel-body">
           <!--ฝากเติมตรง action ด้วยต้าฟ-->
-          <form action="../../controller/employee-wg-assignment01-controller.php" method="post" class="templatemo-login-form" style="text-align: left;">
-            <div class="form-group">
-              <label for="openTimestamp">วันเวลาเปิด</label>
-              <input name='openTimestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="" required>
-            </div>
-            <div class="form-group">
-              <label for="closeTimestamp">วันเวลาปิด</label>
-              <input name='closeTimestamp' type="datetime-local" class="form-control" id="timestamp" placeholder="" required>
-            </div>
-            <input type="hidden" name="command_ID" value="<?php echo $command_ID; ?>">
-            <div class="form-group" style="text-align: right; padding-top: 20px;">
-              <button name='submitAssignment' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
-            </div>
+
+          
+          <form action="../../controller/employee-wg-assignment01-controller.php" method="post" class="templatemo-login-form" style="text-align: left;" onsubmit="return validateForm()">
+              <div class="form-group">
+                  <label for="openTimestamp">วันเวลาเปิด</label>
+                  <input name='openTimestamp' type="datetime-local" class="form-control" id="openTimestamp" placeholder="" required>
+              </div>
+              <div class="form-group">
+                  <label for="closeTimestamp">วันเวลาปิด</label>
+                  <input name='closeTimestamp' type="datetime-local" class="form-control" id="closeTimestamp" placeholder="" required>
+              </div>
+              <input type="hidden" name="command_ID" value="<?php echo $command_ID; ?>">
+              <input type="hidden" name="watergate_ID" value="<?php echo $watergate_ID; ?>">
+              <div class="form-group" style="text-align: right; padding-top: 20px;">
+                  <button name='submitAssignment' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
+              </div>
           </form>
+
+          <script>
+            function validateForm() {
+                var openTimestamp = new Date(document.getElementById('openTimestamp').value);
+                var closeTimestamp = new Date(document.getElementById('closeTimestamp').value);
+
+                if (closeTimestamp <= openTimestamp) {
+                    alert("เวลาปิดประตูน้ำจะไม่เกิดก่อนเวลาเปิด โปรดตรวจสอบการบันทึกของคุณ");
+                    return false; 
+                }
+                return true; 
+}
+           </script>     
+
+
+
         </div>
       </div>
     </div>

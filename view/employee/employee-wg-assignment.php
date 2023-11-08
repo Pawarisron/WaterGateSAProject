@@ -14,26 +14,25 @@
 
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    require_once '../../controller/updateTable.php';
-    updateGateStatus($conn);
+    // require_once '../../controller/updateTable.php';
+    // updateGateStatus($conn);
 
     $sql = "SELECT
     cl.command_ID,
-    cl.employee_com_ID,
-    cl.watergate_com_ID,
-    wn.gate_name,
+    cl.watergate_ID,
+    w.gate_name,
     cl.note,
-    clt.command_time
+    att.command_time
 FROM
     commands_log AS cl
 JOIN
-    commands_log_time AS clt
+    watergate AS w
 ON
-    cl.command_ID = clt.command_time_ID
-JOIN
-    watergate_name AS wn
-ON
-    cl.watergate_com_ID = wn.watergate_name_ID;";
+    cl.watergate_ID = w.watergate_ID
+JOIN 
+	assign_time as att
+ON 
+	cl.command_ID = att.command_ID;";
 
     
     $stmt = $conn->prepare($sql);
@@ -92,7 +91,9 @@ ON
           <table class="table table-striped table-bordered templatemo-user-table" style="text-align: center;">
             <thead>
               <tr>
-                <td>ID</td>
+                <td>ID Command</td>
+                <td>ID ประตู</td>
+                
                 <td>วันที่</td>
                 <td>ประตูน้ำ</td>
                 <td>คำสั่ง</td>
@@ -103,9 +104,10 @@ ON
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     echo '<tr>';
                     echo '<td>' . $row['command_ID'] . '</td>';
+                    echo '<td>' . $row['watergate_ID'] . '</td>';
                     echo '<td>' . $row['command_time'] . '</td>';
                     echo '<td>' . $row['gate_name'] . '</td>';
-                    echo '<td><a href="employee-wg-assignment01.php?command_ID=' . $row['command_ID'] . '">รายละเอียดคำสั่ง</a></td>';
+                    echo '<td><a href="employee-wg-assignment01.php?command_ID=' . $row['command_ID'] . '&watergate_ID=' . $row['watergate_ID'] . '">รายละเอียดคำสั่ง</a></td>';
 
                 }
               ?>       
