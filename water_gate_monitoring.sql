@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3001
--- Generation Time: Nov 05, 2023 at 07:55 PM
+-- Generation Time: Nov 07, 2023 at 06:48 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `water_gate_monitoring`
 --
+CREATE DATABASE IF NOT EXISTS `water_gate_monitoring` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `water_gate_monitoring`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assign_time`
+--
+
+CREATE TABLE `assign_time` (
+  `command_ID` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `employee_ID` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `command_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `assign_time`
+--
+
+INSERT INTO `assign_time` (`command_ID`, `employee_ID`, `command_time`) VALUES
+('CMD00001', 'M001', '2023-11-07 18:23:12'),
+('CMD00002', 'M002', '2023-11-07 18:23:37');
 
 -- --------------------------------------------------------
 
@@ -29,8 +51,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `commands_log` (
   `command_ID` varchar(255) NOT NULL,
-  `watergate_com_ID` varchar(255) NOT NULL,
-  `employee_com_ID` varchar(255) NOT NULL,
+  `watergate_ID` varchar(255) NOT NULL,
   `note` varchar(255) NOT NULL,
   `amount` float NOT NULL,
   `open_time` timestamp NULL DEFAULT NULL,
@@ -41,30 +62,12 @@ CREATE TABLE `commands_log` (
 -- Dumping data for table `commands_log`
 --
 
-INSERT INTO `commands_log` (`command_ID`, `watergate_com_ID`, `employee_com_ID`, `note`, `amount`, `open_time`, `close_time`) VALUES
-('ABC', 'WG11104', 'E001', 'ไม่รู้ๆ', 2, NULL, NULL),
-('AWDAWD', 'WG11101', 'E001', 'HEHEHEHE', 5, '2023-11-11 14:28:00', '2023-11-18 14:28:00'),
-('AWDAWD', 'WG11102', 'E001', 'HEHEHEHE\r\n', 6, '2023-11-04 14:41:00', '2023-11-04 14:41:00'),
-('T', 'WG11101', 'E005', 't', 2, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `commands_log_time`
---
-
-CREATE TABLE `commands_log_time` (
-  `command_time_ID` varchar(255) NOT NULL,
-  `command_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `commands_log_time`
---
-
-INSERT INTO `commands_log_time` (`command_time_ID`, `command_time`) VALUES
-('ABC', '2023-11-05 13:33:59'),
-('AWDAWD', '2023-10-25 16:53:48');
+INSERT INTO `commands_log` (`command_ID`, `watergate_ID`, `note`, `amount`, `open_time`, `close_time`) VALUES
+('CMD00001', 'WG11104', 'ควรเปิดประตู คลองระพีพัฒน์แยกตก ตอนเวลา 11/11/66 18:00 และปิดอีก 2 ชม. ', 1.3, NULL, NULL),
+('CMD00001', 'WG11107', 'ควรเปิดประตู คลอง8 ตอนเวลา ตอนเวลา 11/11/66 18:00 และปิดอีก 2 ชม. ', 0.7, NULL, NULL),
+('CMD00001', 'WG11210', 'นี่คือประตูสุดท้ายของคำสั่ง CMD00001 ไม่ต้องกระทำการใดๆต่อ', 0, NULL, NULL),
+('CMD00002', 'WG11101', 'เปิดประตู แม่น้ำเจ้าพระยา จำนวน 1.5', 1.5, '2023-11-11 14:28:00', '2023-11-18 14:28:00'),
+('CMD00002', 'WG11102', 'นี่คือประตูสุดท้ายของคำสั่ง CMD00002 ไม่ต้องกระทำการใดๆต่อ ', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -74,53 +77,75 @@ INSERT INTO `commands_log_time` (`command_time_ID`, `command_time`) VALUES
 
 CREATE TABLE `daily_report` (
   `report_ID` int(11) NOT NULL,
-  `employee_report_ID` varchar(255) NOT NULL,
-  `watergate_report_ID` varchar(255) NOT NULL,
+  `employee_ID` varchar(255) NOT NULL,
+  `watergate_ID` varchar(255) NOT NULL,
   `upstream` float NOT NULL,
   `downstream` float NOT NULL,
-  `flow_rate` float NOT NULL
+  `flow_rate` float NOT NULL,
+  `report_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `daily_report`
 --
 
-INSERT INTO `daily_report` (`report_ID`, `employee_report_ID`, `watergate_report_ID`, `upstream`, `downstream`, `flow_rate`) VALUES
-(1, 'E099', 'WG11101', 1, 0.5, 50),
-(2, 'E099', 'WG11101', 2.7, 2.1, 5),
-(3, 'E099', 'WG11101', 332, 23, 123),
-(4, 'E099', 'WG11102', 1.1, 2.9, 1.2),
-(5, 'E099', 'WG11102', 5, 5, 5),
-(6, 'E099', 'WG11101', 99, 99, 99),
-(7, 'E001', 'WG11101', 2.8, 2.5, 28),
-(8, 'E001', 'WG11103', 7, 7, 7),
-(9, 'E001', 'WG11104', 8, 8, 8);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `daily_report_time`
---
-
-CREATE TABLE `daily_report_time` (
-  `report_time_ID` int(11) NOT NULL,
-  `report_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `daily_report_time`
---
-
-INSERT INTO `daily_report_time` (`report_time_ID`, `report_date`) VALUES
-(1, '2023-10-25 16:53:48'),
-(2, '2023-10-13 19:47:00'),
-(3, '2023-10-12 08:18:00'),
-(4, '2023-10-05 11:01:00'),
-(5, '2023-10-28 11:59:00'),
-(6, '2023-10-30 12:02:00'),
-(7, '2023-11-03 20:20:00'),
-(8, '2023-11-07 20:20:00'),
-(9, '2023-11-23 01:21:00');
+INSERT INTO `daily_report` (`report_ID`, `employee_ID`, `watergate_ID`, `upstream`, `downstream`, `flow_rate`, `report_time`) VALUES
+(1, 'E099', 'WG11101', 1, 0.5, 3.15, '2023-08-01 16:53:48'),
+(2, 'E099', 'WG11101', 2.7, 2.1, 1.2, '2023-08-01 19:47:00'),
+(3, 'E099', 'WG11101', 3.5, 2.6, 2.52, '2023-08-03 08:18:00'),
+(4, 'E099', 'WG11102', 1.1, 2.9, 1.2, '2023-08-04 11:01:00'),
+(5, 'E099', 'WG11102', 5, 5, 1.665, '2023-08-05 11:59:00'),
+(6, 'E099', 'WG11101', 2.4, 3.35, 4.25, '2023-08-06 12:02:00'),
+(7, 'E001', 'WG11101', 2.8, 2.5, 2.8, '2023-11-07 17:41:52'),
+(8, 'E001', 'WG11103', 4.6, 3.14, 3.7, '2023-11-07 17:41:52'),
+(9, 'E001', 'WG11104', 2.23, 5.9, 3.54, '2023-11-07 17:41:52'),
+(10, 'E001', 'WG11104', 3.2, 1.35, 2.15, '2023-11-07 17:41:52'),
+(11, 'E001', 'WG11104', 2.65, 1.1, 3.2, '2023-11-07 17:41:52'),
+(12, 'E001', 'WG11104', 2.15, 0.1, 1.1, '2023-11-07 17:41:52'),
+(13, 'E001', 'WG11105', 1.25, 0.2, 1.2, '2023-11-07 17:41:52'),
+(14, 'E001', 'WG11202', 5.36, 0.3, 1.3, '2023-11-07 17:41:52'),
+(15, 'E001', 'WG11208', 6.15, 0.4, 1.4, '2023-11-07 17:41:52'),
+(16, 'E002', 'WG11105', 3, 2, 2.3, '2023-11-07 17:41:52'),
+(17, 'E009', 'WG11106', 2.33, 2.58, 1.2, '2023-11-07 17:41:52'),
+(18, 'E003', 'WG11106', 2.15, 0.2, 3, '2023-11-07 17:41:52'),
+(19, 'E002', 'WG11107', 0.58, 0.9, 0.33, '2023-11-07 17:41:52'),
+(20, 'E005', 'WG11107', 1.55, 3.22, 1.54, '2023-11-07 17:41:52'),
+(21, 'E008', 'WG11108', 2.68, 2.65, 2.2, '2023-11-07 17:41:52'),
+(22, 'E003', 'WG11108', 2.84, 4.6, 1.236, '2023-11-07 17:41:52'),
+(23, 'E002', 'WG11109', 3.145, 3.3, 1.65, '2023-11-07 17:41:52'),
+(24, 'E001', 'WG11109', 3.01, 3.6, 2.2, '2023-11-07 17:41:52'),
+(25, 'E009', 'WG11202', 2.63, 3.4, 1.03, '2023-11-07 17:41:52'),
+(26, 'E008', 'WG11202', 4.25, 5.4, 2.2, '2023-11-07 17:41:52'),
+(27, 'E010', 'WG11203', 3.25, 3.25, 1.36, '2023-11-07 17:41:52'),
+(28, 'E010', 'WG11203', 4.145, 3.14, 1.26, '2023-11-07 17:41:52'),
+(29, 'E008', 'WG11204', 3.25, 1.8, 1.26, '2023-11-07 17:41:52'),
+(30, 'E008', 'WG11204', 4.52, 4.25, 2.326, '2023-11-07 17:41:52'),
+(31, 'E009', 'WG11205', 5.6, 2.5, 2.26, '2023-11-07 17:41:52'),
+(32, 'E007', 'WG11205', 5.25, 4.1, 0.16, '2023-11-07 17:41:52'),
+(33, 'E005', 'WG11206', 6.15, 6.5, 1.66, '2023-11-07 17:41:52'),
+(34, 'E003', 'WG11206', 1.268, 0.25, 2, '2023-11-07 17:41:52'),
+(35, 'E004', 'WG11207', 0.545, 0.548, 1, '2023-11-07 17:41:52'),
+(36, 'E004', 'WG11207', 1.66, 1.545, 0.65, '2023-11-07 17:41:52'),
+(37, 'E002', 'WG11208', 1.32, 1.13, 1.26, '2023-11-07 17:41:52'),
+(38, 'E001', 'WG11208', 1.99, 2.5, 1.26, '2023-11-07 17:41:52'),
+(39, 'E003', 'WG11209', 0.9, 0.58, 1.65, '2023-11-07 17:41:52'),
+(40, 'E005', 'WG11209', 2.65, 2.54, 2.2, '2023-11-07 17:41:52'),
+(41, 'E008', 'WG11210', 3.159, 4.52, 1.26, '2023-11-07 17:41:52'),
+(42, 'E009', 'WG11210', 4.554, 2.18, 1.265, '2023-11-07 17:41:52'),
+(43, 'E004', 'WG11211', 3.56, 4.23, 3.221, '2023-11-07 17:41:52'),
+(44, 'E008', 'WG11211', 5.36, 5.64, 1.26, '2023-11-07 17:41:52'),
+(45, 'E007', 'WG11212', 1.26, 2.12, 2.26, '2023-11-07 17:41:52'),
+(46, 'E006', 'WG11212', 3.264, 3, 0.64, '2023-11-07 17:41:52'),
+(47, 'E005', 'WG11213', 2.56, 2, 1.26, '2023-11-07 17:41:52'),
+(48, 'E003', 'WG11213', 1.25, 1, 1.15, '2023-11-07 17:41:52'),
+(49, 'E005', 'WG11214', 3.5, 6, 1.265, '2023-11-07 17:41:52'),
+(50, 'E009', 'WG11214', 4.25, 3.5, 0.66, '2023-11-07 17:41:52'),
+(51, 'E008', 'WG11215', 3.14, 2.5, 0.5, '2023-11-07 17:41:52'),
+(52, 'E001', 'WG11215', 3.14259, 5.6, 1.5, '2023-11-07 17:41:52'),
+(53, 'E001', 'WG11216', 2.556, 1.6, 0.2, '2023-11-07 17:41:52'),
+(54, 'E001', 'WG11216', 6, 6.2, 3, '2023-11-07 17:41:52'),
+(55, 'E001', 'WG11101', 0, 0.25, -50, '2023-11-07 17:41:52'),
+(56, 'E001', 'WG11101', 0, 0, 0, '2023-11-07 17:41:52');
 
 -- --------------------------------------------------------
 
@@ -163,7 +188,6 @@ INSERT INTO `employee` (`employee_ID`, `employee_Fname`, `employee_Lname`, `role
 --
 
 CREATE TABLE `route` (
-  `route_ID` varchar(255) NOT NULL,
   `to_ID_gate` varchar(255) NOT NULL,
   `from_ID_gate` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -172,41 +196,40 @@ CREATE TABLE `route` (
 -- Dumping data for table `route`
 --
 
-INSERT INTO `route` (`route_ID`, `to_ID_gate`, `from_ID_gate`) VALUES
-('RT01', 'WG11101', 'WG11104'),
-('RT02', 'WG11105', 'WG11104'),
-('RT03', 'WG11106', 'WG11104'),
-('RT04', 'WG11107', 'WG11104'),
-('RT05', 'WG11108', 'WG11104'),
-('RT06', 'WG11109', 'WG11104'),
-('RT08', 'WG11202', 'WG11105'),
-('RT09', 'WG11209', 'WG11106'),
-('RT10', 'WG11210', 'WG11107'),
-('RT11', 'WG11211', 'WG11108'),
-('RT12', 'WG11212', 'WG11109'),
-('RT13', 'WG11103', 'WG11106'),
-('RT14', 'WG11103', 'WG11107'),
-('RT15', 'WG11103', 'WG11108'),
-('RT16', 'WG11103', 'WG11109'),
-('RT17', 'WG11202', 'WG11106'),
-('RT18', 'WG11202', 'WG11107'),
-('RT19', 'WG11202', 'WG11108'),
-('RT20', 'WG11202', 'WG11109'),
-('RT21', 'WG11208', 'WG11202'),
-('RT22', 'WG11205', 'WG11105'),
-('RT23', 'WG11213', 'WG11103'),
-('RT24', 'WG11214', 'WG11103'),
-('RT25', 'WG11215', 'WG11103'),
-('RT26', 'WG11216', 'WG11103'),
-('RT27', 'WG11213', 'WG11205'),
-('RT28', 'WG11214', 'WG11205'),
-('RT29', 'WG11215', 'WG11205'),
-('RT30', 'WG11216', 'WG11205'),
-('RT31', 'WG11206', 'WG11205'),
-('RT32', 'WG11207', 'WG11205'),
-('RT33', 'WG11103', 'WG11102'),
-('RT34', 'WG11203', 'WG11103'),
-('RT35', 'WG11104', 'WG11105');
+INSERT INTO `route` (`to_ID_gate`, `from_ID_gate`) VALUES
+('WG11101', 'WG11104'),
+('WG11103', 'WG11102'),
+('WG11103', 'WG11106'),
+('WG11103', 'WG11107'),
+('WG11103', 'WG11108'),
+('WG11103', 'WG11109'),
+('WG11105', 'WG11104'),
+('WG11106', 'WG11104'),
+('WG11107', 'WG11104'),
+('WG11108', 'WG11104'),
+('WG11109', 'WG11104'),
+('WG11202', 'WG11105'),
+('WG11202', 'WG11106'),
+('WG11202', 'WG11107'),
+('WG11202', 'WG11108'),
+('WG11202', 'WG11109'),
+('WG11203', 'WG11103'),
+('WG11205', 'WG11105'),
+('WG11206', 'WG11205'),
+('WG11207', 'WG11205'),
+('WG11208', 'WG11202'),
+('WG11209', 'WG11106'),
+('WG11210', 'WG11107'),
+('WG11211', 'WG11108'),
+('WG11212', 'WG11109'),
+('WG11213', 'WG11103'),
+('WG11213', 'WG11205'),
+('WG11214', 'WG11103'),
+('WG11214', 'WG11205'),
+('WG11215', 'WG11103'),
+('WG11215', 'WG11205'),
+('WG11216', 'WG11103'),
+('WG11216', 'WG11205');
 
 -- --------------------------------------------------------
 
@@ -216,6 +239,7 @@ INSERT INTO `route` (`route_ID`, `to_ID_gate`, `from_ID_gate`) VALUES
 
 CREATE TABLE `watergate` (
   `watergate_ID` varchar(255) NOT NULL,
+  `gate_name` varchar(255) NOT NULL,
   `gate_status` int(1) NOT NULL DEFAULT '0',
   `water_source_name` varchar(255) DEFAULT NULL,
   `criterion` float DEFAULT NULL
@@ -225,104 +249,57 @@ CREATE TABLE `watergate` (
 -- Dumping data for table `watergate`
 --
 
-INSERT INTO `watergate` (`watergate_ID`, `gate_status`, `water_source_name`, `criterion`) VALUES
-('WG11101', 0, 'แม่น้ำเจ้าพระยา', 3.2),
-('WG11102', 1, 'คลองระพีพัฒน์แยกใต', 3.2),
-('WG11103', 1, 'คลองรังสิตประยูรศักดิ์', 2.18),
-('WG11104', 1, 'คลองระพีพัฒน์แยกตก', 3.2),
-('WG11105', 0, 'คลอง1', 2.2),
-('WG11106', 0, 'คลอง6', 2.6),
-('WG11107', 0, 'คลอง8', 2.8),
-('WG11108', 0, 'คลอง9', 2.8),
-('WG11109', 0, 'คลอง10', 3.2),
-('WG11202', 0, 'คลองรังสิตประยูรศักด', 1.3),
-('WG11203', 0, 'ปตร.สน.สมบูรณ์', 1.5),
-('WG11204', 0, 'คลองหกวาสายล่าง', 1.3),
-('WG11205', 0, 'คลอง13', 1.3),
-('WG11206', 0, 'คลองบึงฝรั่ง', 1.3),
-('WG11207', 0, 'คลอง13', 1.3),
-('WG11208', 0, 'คลองเปรมประชากร', 1.7),
-('WG11209', 0, 'คลอง6', 1.3),
-('WG11210', 0, 'คลอง8', 1.3),
-('WG11211', 0, 'คลอง9', 1.3),
-('WG11212', 0, 'คลอง10', 1.3),
-('WG11213', 0, 'คลอง14', 1.3),
-('WG11214', 0, 'คลอง15', 1.3),
-('WG11215', 0, 'คลอง16', 1.3),
-('WG11216', 0, 'คลอง17', 1.3);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `watergate_name`
---
-
-CREATE TABLE `watergate_name` (
-  `watergate_name_ID` varchar(255) NOT NULL,
-  `gate_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `watergate_name`
---
-
-INSERT INTO `watergate_name` (`watergate_name_ID`, `gate_name`) VALUES
-('WG11101', 'ปตร.เชียงรากน้อย'),
-('WG11102', 'ปตร.พระธรรม (เดิม+ใหม่)'),
-('WG11103', 'ไซฟ่อนพระธรรมราชา'),
-('WG11104', 'ปตร.พระอินทราชา'),
-('WG11105', 'ปตร.กลางคลอง 1'),
-('WG11106', 'ปตร.ปลายคลอง 6'),
-('WG11107', 'ปตร.ปลายคลอง 8'),
-('WG11108', 'ปตร.ปลายคลอง 9'),
-('WG11109', 'ปตร.ปลายคลอง 10'),
-('WG11202', 'ปตร.สน.จุฬาลงกรณ์'),
-('WG11203', 'ปตร.สน.เสาวภาผ่องศรี'),
-('WG11204', 'ปตร.สน.สมบูรณ์'),
-('WG11205', 'ปตร.หกวา'),
-('WG11206', 'ปตร.บึงฝรั่ง'),
-('WG11207', 'ปตร.ปลายคลอง 13'),
-('WG11208', 'ปตร.เปรมใต้'),
-('WG11209', 'ปตร.ปลายคลอง 6'),
-('WG11210', 'ปตร.กลางคลอง 8'),
-('WG11211', 'ปตร.กลางคลอง 9'),
-('WG11212', 'ปตร.กลางคลอง 10'),
-('WG11213', 'ปตร.ปลายคลอง 14'),
-('WG11214', 'ปตร.ปลายคลอง 15'),
-('WG11215', 'ปตร.ปลายคลอง 16'),
-('WG11216', 'ปตร.ปลายคลอง 17');
+INSERT INTO `watergate` (`watergate_ID`, `gate_name`, `gate_status`, `water_source_name`, `criterion`) VALUES
+('WG11101', 'ปตร.เชียงรากน้อย', 0, 'แม่น้ำเจ้าพระยา', 3.2),
+('WG11102', 'ปตร.พระธรรม (เดิม+ใหม่)', 1, 'คลองระพีพัฒน์แยกใต', 3.2),
+('WG11103', 'ไซฟ่อนพระธรรมราชา', 1, 'คลองรังสิตประยูรศักดิ์', 2.18),
+('WG11104', 'ปตร.พระอินทราชา', 0, 'คลองระพีพัฒน์แยกตก', 3.2),
+('WG11105', 'ปตร.กลางคลอง 1', 1, 'คลอง1', 2.2),
+('WG11106', 'ปตร.ปลายคลอง 6', 2, 'คลอง6', 2.6),
+('WG11107', 'ปตร.ปลายคลอง 8', 2, 'คลอง8', 2.8),
+('WG11108', 'ปตร.ปลายคลอง 9', 1, 'คลอง9', 2.8),
+('WG11109', 'ปตร.ปลายคลอง 10', 0, 'คลอง10', 3.2),
+('WG11202', 'ปตร.สน.จุฬาลงกรณ์', 1, 'คลองรังสิตประยูรศักด', 1.3),
+('WG11203', 'ปตร.สน.เสาวภาผ่องศรี', 1, 'ปตร.สน.สมบูรณ์', 1.5),
+('WG11204', 'ปตร.สน.สมบูรณ์', 1, 'คลองหกวาสายล่าง', 1.3),
+('WG11205', 'ปตร.หกวา', 1, 'คลอง13', 1.3),
+('WG11206', 'ปตร.บึงฝรั่ง', 0, 'คลองบึงฝรั่ง', 1.3),
+('WG11207', 'ปตร.ปลายคลอง 13', 1, 'คลอง13', 1.3),
+('WG11208', 'ปตร.เปรมใต้', 1, 'คลองเปรมประชากร', 1.7),
+('WG11209', 'ปตร.ปลายคลอง 6', 1, 'คลอง6', 1.3),
+('WG11210', 'ปตร.กลางคลอง 8', 2, 'คลอง8', 1.3),
+('WG11211', 'ปตร.กลางคลอง 9', 1, 'คลอง9', 1.3),
+('WG11212', 'ปตร.กลางคลอง 10', 1, 'คลอง10', 1.3),
+('WG11213', 'ปตร.ปลายคลอง 14', 0, 'คลอง14', 1.3),
+('WG11214', 'ปตร.ปลายคลอง 15', 1, 'คลอง15', 1.3),
+('WG11215', 'ปตร.ปลายคลอง 16', 1, 'คลอง16', 1.3),
+('WG11216', 'ปตร.ปลายคลอง 17', 1, 'คลอง17', 1.3);
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `assign_time`
+--
+ALTER TABLE `assign_time`
+  ADD PRIMARY KEY (`command_ID`,`employee_ID`),
+  ADD KEY `assign_time_ibfk_2` (`employee_ID`);
+
+--
 -- Indexes for table `commands_log`
 --
 ALTER TABLE `commands_log`
-  ADD PRIMARY KEY (`command_ID`,`watergate_com_ID`),
-  ADD KEY `commands_log_ibfk_1` (`employee_com_ID`),
-  ADD KEY `commands_log_ibfk_2` (`watergate_com_ID`);
-
---
--- Indexes for table `commands_log_time`
---
-ALTER TABLE `commands_log_time`
-  ADD PRIMARY KEY (`command_time_ID`);
+  ADD PRIMARY KEY (`command_ID`,`watergate_ID`),
+  ADD KEY `commands_log_ibfk_2` (`watergate_ID`);
 
 --
 -- Indexes for table `daily_report`
 --
 ALTER TABLE `daily_report`
   ADD PRIMARY KEY (`report_ID`),
-  ADD KEY `daily_report_ibfk_1` (`employee_report_ID`),
-  ADD KEY `daily_report_ibfk_2` (`watergate_report_ID`);
-
---
--- Indexes for table `daily_report_time`
---
-ALTER TABLE `daily_report_time`
-  ADD PRIMARY KEY (`report_time_ID`);
+  ADD KEY `daily_report_ibfk_1` (`employee_ID`),
+  ADD KEY `daily_report_ibfk_2` (`watergate_ID`);
 
 --
 -- Indexes for table `employee`
@@ -334,7 +311,7 @@ ALTER TABLE `employee`
 -- Indexes for table `route`
 --
 ALTER TABLE `route`
-  ADD PRIMARY KEY (`route_ID`),
+  ADD PRIMARY KEY (`to_ID_gate`,`from_ID_gate`),
   ADD KEY `route_ibfk_1` (`to_ID_gate`),
   ADD KEY `from_ID_gate` (`from_ID_gate`);
 
@@ -345,12 +322,6 @@ ALTER TABLE `watergate`
   ADD PRIMARY KEY (`watergate_ID`);
 
 --
--- Indexes for table `watergate_name`
---
-ALTER TABLE `watergate_name`
-  ADD PRIMARY KEY (`watergate_name_ID`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -358,37 +329,31 @@ ALTER TABLE `watergate_name`
 -- AUTO_INCREMENT for table `daily_report`
 --
 ALTER TABLE `daily_report`
-  MODIFY `report_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `report_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Constraints for table `assign_time`
+--
+ALTER TABLE `assign_time`
+  ADD CONSTRAINT `assign_time_ibfk_1` FOREIGN KEY (`command_ID`) REFERENCES `commands_log` (`command_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `assign_time_ibfk_2` FOREIGN KEY (`employee_ID`) REFERENCES `employee` (`employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `commands_log`
 --
 ALTER TABLE `commands_log`
-  ADD CONSTRAINT `commands_log_ibfk_1` FOREIGN KEY (`employee_com_ID`) REFERENCES `employee` (`employee_ID`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `commands_log_ibfk_2` FOREIGN KEY (`watergate_com_ID`) REFERENCES `watergate` (`watergate_ID`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `commands_log_time`
---
-ALTER TABLE `commands_log_time`
-  ADD CONSTRAINT `commands_log_time_ibfk_1` FOREIGN KEY (`command_time_ID`) REFERENCES `commands_log` (`command_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `commands_log_ibfk_2` FOREIGN KEY (`watergate_ID`) REFERENCES `watergate` (`watergate_ID`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `daily_report`
 --
 ALTER TABLE `daily_report`
-  ADD CONSTRAINT `daily_report_ibfk_1` FOREIGN KEY (`employee_report_ID`) REFERENCES `employee` (`employee_ID`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `daily_report_ibfk_2` FOREIGN KEY (`watergate_report_ID`) REFERENCES `watergate` (`watergate_ID`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `daily_report_time`
---
-ALTER TABLE `daily_report_time`
-  ADD CONSTRAINT `daily_report_time_ibfk_1` FOREIGN KEY (`report_time_ID`) REFERENCES `daily_report` (`report_ID`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `daily_report_ibfk_1` FOREIGN KEY (`employee_ID`) REFERENCES `employee` (`employee_ID`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `daily_report_ibfk_2` FOREIGN KEY (`watergate_ID`) REFERENCES `watergate` (`watergate_ID`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `route`
@@ -396,12 +361,6 @@ ALTER TABLE `daily_report_time`
 ALTER TABLE `route`
   ADD CONSTRAINT `route_ibfk_1` FOREIGN KEY (`to_ID_gate`) REFERENCES `watergate` (`watergate_ID`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `route_ibfk_2` FOREIGN KEY (`from_ID_gate`) REFERENCES `watergate` (`watergate_ID`);
-
---
--- Constraints for table `watergate_name`
---
-ALTER TABLE `watergate_name`
-  ADD CONSTRAINT `watergate_name_ibfk_1` FOREIGN KEY (`watergate_name_ID`) REFERENCES `watergate` (`watergate_ID`) ON DELETE NO ACTION ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
