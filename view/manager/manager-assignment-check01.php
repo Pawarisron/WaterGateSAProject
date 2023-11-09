@@ -19,23 +19,24 @@
 
     //get parameter
     $command_ID = $_GET['command_ID'];
-    $watergate_com_ID = $_GET['watergate_com_ID'];
+    $watergate_ID = $_GET['watergate_ID'];
 
-    $sql = "SELECT command_ID, gate_name, gate_status, command_time, open_time, close_time, amount, note
-    FROM commands_log
-    JOIN commands_log_time ON command_ID = command_time_ID
-    JOIN watergate ON watergate_com_ID = watergate_ID
-    JOIN watergate_name ON watergate_com_ID = watergate_name_ID
-    Where command_ID = :command_ID AND watergate_com_ID = :watergate_com_ID";
+    $sql = "SELECT * 
+    FROM commands_log 
+    JOIN assign_time
+    ON assign_time.command_ID = commands_log.command_ID
+    INNER JOIN watergate
+    ON commands_log.watergate_ID = watergate.watergate_ID
+    WHERE commands_log.command_ID = :command_ID AND commands_log.watergate_ID = :watergate_ID;";
 
     //get data from DB
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(":command_ID", $command_ID);
-    $stmt->bindParam(":watergate_com_ID", $watergate_com_ID);
+    $stmt->bindParam(":watergate_ID", $watergate_ID);
     
     $stmt->execute();
     $result = $stmt->fetch();
-?>
+// ?>
 
 
 <!DOCTYPE html>
@@ -132,7 +133,7 @@
         <form id="deleteForm" action="manager-assignment-check02.php">
 
           <input type="hidden" name="command_ID" value= <?php echo $command_ID?>> 
-          <input type="hidden" name="watergate_com_ID" value= <?php echo $watergate_com_ID?>>
+          <input type="hidden" name="watergate_com_ID" value= <?php echo $watergate_ID?>>
 
           <button class="btn-primary" style="font-size: 16px; margin-right: 20px;" >Delete</button>
         </form>

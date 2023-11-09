@@ -8,35 +8,16 @@
     function updateGateStatus($conn) {
         
         $sql = "
-SELECT
-    w.watergate_ID,
-    w.criterion,
-    w.gate_status,  -- Added a comma here
-    dr.upstream,
-    lt.latest_timestamp
-FROM
-    watergate AS w
-LEFT JOIN (
-    SELECT
-        dr.watergate_report_ID,
-        MAX(drt.report_date) AS latest_timestamp
-    FROM
-        daily_report AS dr
-    INNER JOIN
-        daily_report_time AS drt
-    ON
-        dr.report_ID = drt.report_time_ID
-    GROUP BY
-        dr.watergate_report_ID
-) AS lt
-ON
-    w.watergate_ID = lt.watergate_report_ID
-LEFT JOIN
-    daily_report AS dr
-ON
-    lt.watergate_report_ID = dr.watergate_report_ID
-    AND lt.latest_timestamp = (SELECT MAX(report_date) FROM daily_report_time WHERE report_time_ID = dr.report_ID);    
-";
+        SELECT w.*, r.*
+        FROM watergate w
+        INNER JOIN (
+            SELECT watergate_ID, MAX(report_time) AS max_report_time
+            FROM daily_report
+            GROUP BY watergate_ID
+        ) latest_reports
+        ON w.watergate_ID = latest_reports.watergate_ID
+        JOIN daily_report r
+        ON latest_reports.watergate_ID = r.watergate_ID AND latest_reports.max_report_time = r.report_time;";
 
     
         $stmt = $conn->prepare($sql);

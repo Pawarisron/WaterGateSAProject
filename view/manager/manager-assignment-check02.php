@@ -14,31 +14,18 @@
 
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    require_once '../../controller/updateTable.php';
-    updateGateStatus($conn);
+    // require_once '../../controller/updateTable.php';
+    // updateGateStatus($conn);
 
     
 
   
     $command_ID = $_GET["command_ID"];
-    $watergate_com_ID = $_GET["watergate_com_ID"];
+    $watergate_ID = $_GET["watergate_ID"];
 
 
 
-    // $sql = "SELECT command_ID, gate_name, gate_status, command_time, open_time, close_time, amount, note
-    // FROM commands_log
-    // JOIN commands_log_time ON command_ID = command_time_ID
-    // JOIN watergate ON watergate_com_ID = watergate_ID
-    // JOIN watergate_name ON watergate_com_ID = watergate_name_ID
-    // Where command_ID = :command_ID AND watergate_com_ID = :watergate_com_ID";
-
-    // //get data from DB
-    // $stmt = $conn->prepare($sql);
-    // $stmt->bindParam(":command_ID", $command_ID);
-    // $stmt->bindParam(":watergate_com_ID", $watergate_com_ID);
     
-    // $stmt->execute();
-    // $result = $stmt->fetch();
 ?>
 
 
@@ -114,11 +101,11 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
             
             // ทำการลบข้อมูลหรือกระทำที่เกี่ยวข้องที่นี่
-            $dSql = "DELETE FROM commands_log Where command_ID = :command_ID AND watergate_com_ID = :watergate_com_ID";
+            $dSql = "DELETE FROM commands_log Where command_ID = :command_ID AND watergate_ID = :watergate_ID";
             
               $stmt = $conn->prepare($dSql);
               $stmt->bindParam(":command_ID", $command_ID);
-              $stmt->bindParam(":watergate_com_ID", $watergate_com_ID);
+              $stmt->bindParam(":watergate_ID", $watergate_ID);
               $stmt->execute();
             
             header("location: manager-assignment-check.php");

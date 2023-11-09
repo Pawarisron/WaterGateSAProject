@@ -17,8 +17,7 @@
     require_once '../../controller/updateTable.php';
     updateGateStatus($conn);
 
-    $sql = "SELECT command_ID, command_time, watergate_com_ID, amount FROM commands_log
-    JOIN commands_log_time ON command_ID = command_time_ID ;";
+    $sql = "SELECT * FROM commands_log JOIN assign_time ON commands_log.command_ID = assign_time.command_ID;";
 
 
     $stmt = $conn->prepare($sql);
@@ -91,9 +90,9 @@
                     echo '<tr>';
                     echo '<td>' . $row['command_ID'] .        '</td>';
                     echo '<td>' . $row['command_time'] .      '</td>';
-                    echo '<td>' . $row['watergate_com_ID'] .  '</td>';
+                    echo '<td>' . $row['watergate_ID'] .  '</td>';
                     echo '<td>' . $row['amount'] .            '</td>';         
-                    echo "<td><a href=manager-assignment-check01.php?command_ID=".$row["command_ID"]."&watergate_com_ID=".$row["watergate_com_ID"].">รายละเอียดคำสั่ง</a></td>";
+                    echo "<td><a href=manager-assignment-check01.php?command_ID=".$row["command_ID"]."&watergate_ID=".$row["watergate_ID"].">รายละเอียดคำสั่ง</a></td>";
                     echo '</tr>';
                 }
                 ?>      

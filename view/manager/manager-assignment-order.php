@@ -14,24 +14,19 @@
     
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    require_once '../../controller/updateTable.php';
-    updateGateStatus($conn);
+    // require_once '../../controller/updateTable.php';
+    // updateGateStatus($conn);
 
-    $sql = "SELECT wg.*, wn.gate_name, dr.upstream, dr.downstream, dr.flow_rate
-    FROM watergate wg
-    JOIN watergate_name wn ON wg.watergate_ID = wn.watergate_name_ID
-    JOIN (
-        SELECT dr1.watergate_report_ID, MAX(drt.report_date) AS max_report_date
-        FROM daily_report dr1
-        JOIN daily_report_time drt ON dr1.report_ID = drt.report_time_ID
-        WHERE dr1.watergate_report_ID IN (
-            SELECT watergate_ID FROM watergate WHERE gate_status = 1
-        )
-        GROUP BY dr1.watergate_report_ID
-    ) recent_dr ON wg.watergate_ID = recent_dr.watergate_report_ID
-    JOIN daily_report dr ON recent_dr.watergate_report_ID = dr.watergate_report_ID
-    JOIN daily_report_time drt ON dr.report_ID = drt.report_time_ID AND drt.report_date = recent_dr.max_report_date
-    WHERE wg.gate_status = 1;";
+    $sql = "SELECT w.*, r.*
+    FROM watergate w
+    INNER JOIN (
+        SELECT watergate_ID, MAX(report_time) AS max_report_time
+        FROM daily_report
+        GROUP BY watergate_ID
+    ) latest_reports
+    ON w.watergate_ID = latest_reports.watergate_ID
+    JOIN daily_report r
+    ON latest_reports.watergate_ID = r.watergate_ID AND latest_reports.max_report_time = r.report_time WHERE w.gate_status = 1;";
     
     
     

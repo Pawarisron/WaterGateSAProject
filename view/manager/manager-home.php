@@ -13,8 +13,8 @@
     }
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    require_once '../../controller/updateTable.php';
-    updateGateStatus($conn);
+    // require_once '../../controller/updateTable.php';
+    // updateGateStatus($conn);
 
     $sql = "
     SELECT w.*, r.*
@@ -101,7 +101,7 @@
             <?php
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     echo '<tr>';
-                    echo '<td>' . $row['watergate_report_ID'] . '</td>';
+                    echo '<td>' . $row['watergate_ID'] . '</td>';
                     echo '<td>' . $row['gate_name'] . '</td>';
                     $gateStatus = $row['gate_status'];
                     $statusLabel = '';
@@ -122,7 +122,7 @@
                             $statusLabel = "ปกติ";
                     }
                     echo '<td>' . $statusLabel . '</td>';
-                    echo '<td>' . $row['report_date'] . '</td>';
+                    echo '<td>' . $row['report_time'] . '</td>';
                     echo '<td>' . $row['flow_rate'] . '</td>';
                     echo '<td>' . $row['upstream'] . '</td>';
                     echo '<td>' . $row['downstream'] . '</td>';
