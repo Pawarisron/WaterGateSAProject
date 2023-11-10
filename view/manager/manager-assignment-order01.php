@@ -227,11 +227,11 @@
         
             if (watergate.watergate_ID === '' || waterQuantity === '' || inputNote === '') {
                 alert('Please fill in all fields');
-                return; // Do not proceed if any of the fields are empty
+                return; 
             }
         
             var dataTable = document.getElementById('dataTable');
-            //var secondDataTable = document.getElementById('secondDataTable');
+            
 
             var newRow = dataTable.insertRow(dataTable.rows.length);
             var cell1 = newRow.insertCell(0);
@@ -244,51 +244,7 @@
             cell3.innerHTML = inputNote;
             
             
-            var newRow2 = secondDataTable.insertRow(secondDataTable.rows.length);
-            var cell_1 = newRow2.insertCell(0);
-            var cell_2 = newRow2.insertCell(1);
-            var cell_3 = newRow2.insertCell(2);
-        
-            // สร้าง XMLHttpRequest object
-
-            var xhr = new XMLHttpRequest();
-            
-            xhr.open("GET", `load_SecondDataTable_options.php?watergate_ID=${watergate.watergate_ID}`, true);
-            console.log(watergate.watergate_ID + ' แรก');
-            var tempo2 = watergate.watergate_ID;
-            xhr.onreadystatechange = function () {
-              if (xhr.readyState == 4 && xhr.status == 200) {
-                  console.log(tempo2 + ' สอง');
-                  // console.log(xhr.responseText);
-                  if (xhr.responseText  ) {
-                          response = JSON.parse(xhr.responseText);
-                          cell_1.innerHTML = tempo2;
-                          cell_2.innerHTML = response.gate_name;
-                          cell_3.innerHTML = "ระดับน้ำคงเหลือ " + response.upstream + " - " + waterQuantity + " = " + (response.upstream - waterQuantity);
-                          console.log(watergate.watergate_ID);
-                          console.log(response.gate_name);
-                          console.log(response.upstream);
-                          
-                      } else {
-                          cell_2.innerHTML = "_";
-                          cell_2.innerHTML = "_";
-                          cell_3.innerHTML = "_";
-                      }
-              };
-            }
-            xhr.send();
-            console.log(watergate.watergate_ID + ' สาม');
-
-            
-
-      
-            
-        
-
-            // console.log("watergate_ID: " + watergate_ID);
-            // console.log("timestamp: " + timestamp);
-            // console.log("waterQuantity: " + waterQuantity);
-            // console.log("inputNote: " + inputNote);
+          
 
 
             watergate.watergate_ID = tempo;
@@ -299,11 +255,71 @@
             document.getElementById('waterQuantity').value = '';
             document.getElementById('inputNote').value = '';
             updateWgNameDropdown(watergate.watergate_ID);
-            //  console.log(watergate.watergate_ID);
+            loadSecondDataTable();
+            console.log("เสร็จสิ้น" + watergate.watergate_ID);
         } else {
             console.error("wgNameSelect is not defined or doesn't exist.");
         }
         
+
+    }
+    function loadSecondDataTable() {  
+            
+            console.log(watergate.watergate_ID);
+
+            var xhr = new XMLHttpRequest();
+            
+            xhr.open("GET", `load_SecondDataTable_options.php?watergate_ID=${watergate.watergate_ID}`, true);
+            //console.log(watergate.watergate_ID + ' นอกบน');
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState == 4 && xhr.status == 200) {
+                  //console.log(watergate.watergate_ID + ' ใน');
+                  const options = JSON.parse(xhr.responseText);
+                  console.log(options);
+
+
+                  var secondDataTable = document.getElementById('secondDataTable');
+                  while (secondDataTable.hasChildNodes()) {
+                        secondDataTable.removeChild(secondDataTable.firstChild);
+                  }
+
+
+                  if(options.length == 0){
+                    
+                      var row = secondDataTable.insertRow(0);
+                      var cell1 = row.insertCell(0);
+                      cell1.innerHTML = '<div style="text-align: center; font-weight: bold;">ไม่สามารถปล่อยประตูน้ำไปไหนได้อีกแล้ว</div>';
+                    
+                  }
+                  else{
+                    console.log("something");         
+                    for (var i = 0; i <= options.length; i++) { 
+                      var row = secondDataTable.insertRow(i);
+                      var cell1 = row.insertCell(0);
+                      var cell2 = row.insertCell(1);
+                      var cell3 = row.insertCell(2);
+
+                      if (i === 0) {
+                          cell1.innerHTML = '<div style="text-align: center; font-weight: bold;">ID</div>';
+                          cell2.innerHTML = '<div style="text-align: center; font-weight: bold;">ชื่อประตู</div>';
+                          cell3.innerHTML = '<div style="text-align: center; font-weight: bold;">ปริมาณน้ำที่สามารถรองรับได้</div>';
+                      } else {
+                          cell1.innerHTML = '<div style="text-align: center;">' + options[i - 1].watergate_ID + '</div>';
+                          cell2.innerHTML = '<div style="text-align: center;">' + options[i - 1].gate_name + '</div>';
+                          cell3.innerHTML = '<div style="text-align: center;">' + (options[i - 1].upstream - options[i - 1].criterion).toFixed(3) + '</div>';
+                      }
+                    }   
+                  }
+                  
+                  
+
+
+                  
+              };
+            }
+            xhr.send();
+            //console.log(watergate.watergate_ID + ' นอกล่าง');
+
 
     }
  
@@ -323,10 +339,9 @@
         cell3.innerHTML = '';
         
         
-        updateWgNameDropdown(watergate_ID);
+        updateWgNameDropdown(watergate.watergate_ID);
         dataTable = document.getElementById('dataTable');
-        //
-        // สร้างอาร์เรย์เพื่อเก็บข้อมูลที่คุณต้องการส่ง
+
         var dataToSend = [];
         
         for (var i = 0; i < dataRows.length; i++) {  // เริ่มต้นที่ 1 เพื่อข้ามแถวหัวตาราง
@@ -359,9 +374,13 @@
 
 
     }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     // เพื่อโหลดข้อมูลใน Dropdown เมื่อหน้าเว็บโหลด
     document.addEventListener("DOMContentLoaded", function () {
         updateWgNameDropdown(<?php echo json_encode($watergate_ID); ?>);
+        loadSecondDataTable();
       })
 
 
@@ -373,7 +392,7 @@
       function updateWgNameDropdown(watergateID) {
         const wgNameSelect = document.getElementById('wgName');
 
-        // สร้าง XMLHttpRequest เพื่ออัปเดต dropdown
+
         const xhr = new XMLHttpRequest();
         xhr.open("GET", `load_watergate_options.php?watergate_ID=${watergateID}`, true);
 
@@ -381,10 +400,10 @@
           if (xhr.status === 200) {
             const options = JSON.parse(xhr.responseText);
 
-            // เคลียร์ตัวเลือกเดิม
+            
             wgNameSelect.innerHTML = '';
 
-            // เพิ่มตัวเลือกใหม่
+            
             for (const option of options) {
               const optionElement = document.createElement("option");
               optionElement.value = option.value;
