@@ -123,30 +123,39 @@
         
       </form>
       <script>
-        function validateForm() {
-            var flow_rate = document.getElementById('inputWaterFlow').value;
-            var upstream = document.getElementById('inputUpstream').value;
-            var downstream = document.getElementById('inputDownstream').value;
+       function validateForm() {
+          var flow_rate = document.getElementById('inputWaterFlow').value;
+          var upstream = document.getElementById('inputUpstream').value;
+          var downstream = document.getElementById('inputDownstream').value;
+          var timestamp = document.getElementById('timestamp').value;
 
-            var errorMessage = '';
+          var errorMessage = '';
 
-            if (flow_rate < 0) {
-                errorMessage += "อัตราการไหลน้ำไม่สามารถมีค่าน้อยกว่า 0\n\n";
-            }
-            if (upstream < 0) {
-                errorMessage += "ค่าเหนือน้ำไม่สามารถมีค่าน้อยกว่า 0\n\n";
-            }
-            if (downstream < 0) {
-                errorMessage += "ค่าท้ายน้ำไม่สามารถมีค่าน้อยกว่า 0\n\n";
-            }
+          if (flow_rate < 0) {
+              errorMessage += "อัตราการไหลน้ำไม่สามารถมีค่าน้อยกว่า 0\n\n";
+          }
+          if (upstream < 0) {
+              errorMessage += "ค่าเหนือน้ำไม่สามารถมีค่าน้อยกว่า 0\n\n";
+          }
+          if (downstream < 0) {
+              errorMessage += "ค่าท้ายน้ำไม่สามารถมีค่าน้อยกว่า 0\n\n";
+          }
 
-            if (errorMessage !== '') {
-                alert(errorMessage);
-                return false;
-            }
-            return true; 
-        }
-        </script>
+          var selectedDate = new Date(timestamp);
+          var currentDate = new Date();
+
+          if (selectedDate > currentDate) {
+              errorMessage += "กรุณาเลือกวันที่จากวันปัจจุบันหรือวันที่ผ่านมา\n\n";
+          }
+
+          if (errorMessage !== '') {
+              alert(errorMessage);
+              return false;
+          }
+          return true; 
+      }
+
+      </script>
 
 
     </div>
