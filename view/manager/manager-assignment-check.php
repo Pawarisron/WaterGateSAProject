@@ -17,11 +17,11 @@
     require_once '../../controller/updateTable.php';
     updateGateStatus($conn);
 
-    $sql = "SELECT * FROM commands_log JOIN assign_time ON commands_log.command_ID = assign_time.command_ID;";
+    // $sql = "SELECT * FROM commands_log JOIN assign_time ON commands_log.command_ID = assign_time.command_ID;";
 
 
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
+    // $stmt = $conn->prepare($sql);
+    // $stmt->execute();
 ?>
 
 
