@@ -161,14 +161,23 @@
             <div class="panel-body">
               <!--ฝากเติมตรง action ด้วยต้าฟ-->
               
+               <div class="col-lg-12 col-md-12 form-group">
+                    <label for="fromWgName">ประตูปล่อยน้ำ</label>
+                    <select id="fromWgName" class="form-control" onchange="updateToWgNameOptions(this.value)">
+                        <!-- Options go here -->
+                    </select>
+                </div>
+
                 <div class="col-lg-12 col-md-12 form-group">
-                  <label for="wgName">ชื่อประตู</label>
-                  <select id="wgName" class="form-control" >
+                  <label for="toWgName">ประตูรับน้ำ</label>
+                  <select id="toWgName" class="form control" >
 
 
 
                   </select>
                 </div>
+
+                
                 
                 <div class="col-lg-12 col-md-12 form-group">
                   <label for="waterQuantity">ปริมาณน้ำระบายออก</label>
@@ -216,60 +225,101 @@
         this._watergate_ID = newID;
     }
     };
-    // console.log(watergate.watergate_ID);
+
+    const fromWgNameOptions = [];
+    const toWgNameOptions = [];
+
+    
     function addData() {
-        var wgNameSelect = document.getElementById('wgName');
-        var tempo = wgNameSelect.options[wgNameSelect.selectedIndex].value;
-        
-        if (wgNameSelect) {
-            var waterQuantity = document.getElementById('waterQuantity').value;
-            var inputNote = document.getElementById('inputNote').value;
-        
-            if (watergate.watergate_ID === '' || waterQuantity === '' || inputNote === '') {
-                alert('Please fill in all fields');
-                return; 
-            }
-        
-            var dataTable = document.getElementById('dataTable');
+        // var fromWgNameSelect = document.getElementById('fromWgName');
+        // var tempo = fromWgNameSelect.options[fromWgNameSelect.selectedIndex].value;
+        var fromWgNameSelect = document.getElementById('fromWgName');
+        var toWgNameSelect = document.getElementById('toWgName');
+        var waterQuantity = document.getElementById('waterQuantity').value;
+        var inputNote = document.getElementById('inputNote').value;
+
+        if (fromWgNameSelect.options[fromWgNameSelect.selectedIndex].value === '' || toWgNameSelect.options[toWgNameSelect.selectedIndex].value === '' || waterQuantity === '' || inputNote === '') {
+          alert('Please fill in all fields');
+          return; 
+        }
+        var dataTable = document.getElementById('dataTable');
             
 
-            var newRow = dataTable.insertRow(dataTable.rows.length);
-            var cell1 = newRow.insertCell(0);
-            var cell2 = newRow.insertCell(1);
-            var cell3 = newRow.insertCell(2);
+        var newRow = dataTable.insertRow(dataTable.rows.length);
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+        var cell3 = newRow.insertCell(2);
+        var cell4 = newRow.insertCell(3);
             
 
-            cell1.innerHTML = watergate.watergate_ID;
-            cell2.innerHTML = waterQuantity;
-            cell3.innerHTML = inputNote;
+        cell1.innerHTML = fromWgNameSelect.options[fromWgNameSelect.selectedIndex].value;
+        cell2.innerHTML = toWgNameSelect.options[toWgNameSelect.selectedIndex].value;
+        cell3.innerHTML = waterQuantity;
+        cell4.innerHTML = inputNote;
+
+
+        document.getElementById('fromWgName').value = '';
+        document.getElementById('waterQuantity').value = '';
+        document.getElementById('inputNote').value = '';
+
+
+        toWgNameOptions.push(toWgNameSelect.options[toWgNameSelect.selectedIndex].value);
+
+        loadSecondDataTable();
+
+
+
+        // if (fromWgNameSelect & toWgNameSelect) {
+        //     var waterQuantity = document.getElementById('waterQuantity').value;
+        //     var inputNote = document.getElementById('inputNote').value;
+        
+        //     if (watergate.watergate_ID === '' || waterQuantity === '' || inputNote === '') {
+        //         alert('Please fill in all fields');
+        //         return; 
+        //     }
+        
+        //     var dataTable = document.getElementById('dataTable');
+            
+
+        //     var newRow = dataTable.insertRow(dataTable.rows.length);
+        //     var cell1 = newRow.insertCell(0);
+        //     var cell2 = newRow.insertCell(1);
+        //     var cell3 = newRow.insertCell(2);
+            
+
+        //     cell1.innerHTML = watergate.watergate_ID;
+        //     cell2.innerHTML = waterQuantity;
+        //     cell3.innerHTML = inputNote;
             
             
           
 
 
-            watergate.watergate_ID = tempo;
+        //     watergate.watergate_ID = tempo;
             
 
 
-            document.getElementById('wgName').value = '';
-            document.getElementById('waterQuantity').value = '';
-            document.getElementById('inputNote').value = '';
-            updateWgNameDropdown(watergate.watergate_ID);
-            loadSecondDataTable();
-            console.log("เสร็จสิ้น" + watergate.watergate_ID);
-        } else {
-            console.error("wgNameSelect is not defined or doesn't exist.");
-        }
+        //     document.getElementById('fromWgName').value = '';
+        //     document.getElementById('waterQuantity').value = '';
+        //     document.getElementById('inputNote').value = '';
+        //     updateToWgNameOptions(watergate.watergate_ID);
+        //     loadSecondDataTable();
+        //     console.log("เสร็จสิ้น" + watergate.watergate_ID);
+        // } else {
+        //     console.error("fromWgNameSelect is not defined or doesn't exist.");
+        // }
         
 
     }
     function loadSecondDataTable() {  
             
-            console.log(watergate.watergate_ID);
+            var fromWgNameSelect = document.getElementById('fromWgName');
+            var selectedValue = fromWgNameSelect.value;
+            console.log('loadSecondDataTable ทำงานกับ ID: ' + selectedValue);
 
             var xhr = new XMLHttpRequest();
             
-            xhr.open("GET", `load_SecondDataTable_options.php?watergate_ID=${watergate.watergate_ID}`, true);
+            xhr.open("GET", `load_SecondDataTable_options.php?watergate_ID=${selectedValue}`, true);
             //console.log(watergate.watergate_ID + ' นอกบน');
             xhr.onreadystatechange = function () {
               if (xhr.readyState == 4 && xhr.status == 200) {
@@ -339,7 +389,7 @@
         cell3.innerHTML = '';
         
         
-        updateWgNameDropdown(watergate.watergate_ID);
+        updateToWgNameOptions(watergate.watergate_ID);
         dataTable = document.getElementById('dataTable');
 
         var dataToSend = [];
@@ -379,8 +429,12 @@
 
     // เพื่อโหลดข้อมูลใน Dropdown เมื่อหน้าเว็บโหลด
     document.addEventListener("DOMContentLoaded", function () {
-        updateWgNameDropdown(<?php echo json_encode($watergate_ID); ?>);
+        fromWgNameOptions.push(<?php echo json_encode($watergate_ID); ?>);
+        
+        loadFromWgNameOptions();
         loadSecondDataTable();
+        console.log(fromWgNameOptions);
+        updateToWgNameOptions(<?php echo json_encode($watergate_ID); ?>);
       })
 
 
@@ -389,31 +443,53 @@
       
       
 
-      function updateWgNameDropdown(watergateID) {
-        const wgNameSelect = document.getElementById('wgName');
+      function updateToWgNameOptions(selectedValue) {
+        const toWgNameSelect = document.getElementById('toWgName');
 
-
+        
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", `load_watergate_options.php?watergate_ID=${watergateID}`, true);
+        xhr.open("GET", `load_watergate_options.php?watergate_ID=${selectedValue}`, true);
 
         xhr.onload = function () {
           if (xhr.status === 200) {
             const options = JSON.parse(xhr.responseText);
 
             
-            wgNameSelect.innerHTML = '';
+            toWgNameSelect.innerHTML = '';
+            
 
             
             for (const option of options) {
-              const optionElement = document.createElement("option");
-              optionElement.value = option.value;
-              optionElement.textContent = option.text;
-              wgNameSelect.appendChild(optionElement);
+                if (!toWgNameOptions.some(existingOption => existingOption.value === option.value)) {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = option.value;
+                    optionElement.textContent = option.text;
+                    toWgNameSelect.appendChild(optionElement);
+                }
             }
+            
           }
         };
 
         xhr.send();
+        console.log(toWgNameOptions);
+        console.log(fromWgNameOptions);
+
+      }
+
+      function loadFromWgNameOptions() {
+        var fromWgNameSelect = document.getElementById('fromWgName');
+
+        // Clear existing options in the dropdown
+        fromWgNameSelect.innerHTML = '';
+
+        // Loop through fromWgNameOptions and create options
+        for (var i = 0; i < fromWgNameOptions.length; i++) {
+            var option = document.createElement("option");
+            option.value = fromWgNameOptions[i];
+            option.textContent = fromWgNameOptions[i];
+            fromWgNameSelect.appendChild(option);
+        }
       }
 
       function showDataTable() {
