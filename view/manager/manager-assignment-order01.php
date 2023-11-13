@@ -112,6 +112,9 @@
             </tbody>
           </table>
         </div>
+        <div class="form-group" style="margin: 15px;">
+          <button type="button" class="btn-primary" style="font-size: 16px;" onClick="window.location.reload();">Clear</button>
+        </div>
       </div>
 
       <div class="templatemo-flex-row flex-content-row">

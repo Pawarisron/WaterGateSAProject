@@ -92,16 +92,24 @@
           <table class="table">
             <tbody style="text-align: left; padding-left: 40px;">
               <tr>
-                <td><b>ID</b></td>
-                <td><?php echo $result['command_ID']; ?></td>
+                <td><b>Command ID</b></td>
+                <td><?php echo $result['cmd_ID']; ?></td>
               </tr>
               <tr>
-                <td><b>ชื่อประตู</b></td>
+                <td><b>Command order</b></td>
+                <td><?php echo $result['cmd_order']; ?></td>
+              </tr>
+              <tr>
+                <td><b>ชื่อประตูปล่อยน้ำ</b></td>
+                <td><?php echo $result['gate_name']; ?></td>
+              </tr>
+              <tr>
+                <td><b>ชื่อประตูรับน้ำ</b></td>
                 <td><?php echo $result['gate_name']; ?></td>
               </tr>
               <tr>
                 <td><b>สถานะ</b></td>
-                <td><?php echo $result['gate_status'] == 0 ? "ปกติ" : "วิกฤติ"; ?></td>
+                <td><?php echo $result['cmd_status'] == 0 ? "อยู่ระหว่างการดำเนินการ" : "ดำเนินการแล้ว"; ?></td>
               </tr>
               <tr>
                 <td><b>วันที่ออกคำสั่ง</b></td>

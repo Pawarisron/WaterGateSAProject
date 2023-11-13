@@ -80,7 +80,7 @@
         <h2>ยืนยันการลบ</h2>
         <div class="table-responsive" style="padding: 20px;">
           <table class="table">
-            <tbody style="text-align: left; padding-left: 40px;">
+            <tbody style="text-align: center; padding-left: 40px;">
               <tr>
                 <td><b>คุณต้องการจะบันทึกของคำสั่งนี้หรือไม่ลบหรือไม่</b></td>
               </tr>
@@ -92,32 +92,29 @@
         </div>
         
 
-        <div class="form-group" style="text-align: right; padding-top: 20px;">
+        <div class="form-group" style="text-align: center; padding-top: 20px;">
         
-        <form method="post" >
-          <button name='confirmButton' type="delete" class="btn-primary" style="font-size: 16px; margin-right: 20px;">Delete Command</button>
-        </form>
-        <?php  
-        if ($_SERVER["REQUEST_METHOD"] == "POST"){
-            
-            // ทำการลบข้อมูลหรือกระทำที่เกี่ยวข้องที่นี่
-            $dSql = "DELETE FROM commands_log Where command_ID = :command_ID AND watergate_ID = :watergate_ID";
-            
-              $stmt = $conn->prepare($dSql);
-              $stmt->bindParam(":command_ID", $command_ID);
-              $stmt->bindParam(":watergate_ID", $watergate_ID);
-              $stmt->execute();
-            
-            header("location: manager-assignment-check.php");
-          }
-        
-        ?>
-        <form action="manager-assignment-check.php">
-          <button name='confirmButton' type="delete" class="btn-primary" style="font-size: 16px; margin-right: 20px; margin-top: 20px;">Cancel</button>
-        </form>
-        </div>
-        <div class="form-group" style="text-align: left; padding-top: 20px;">
+          <form method="post" >
+            <button name='confirmButton' type="delete" class="btn-primary" style="font-size: 16px; margin-right: 20px;">Confirm</button>
+          </form>
+          <?php  
+          if ($_SERVER["REQUEST_METHOD"] == "POST"){
+              
+              // ทำการลบข้อมูลหรือกระทำที่เกี่ยวข้องที่นี่
+              $dSql = "DELETE FROM commands_log Where command_ID = :command_ID AND watergate_ID = :watergate_ID";
+              
+                $stmt = $conn->prepare($dSql);
+                $stmt->bindParam(":command_ID", $command_ID);
+                $stmt->bindParam(":watergate_ID", $watergate_ID);
+                $stmt->execute();
+              
+              header("location: manager-assignment-check.php");
+            }
           
+          ?>
+          <form action="manager-assignment-check.php">
+            <button name='confirmButton' type="delete" class="btn-primary" style="font-size: 16px; margin-right: 20px; margin-top: 20px;">Cancel</button>
+          </form>
         </div>
       </div>
     </div>

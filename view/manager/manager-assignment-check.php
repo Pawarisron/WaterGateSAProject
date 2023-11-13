@@ -79,14 +79,13 @@
               <tr>
                 <td>ID</td>
                 <td>วันที่</td>
-                <td>ประตูน้ำ</td>
-                <td>ปริมาณน้ำระบายออก</td>
-                <td>คำสั่ง</td>
+                <td>ผู้ออกคำสั่ง</td>
+                <td>การจัดการ</td>
               </tr>
             </thead>
             <tbody>
             <?php
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                /*while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     echo '<tr>';
                     echo '<td>' . $row['command_ID'] .        '</td>';
                     echo '<td>' . $row['command_time'] .      '</td>';
@@ -94,7 +93,7 @@
                     echo '<td>' . $row['amount'] .            '</td>';         
                     echo "<td><a href=manager-assignment-check01.php?command_ID=".$row["command_ID"]."&watergate_ID=".$row["watergate_ID"].">รายละเอียดคำสั่ง</a></td>";
                     echo '</tr>';
-                }
+                }*/
                 ?>      
             </tbody>
           </table>    
