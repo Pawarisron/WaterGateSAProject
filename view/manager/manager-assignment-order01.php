@@ -270,11 +270,14 @@
             
             var fromWgNameSelect = document.getElementById('fromWgName');
             var selectedValue = fromWgNameSelect.value;
-            console.log('loadSecondDataTable ทำงานกับ ID: ' + selectedValue);
+            var additionalVariable = watergate.watergate_ID;
+            console.log('loadSecondDataTable ทำงานกับ ID: ' + selectedValue + ' และมี original ID เป็น: '  + additionalVariable);
 
             var xhr = new XMLHttpRequest();
             
-            xhr.open("GET", `load_SecondDataTable_options.php?watergate_ID=${selectedValue}`, true);
+            var url = `load_SecondDataTable_options.php?watergate_ID=${selectedValue}&additional_variable=${additionalVariable}`;
+
+            xhr.open("GET", url, true);
             //console.log(watergate.watergate_ID + ' นอกบน');
             xhr.onreadystatechange = function () {
               if (xhr.readyState == 4 && xhr.status == 200) {
@@ -297,22 +300,31 @@
                     
                   }
                   else{
+                    var headerRow = secondDataTable.insertRow(0);
+                    var headerCell1 = headerRow.insertCell(0);
+                    var headerCell2 = headerRow.insertCell(1);
+                    var headerCell3 = headerRow.insertCell(2);
+
+                    headerCell1.innerHTML = '<div style="text-align: center; font-weight: bold;">ID</div>';
+                    headerCell2.innerHTML = '<div style="text-align: center; font-weight: bold;">ชื่อประตู</div>';
+                    headerCell3.innerHTML = '<div style="text-align: center; font-weight: bold;">ปริมาณน้ำที่สามารถรองรับได้</div>';
                           
-                    for (var i = 0; i <= options.length; i++) { 
-                      var row = secondDataTable.insertRow(i);
+                    for (var i = 0; i < options.length; i++) { 
+                      var row = secondDataTable.insertRow(i+1);
                       var cell1 = row.insertCell(0);
                       var cell2 = row.insertCell(1);
                       var cell3 = row.insertCell(2);
-
-                      if (i === 0) {
-                          cell1.innerHTML = '<div style="text-align: center; font-weight: bold;">ID</div>';
-                          cell2.innerHTML = '<div style="text-align: center; font-weight: bold;">ชื่อประตู</div>';
-                          cell3.innerHTML = '<div style="text-align: center; font-weight: bold;">ปริมาณน้ำที่สามารถรองรับได้</div>';
-                      } else {
-                          cell1.innerHTML = '<div style="text-align: center;">' + options[i - 1].watergate_ID + '</div>';
-                          cell2.innerHTML = '<div style="text-align: center;">' + options[i - 1].gate_name + '</div>';
-                          cell3.innerHTML = '<div style="text-align: center;">' + (options[i - 1].upstream - options[i - 1].criterion).toFixed(3) + '</div>';
+                      if(i == 0){
+                        cell1.innerHTML = '<div style="text-align: center; color: red;">' + options[i].watergate_ID + '</div>';
+                        cell2.innerHTML = '<div style="text-align: center; color: red;">' + options[i].gate_name + '</div>';
+                        cell3.innerHTML = '<div style="text-align: center; color: red;">' + (options[i].criterion - options[i].upstream).toFixed(3) + '</div>';
                       }
+                      else{
+                        cell1.innerHTML = '<div style="text-align: center;">' + options[i].watergate_ID + '</div>';
+                        cell2.innerHTML = '<div style="text-align: center;">' + options[i].gate_name + '</div>';
+                        cell3.innerHTML = '<div style="text-align: center;">' + (options[i].criterion - options[i].upstream).toFixed(3) + '</div>';
+                      }
+                      
                     }   
                   }
                   
