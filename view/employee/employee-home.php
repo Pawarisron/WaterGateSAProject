@@ -82,54 +82,24 @@
           </nav>
         </div>
       </div>
-      <div class="water-gate-report" style="text-align: center; margin: 20px;">
-        <h2 style="margin: 20px;">รายงานบันทึกระดับน้ำทั้งหมด</h2>
-        <div class="panel panel-default table-responsive">
-          <table class="table table-striped table-bordered templatemo-user-table" style="text-align: center;">
-            <thead>
-              <tr>
-                <td>ID</td>
-                <td>ชื่อประตูระบายน้ำ</td>
-                <td>สถานะปัจจุบัน</td>
-                <td>วันที่บันทึกผลล่าสุด</td>
-                <td>อัตราการไหล (ลบ.ม./วินาที)</td>
-                <td>ระดับน้ำเหนือน้ำ (ม.รทก.)</td>
-                <td>ระดับน้ำท้ายน้ำ (ม.รทก.)</td>
-              </tr>
-            </thead>
-            <tbody>
-            <?php
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                    echo '<tr>';
-                    echo '<td>' . $row['watergate_ID'] . '</td>';
-                    echo '<td>' . $row['gate_name'] . '</td>';
-                    $gateStatus = $row['gate_status'];
-                    $statusLabel = '';
-                    switch ($gateStatus) {
-                        case 0:
-                            $statusLabel = "ปกติ";
-                            break;
-                        case 1:
-                            $statusLabel = "วิกฤติ";
-                            break;
-                        case 2:
-                            $statusLabel = "กำลังแก้ไข";
-                            break;
-                        default:
-                            $statusLabel = "ปกติ";
-                    }
-                    echo '<td>' . $statusLabel . '</td>';
-
-
-                    echo '<td>' . $row['report_time'] . '</td>';
-                    echo '<td>' . $row['flow_rate'] . '</td>';
-                    echo '<td>' . $row['upstream'] . '</td>';
-                    echo '<td>' . $row['downstream'] . '</td>';
-                    echo '</tr>';
-                }
-                ?>              
-            </tbody>
-          </table>    
+      <div class="homepage" style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+        <div class="templatemo-flex-row flex-content-row">
+          <div class="col-1">
+            <a href="employee-wg-reporter.php">
+              <div class="panel panel-default margin-10" style="text-align: center; margin: 20px; width: 500px; padding: 40px;">
+                <img src="../image/reporter2.png" width="170" height="170" style="padding-top:20px;">
+                <h2 style="padding-top:50px;">บันทึกระดับน้ำประจำวัน</h2>
+              </div>
+            </a>
+          </div>
+          <div class="col-1">
+            <a href="employee-wg-assignment.php">
+              <div class="panel panel-default margin-10" style="text-align: center; margin: 20px; width: 500px;  padding: 40px;">
+                <img src="../image/assignment2.png" width="200" height="200">
+                <h2 style="padding-top: 20px;">ตรวจสอบการสั่งงาน</h2>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
