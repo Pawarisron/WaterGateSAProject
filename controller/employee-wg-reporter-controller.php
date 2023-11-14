@@ -18,7 +18,11 @@ if (isset($_POST['submitReport'])) {
         $check_existing_report_statement->execute();
 
         if ($check_existing_report_statement->rowCount() > 0) {
-            throw new Exception("A report for the selected watergate and timestamp already exists.");
+            echo '<script type="text/javascript">';
+            echo 'alert("A report for the selected watergate and timestamp already exists.");';
+            echo 'window.location.href = "../view/employee/employee-wg-reporter.php";';
+            echo '</script>';
+            exit; // Stop further execution
         } else {
             $message = "INSERT INTO daily_report(employee_ID, watergate_ID, upstream, downstream, flow_rate, report_time) 
                         VALUES (:employee_ID, :watergate_ID, :upstream, :downstream, :flow_rate, :report_time)";
