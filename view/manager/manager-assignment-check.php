@@ -17,11 +17,13 @@
     require_once '../../controller/updateTable.php';
     updateGateStatus($conn);
 
-    // $sql = "SELECT * FROM commands_log JOIN assign_time ON commands_log.command_ID = assign_time.command_ID;";
+    $sql = "SELECT *, employee.employee_Fname, employee.employee_Lname
+    FROM `assign_time`
+    JOIN employee ON assign_time.manager_ID = employee.employee_ID;";
 
 
-    // $stmt = $conn->prepare($sql);
-    // $stmt->execute();
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
 ?>
 
 
@@ -79,21 +81,20 @@
               <tr>
                 <td>ID</td>
                 <td>วันที่</td>
-                <td>ผู้ออกคำสั่ง</td>
+                <td>ชื่อผู้ออกคำสั่ง</td>
                 <td>การจัดการ</td>
               </tr>
             </thead>
             <tbody>
             <?php
-                /*while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     echo '<tr>';
-                    echo '<td>' . $row['command_ID'] .        '</td>';
-                    echo '<td>' . $row['command_time'] .      '</td>';
-                    echo '<td>' . $row['watergate_ID'] .  '</td>';
-                    echo '<td>' . $row['amount'] .            '</td>';         
-                    echo "<td><a href=manager-assignment-check01.php?command_ID=".$row["command_ID"]."&watergate_ID=".$row["watergate_ID"].">รายละเอียดคำสั่ง</a></td>";
+                    echo '<td>' . $row['cmd_ID'] .        '</td>';
+                    echo '<td>' . $row['cmd_time'] .      '</td>';
+                    echo '<td>' . $row['employee_Fname'] ." ". $row['employee_Lname'].     '</td>';        
+                    echo "<td><a href=manager-assignment-check01.php?cmd_ID=".$row["cmd_ID"].">รายละเอียดคำสั่ง</a></td>";
                     echo '</tr>';
-                }*/
+                }
                 ?>      
             </tbody>
           </table>    

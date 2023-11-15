@@ -11,7 +11,7 @@
         echo 'ERROR';
         header('location: login.php');
     } 
-    $command_ID = $_GET['command_ID'];
+    $cmd_ID = $_GET['cmd_ID'];
     $watergate_ID = $_GET['watergate_ID'];
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -19,21 +19,21 @@
     // updateGateStatus($conn);
 
 
-    $sql = "SELECT c.*, w.*, att.*
+    $sql = "SELECT c.*, w.*, att.*, cr.amount
     FROM commands_log as c
-    JOIN watergate as w
-    ON c.watergate_ID = w.watergate_ID
+    JOIN cmd_route AS cr ON c.cmd_ID = cr.cmd_ID AND c.cmd_order = cr.cmd_order
+    JOIN watergate AS w ON cr.from_ID_gate = w.watergate_ID
     JOIN assign_time as att
-    ON c.command_ID = att.command_ID
+    ON c.cmd_ID = att.cmd_ID
     WHERE
-        c.command_ID = :command_ID AND c.watergate_ID = :watergate_ID
-        AND att.command_ID = :command_ID;
+        c.cmd_ID = :cmd_ID AND w.watergate_ID = :watergate_ID
+        AND att.cmd_ID = :cmd_ID;
       ";
 
     
 
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':command_ID', $command_ID, PDO::PARAM_STR);
+    $stmt->bindParam(':cmd_ID', $cmd_ID, PDO::PARAM_STR);
     $stmt->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
     $stmt->execute();
 
@@ -101,7 +101,7 @@
             <tbody style="text-align: left; padding-left: 40px;">
               <tr>
                 <td><b>ID</b></td>
-                <td><?php echo $result['command_ID']; ?></td>
+                <td><?php echo $result['cmd_ID']; ?></td>
               </tr>
               <tr>
                 <td><b>ชื่อประตู</b></td>
@@ -131,7 +131,7 @@
               </tr>
               <tr>
                 <td><b>วันที่ออกคำสั่ง</b></td>
-                <td><?php echo $result['command_time']; ?></td>
+                <td><?php echo $result['cmd_time']; ?></td>
               </tr>
               <tr>
                 <td><b>วันเวลาเปิด</b></td>
@@ -188,7 +188,7 @@
                   <label for="closeTimestamp">วันเวลาปิด</label>
                   <input name='closeTimestamp' type="datetime-local" class="form-control" id="closeTimestamp" placeholder="" required>
               </div>
-              <input type="hidden" name="command_ID" value="<?php echo $command_ID; ?>">
+              <input type="hidden" name="cmd_ID" value="<?php echo $cmd_ID; ?>">
               <input type="hidden" name="watergate_ID" value="<?php echo $watergate_ID; ?>">
               <div class="form-group" style="text-align: right; padding-top: 20px;">
                   <button name='submitAssignment' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>

@@ -131,14 +131,17 @@
 
           var errorMessage = '';
 
-          if (flow_rate < 0) {
+          if (flow_rate <= 0) {
               errorMessage += "อัตราการไหลน้ำไม่สามารถมีค่าน้อยกว่า 0\n\n";
           }
-          if (upstream < 0) {
-              errorMessage += "ค่าเหนือน้ำไม่สามารถมีค่าน้อยกว่า 0\n\n";
+          if(flow_rate > 200){
+              errorMessage += "โปรดตรวจสอบอัตราการไหลอีกครั้ง\n\n";
           }
-          if (downstream < 0) {
-              errorMessage += "ค่าท้ายน้ำไม่สามารถมีค่าน้อยกว่า 0\n\n";
+          if (Math.abs(upstream) > 10) {
+              errorMessage += "โปรดตรวจสอบระดับน้ำเหนือน้ำอีกครั้ง\n\n";
+          }
+          if (Math.abs(downstream) > 10) {
+              errorMessage += "โปรดตรวจสอบระดับน้ำท้ายน้ำอีกครั้ง\n\n";
           }
 
           var selectedDate = new Date(timestamp);

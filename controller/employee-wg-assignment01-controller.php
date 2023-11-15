@@ -8,7 +8,7 @@
 
         $open_time = $_POST['openTimestamp'];
         $close_time = $_POST['closeTimestamp'];
-        $command_ID = $_POST['command_ID'];
+        $command_ID = $_POST['cmd_ID'];
 
         $watergate_ID = $_POST['watergate_ID'];
 
@@ -18,16 +18,16 @@
 
                 $message = "UPDATE commands_log
                             SET open_time = :open_time, close_time = :close_time
-                            WHERE command_ID = :command_ID; AND watergate_ID = :watergate_ID;";
+                            WHERE cmd_ID = :cmd_ID; AND watergate_ID = :watergate_ID;";
 
             $data = $conn->prepare($message);
-            $data->bindParam(':command_ID', $command_ID);
+            $data->bindParam(':cmd_ID', $cmd_ID);
             $data->bindParam(':watergate_ID', $watergate_ID);
             $data->bindParam(':close_time', $close_time);
             $data->bindParam(':open_time', $open_time);
             $data->execute();
 
-            header("location: ../view/employee/employee-wg-assignment01.php?command_ID=$command_ID&watergate_ID=$watergate_ID");
+            header("location: ../view/employee/employee-wg-assignment01.php?cmd_ID=$cmd_ID&watergate_ID=$watergate_ID");
                 
         }
         catch(PDOException $e){

@@ -311,7 +311,7 @@
                       } else {
                           cell1.innerHTML = '<div style="text-align: center;">' + options[i - 1].watergate_ID + '</div>';
                           cell2.innerHTML = '<div style="text-align: center;">' + options[i - 1].gate_name + '</div>';
-                          cell3.innerHTML = '<div style="text-align: center;">' + (options[i - 1].upstream - options[i - 1].criterion).toFixed(3) + '</div>';
+                          cell3.innerHTML = '<div style="text-align: center;">' + (options[i - 1].criterion - options[i - 1].upstream).toFixed(3) + '</div>';
                       }
                     }   
                   }

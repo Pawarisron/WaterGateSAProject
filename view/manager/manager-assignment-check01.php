@@ -18,21 +18,19 @@
     updateGateStatus($conn);
 
     //get parameter
-    $command_ID = $_GET['command_ID'];
-    $watergate_ID = $_GET['watergate_ID'];
+    $cmd_ID = $_GET['cmd_ID'];
 
-    $sql = "SELECT * 
-    FROM commands_log 
-    JOIN assign_time
-    ON assign_time.command_ID = commands_log.command_ID
-    INNER JOIN watergate
-    ON commands_log.watergate_ID = watergate.watergate_ID
-    WHERE commands_log.command_ID = :command_ID AND commands_log.watergate_ID = :watergate_ID;";
+    $sql = "SELECT cl.*, cr.amount, assi.cmd_time, f.gate_name as out_gate, t.gate_name as in_gate
+    FROM commands_log AS cl
+    JOIN cmd_route AS cr ON cl.cmd_ID = cr.cmd_ID AND cl.cmd_order = cr.cmd_order
+    JOIN watergate AS f ON cr.from_ID_gate = f.watergate_ID 
+    JOIN watergate AS t ON cr.to_ID_gate = t.watergate_ID
+    JOIN assign_time AS assi ON cl.cmd_ID = assi.cmd_ID
+    WHERE cl.cmd_ID = :cmd_ID";
 
     //get data from DB
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(":command_ID", $command_ID);
-    $stmt->bindParam(":watergate_ID", $watergate_ID);
+    $stmt->bindParam(":cmd_ID", $cmd_ID);
     
     $stmt->execute();
     $result = $stmt->fetch();
@@ -101,11 +99,11 @@
               </tr>
               <tr>
                 <td><b>ชื่อประตูปล่อยน้ำ</b></td>
-                <td><?php echo $result['gate_name']; ?></td>
+                <td><?php echo $result['out_gate']; ?></td>
               </tr>
               <tr>
                 <td><b>ชื่อประตูรับน้ำ</b></td>
-                <td><?php echo $result['gate_name']; ?></td>
+                <td><?php echo $result['in_gate']; ?></td>
               </tr>
               <tr>
                 <td><b>สถานะ</b></td>
@@ -113,7 +111,7 @@
               </tr>
               <tr>
                 <td><b>วันที่ออกคำสั่ง</b></td>
-                <td><?php echo $result['command_time']; ?></td>
+                <td><?php echo $result['cmd_time']; ?></td>
               </tr>
               <tr>
                 <td><b>วันเวลาเปิด</b></td>
@@ -140,8 +138,7 @@
         
         <form id="deleteForm" action="manager-assignment-check02.php">
 
-          <input type="hidden" name="command_ID" value= <?php echo $command_ID?>> 
-          <input type="hidden" name="watergate_com_ID" value= <?php echo $watergate_ID?>>
+          <input type="hidden" name="cmd_ID" value= <?php echo $cmd_ID?>> 
 
           <button class="btn-primary" style="font-size: 16px; margin-right: 20px;" >Delete</button>
         </form>
