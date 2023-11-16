@@ -17,11 +17,13 @@
     // require_once '../../controller/updateTable.php';
     // updateGateStatus($conn);
 
-    $sql = "SELECT assi.cmd_ID, cmd_time, watergate.watergate_ID, watergate.gate_name, commands_log.cmd_status, commands_log.cmd_order
+    $sql = "SELECT assi.cmd_ID, cmd_time, watergate.watergate_ID, watergate.gate_name, c.cmd_order
     FROM assign_time AS assi
     JOIN cmd_route ON assi.cmd_ID = cmd_route.cmd_ID
-    JOIN commands_log ON cmd_route.cmd_ID = commands_log.cmd_ID AND cmd_route.cmd_order = commands_log.cmd_order
-    JOIN watergate ON cmd_route.from_ID_gate = watergate.watergate_ID ";
+    JOIN commands_log AS c ON cmd_route.cmd_ID = c.cmd_ID AND cmd_route.cmd_order = c.cmd_order
+    JOIN watergate ON cmd_route.from_ID_gate = watergate.watergate_ID 
+    WHERE c.cmd_status = 0
+    ORDER BY cmd_ID;";
 
     
     $stmt = $conn->prepare($sql);

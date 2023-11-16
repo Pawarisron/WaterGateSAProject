@@ -39,7 +39,7 @@
             $update_gate_status_statement->bindParam(':gate_status', $gate_status, PDO::PARAM_INT);
             $update_gate_status_statement->execute();
 
-            header("location: ../view/employee/employee-wg-assignment01.php?cmd_ID=$current_cmd_ID&watergate_ID=$watergate_ID&cmd_order=$cmd_order");
+            header("location: ../view/employee/employee-wg-assignment.php?");
                 
         }
         catch(PDOException $e){
