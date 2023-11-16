@@ -20,7 +20,7 @@
     
 
   
-    $command_ID = $_GET["command_ID"];
+    $cmd_ID = $_GET["cmd_ID"];
     $watergate_ID = $_GET["watergate_ID"];
 
 
@@ -85,7 +85,7 @@
                 <td><b>คุณต้องการจะบันทึกของคำสั่งนี้หรือไม่ลบหรือไม่</b></td>
               </tr>
               <tr>
-                <!-- <td><b><?php echo $command_ID ?></b></td> -->
+                <!-- <td><b><?php echo $cmd_ID ?></b></td> -->
               </tr>
             </tbody>
           </table>
@@ -101,11 +101,10 @@
           if ($_SERVER["REQUEST_METHOD"] == "POST"){
               
               // ทำการลบข้อมูลหรือกระทำที่เกี่ยวข้องที่นี่
-              $dSql = "DELETE FROM commands_log Where command_ID = :command_ID AND watergate_ID = :watergate_ID";
+              $dSql = "DELETE FROM commands_log Where cmd_ID = :cmd_ID";
               
                 $stmt = $conn->prepare($dSql);
-                $stmt->bindParam(":command_ID", $command_ID);
-                $stmt->bindParam(":watergate_ID", $watergate_ID);
+                $stmt->bindParam(":cmd_ID", $cmd_ID);
                 $stmt->execute();
               
               header("location: manager-assignment-check.php");
