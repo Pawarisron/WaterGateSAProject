@@ -352,11 +352,11 @@ footer { padding: 15px; }
 	width: 20%;
 	height: 35px;
 	border-radius: 5px;
-	background-color: #A1C4E3;
+	background-color: #3c89cd;
 	border: none;	
 	color: white;	
 }
-.btn-primary:hover { background-color: #88ADCD; }
+.btn-primary:hover { background-color: #2f6ba0; }
 .templatemo-blue-button, 
 .templatemo-white-button {
 	border-radius: 2px;

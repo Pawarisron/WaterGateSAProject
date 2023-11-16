@@ -83,6 +83,13 @@
       </div>
       <div class="water-gate-report" style="text-align: center; margin: 20px;">
         <h2 style="margin: 20px;">รายงานบันทึกระดับน้ำทั้งหมด</h2>
+        <div class="form-group" style="display: flex; justify-content: center; align-items: center;">
+          <select id="WgName" class="form-control" style="width:50%">
+            <option>ประตูที่ 1</option>
+            <option>ประตูที่ 2</option>
+          </select>
+          <button name="selectWG" type="button" class="btn-primary" style="font-size: 16px; margin-left: 5%;">ตกลง</button>
+        </div>
         <div class="panel panel-default table-responsive">
           <table class="table table-striped table-bordered templatemo-user-table"  style="text-align: center;">
             <thead>
