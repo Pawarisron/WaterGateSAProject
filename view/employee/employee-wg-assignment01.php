@@ -11,32 +11,28 @@
         echo 'ERROR';
         header('location: login.php');
     } 
-    $cmd_ID = $_GET['cmd_ID'];
+    $current_cmd_ID = $_GET['cmd_ID'];
     $watergate_ID = $_GET['watergate_ID'];
+    $cmd_order = $_GET['cmd_order'];
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
     // require_once '../../controller/updateTable.php';
     // updateGateStatus($conn);
 
-
     $sql = "SELECT c.*, w.*, att.*, cr.amount
-    FROM commands_log as c
-    JOIN cmd_route AS cr ON c.cmd_ID = cr.cmd_ID AND c.cmd_order = cr.cmd_order
-    JOIN watergate AS w ON cr.from_ID_gate = w.watergate_ID
-    JOIN assign_time as att
-    ON c.cmd_ID = att.cmd_ID
+      FROM commands_log as c
+      JOIN cmd_route AS cr ON c.cmd_ID = cr.cmd_ID AND c.cmd_order = cr.cmd_order
+      JOIN watergate AS w ON cr.from_ID_gate = w.watergate_ID
+      JOIN assign_time AS att ON c.cmd_ID = att.cmd_ID
     WHERE
-        c.cmd_ID = :cmd_ID AND w.watergate_ID = :watergate_ID
-        AND att.cmd_ID = :cmd_ID;
-      ";
-
-    
+        c.cmd_ID = :current_cmd_ID AND w.watergate_ID = :watergate_ID AND c.cmd_order = :cmd_order";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':cmd_ID', $cmd_ID, PDO::PARAM_STR);
+    $stmt->bindParam(':current_cmd_ID', $current_cmd_ID, PDO::PARAM_STR);
     $stmt->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
+    $stmt->bindParam(':cmd_order', $cmd_order, PDO::PARAM_STR);
     $stmt->execute();
-
+    
     $result = $stmt->fetch();
    
     
@@ -188,8 +184,9 @@
                   <label for="closeTimestamp">วันเวลาปิด</label>
                   <input name='closeTimestamp' type="datetime-local" class="form-control" id="closeTimestamp" placeholder="" required>
               </div>
-              <input type="hidden" name="cmd_ID" value="<?php echo $cmd_ID; ?>">
+              <input type="hidden" name="current_cmd_ID" value="<?php echo $current_cmd_ID; ?>">
               <input type="hidden" name="watergate_ID" value="<?php echo $watergate_ID; ?>">
+              <input type="hidden" name="cmd_order" value="<?php echo $cmd_order; ?>">
               <div class="form-group" style="text-align: right; padding-top: 20px;">
                   <button name='submitAssignment' type="submit" class="btn-primary" style="font-size: 16px;">Submit</button>
               </div>

@@ -17,7 +17,7 @@
     // require_once '../../controller/updateTable.php';
     // updateGateStatus($conn);
 
-    $sql = "SELECT assi.cmd_ID, cmd_time, watergate.watergate_ID, watergate.gate_name, commands_log.cmd_status
+    $sql = "SELECT assi.cmd_ID, cmd_time, watergate.watergate_ID, watergate.gate_name, commands_log.cmd_status, commands_log.cmd_order
     FROM assign_time AS assi
     JOIN cmd_route ON assi.cmd_ID = cmd_route.cmd_ID
     JOIN commands_log ON cmd_route.cmd_ID = commands_log.cmd_ID AND cmd_route.cmd_order = commands_log.cmd_order
@@ -94,7 +94,7 @@
                     echo '<td>' . $row['cmd_ID'] . '</td>';
                     echo '<td>' . $row['cmd_time'] . '</td>';
                     echo '<td>' . $row['gate_name'] . '</td>';
-                    echo '<td><a href="employee-wg-assignment01.php?cmd_ID=' . $row['cmd_ID'] . '&watergate_ID=' . $row['watergate_ID'] . '">รายละเอียดคำสั่ง</a></td>';
+                    echo '<td><a href="employee-wg-assignment01.php?cmd_ID=' . $row['cmd_ID'] . '&watergate_ID=' . $row['watergate_ID'] .'&cmd_order=' . $row['cmd_order'] . '">รายละเอียดคำสั่ง</a></td>';
 
                 }
               ?>       
