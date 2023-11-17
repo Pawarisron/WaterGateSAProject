@@ -97,13 +97,13 @@
           <table class="table table-striped table-bordered templatemo-user-table"  style="text-align: center;">
             <thead>
               <tr>
-                <td>ID</td>
-                <td>ชื่อประตูระบายน้ำ</td>
-                <td>สถานะปัจจุบัน</td>
-                <td>วันที่บันทึกผลล่าสุด</td>
-                <td>อัตราการไหล (ลบ.ม./วินาที)</td>
-                <td>ระดับน้ำเหนือน้ำ (ม.รทก.)</td>
-                <td>ระดับน้ำท้ายน้ำ (ม.รทก.)</td>
+                <th data-column="id" data-order="desc">ID</th>
+                <th>ชื่อประตูระบายน้ำ</th>
+                <th data-column="status" data-order="desc" >สถานะปัจจุบัน</th>
+                <th data-column="date" data-order="desc">วันที่บันทึกผลล่าสุด</th>
+                <th data-column="flow_rate" data-order="desc">อัตราการไหล (ลบ.ม./วินาที)</th>
+                <th data-column="upstream" data-order="desc">ระดับน้ำเหนือน้ำ (ม.รทก.)</th>
+                <th data-column="downstream" data-order="desc">ระดับน้ำท้ายน้ำ (ม.รทก.)</th>
                 
               </tr>
             </thead>
@@ -116,10 +116,68 @@
     </div>
 
   </div>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
   <script>
     var tableData = <?php echo $jsonData; ?>; 
     //console.log(tableData);
+
+      $('th').on('click', function(){
+        var column = $(this).data('column')
+        var order = $(this).data('order')
+        // var tempoData = tableData;
+        console.log(order, " + ", column)
+        if(order == 'desc'){
+          $(this).data('order', "asc")
+        }
+        else{
+          $(this).data('order', "desc")
+        }
+        sortFunction(order, column, tableData);
+
+      })
+
+    function sortFunction(order, column , tempoData){
+
+      tempoData.sort(function(a, b) {
+        if (column === 'date') {
+          var dateA = new Date(a.report_time);
+          var dateB = new Date(b.report_time);
+          return order === 'desc' ? dateB - dateA : dateA - dateB;
+        } else if (column === 'status') {
+          var statusA = a.gate_status;
+          var statusB = b.gate_status;
+          return order === 'desc' ? statusB - statusA : statusA - statusB;
+        }
+        else if (column === 'flow_rate') {
+          var flow_rateA = a.flow_rate;
+          var flow_rateB = b.flow_rate;
+          return order === 'desc' ? flow_rateB - flow_rateA : flow_rateA - flow_rateB;
+        }
+        else if (column === 'upstream') {
+          var upstreamA = a.upstream;
+          var upstreamB = b.upstream;
+          return order === 'desc' ? upstreamB - upstreamA : upstreamA - upstreamB;
+        }
+        else if (column === 'downstream') {
+          var downstreamA = a.downstream;
+          var downstreamB = b.downstream;
+          return order === 'desc' ? downstreamB - downstreamA : downstreamA - downstreamB;
+        }
+        else if (column === 'id') {
+          var idA = a.watergate_ID;
+          var idB = b.watergate_ID;
+          return order === 'desc' ? idB.localeCompare(idA) : idA.localeCompare(idB);
+        }
+
+        return 0;
+      });
+
+
+      tableData = tempoData;
+      loadTable(tableData);
+    }
+
 
     function loadTable(data) {
         var tableBody = document.getElementById('tableBody');
