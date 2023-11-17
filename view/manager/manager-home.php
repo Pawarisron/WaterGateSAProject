@@ -31,6 +31,9 @@
 
     $stmt = $conn->prepare($sql);
     $stmt->execute();
+
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $jsonData = json_encode($rows);
     
 ?>
 
@@ -104,38 +107,8 @@
                 
               </tr>
             </thead>
-            <tbody>
-            <?php
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                    echo '<tr>';
-                    echo '<td>' . $row['watergate_ID'] . '</td>';
-                    echo '<td>' . $row['gate_name'] . '</td>';
-                    $gateStatus = $row['gate_status'];
-                    $statusLabel = '';
-                    switch ($gateStatus) {
-                        case 0:
-                            $statusLabel = "ปกติ";
-                            break;
-                        case 1:
-                            $statusLabel = "วิกฤติ";
-                            break;
-                        case 2:
-                            $statusLabel = "กำลังแก้ไข";
-                            break;
-                        case 3:
-                            $statusLabel = "รอตรวจสอบ";
-                            break;
-                        default:
-                            $statusLabel = "ปกติ";
-                    }
-                    echo '<td>' . $statusLabel . '</td>';
-                    echo '<td>' . $row['report_time'] . '</td>';
-                    echo '<td>' . $row['flow_rate'] . '</td>';
-                    echo '<td>' . $row['upstream'] . '</td>';
-                    echo '<td>' . $row['downstream'] . '</td>';
-                    echo '</tr>';
-                }
-                ?>
+            <tbody id="tableBody">
+           
             </tbody>
           </table>    
         </div>
@@ -143,8 +116,52 @@
     </div>
 
   </div>
-  
-  <script src="../../js/script.js"></script> 
+
+  <script>
+    var tableData = <?php echo $jsonData; ?>; 
+    //console.log(tableData);
+
+    function loadTable(data) {
+        var tableBody = document.getElementById('tableBody');
+
+        tableBody.innerHTML = '';
+
+        for (var i = 0; i < data.length; i++) {
+          var row = tableBody.insertRow(i);
+          var cell0 = row.insertCell(0);
+          var cell1 = row.insertCell(1);
+          var cell2 = row.insertCell(2);
+          var cell3 = row.insertCell(3);
+          var cell4 = row.insertCell(4);
+          var cell5 = row.insertCell(5);
+          var cell6 = row.insertCell(6);
+
+          cell0.innerHTML = data[i].watergate_ID;
+          cell1.innerHTML = data[i].gate_name;
+
+          if (data[i].gate_status == 0) {
+              cell2.innerHTML = "ปกติ";
+          } else if (data[i].gate_status == 1) {
+              cell2.innerHTML = "วิกฤติ";
+          } else if (data[i].gate_status == 2) {
+              cell2.innerHTML = "กำลังแก้ไข";
+          } else {
+              cell2.innerHTML = "Unknown Status";
+          }
+
+
+
+          cell3.innerHTML = data[i].report_time;
+          cell4.innerHTML = data[i].flow_rate;
+          cell5.innerHTML = data[i].upstream;
+          cell6.innerHTML = data[i].downstream;
+
+            
+        }
+    }
+    loadTable(tableData);
+
+  </script> 
 
 </body>
 </html>
