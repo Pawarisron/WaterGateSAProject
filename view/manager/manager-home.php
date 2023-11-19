@@ -100,7 +100,7 @@
                 <th data-column="id" data-order="desc">ID</th>
                 <th>ชื่อประตูระบายน้ำ</th>
                 <th data-column="status" data-order="desc" >สถานะปัจจุบัน</th>
-                <th data-column="date" data-order="desc">วันที่บันทึกผลล่าสุด</th>
+                <th data-column="date" data-order="desc">วันที่บันทึกผล</th>
                 <th data-column="flow_rate" data-order="desc">อัตราการไหล (ลบ.ม./วินาที)</th>
                 <th data-column="upstream" data-order="desc">ระดับน้ำเหนือน้ำ (ม.รทก.)</th>
                 <th data-column="downstream" data-order="desc">ระดับน้ำท้ายน้ำ (ม.รทก.)</th>

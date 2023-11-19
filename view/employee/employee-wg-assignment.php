@@ -83,7 +83,7 @@
             <thead>
               <tr>
                 <td>ID Command</td>
-                
+                <td>Command Order</td>
                 <td>วันที่</td>
                 <td>ประตูน้ำ</td>
                 <td>คำสั่ง</td>
@@ -94,6 +94,7 @@
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     echo '<tr>';
                     echo '<td>' . $row['cmd_ID'] . '</td>';
+                    echo '<td>' . $row['cmd_order'] . '</td>';
                     echo '<td>' . $row['cmd_time'] . '</td>';
                     echo '<td>' . $row['gate_name'] . '</td>';
                     echo '<td><a href="employee-wg-assignment01.php?cmd_ID=' . $row['cmd_ID'] . '&watergate_ID=' . $row['watergate_ID'] .'&cmd_order=' . $row['cmd_order'] . '">รายละเอียดคำสั่ง</a></td>';
