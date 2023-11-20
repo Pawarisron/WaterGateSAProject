@@ -31,9 +31,21 @@
 
     $stmt = $conn->prepare($sql);
     $stmt->execute();
-
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $jsonData = json_encode($rows);
+
+    ////////////////////////////////////////////////
+    $sql2 = "SELECT * FROM watergate";
+    $stmt2 = $conn->prepare($sql2);
+    $stmt2->execute();
+    $rows2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+    $watergateName = json_encode($rows2);
+    ////////////////////////////////////////////////
+    $sql3 = "SELECT * FROM daily_report r JOIN watergate w ON w.watergate_ID = r.watergate_ID";
+    $stmt3 = $conn->prepare($sql3);
+    $stmt3->execute();
+    $rows3 = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+    $everyReports = json_encode($rows3);
     
 ?>
 
@@ -88,10 +100,9 @@
         <h2 style="margin: 20px;">รายงานบันทึกระดับน้ำทั้งหมด</h2>
         <div class="form-group" style="display: flex; justify-content: center; align-items: center;">
           <select id="WgName" class="form-control" style="width:50%">
-            <option>ประตูที่ 1</option>
-            <option>ประตูที่ 2</option>
+
           </select>
-          <button name="selectWG" type="button" class="btn-primary" style="font-size: 16px; margin-left: 5%;">ตกลง</button>
+          <button name="selectWG" type="button" class="btn-primary" style="font-size: 16px; margin-left: 5%;" onclick="processSelectedValue()">ตกลง</button>
         </div>
         <div class="panel panel-default table-responsive">
           <table class="table table-striped table-bordered templatemo-user-table"  style="text-align: center;">
@@ -119,7 +130,10 @@
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
   <script>
-    var tableData = <?php echo $jsonData; ?>; 
+    var originalTable = <?php echo $jsonData; ?>; 
+    var tableData = originalTable.slice(); 
+    var watergateName = <?php echo $watergateName; ?>; 
+    var everyReports = <?php echo $everyReports; ?>; 
     //console.log(tableData);
 
       $('td').on('click', function(){
@@ -223,6 +237,38 @@
         }
     }
     loadTable(tableData);
+
+    function populateDropdown() {
+      wgDropdown = document.getElementById('WgName');
+      wgDropdown.innerHTML = '';
+      for (var i = 0; i < watergateName.length; i++) {
+          var gateName = watergateName[i].gate_name;
+          var watergate_ID = watergateName[i].watergate_ID;
+
+          var option = document.createElement('option');
+          option.value = watergate_ID;
+          option.textContent = gateName;
+          // console.log(option);
+          wgDropdown.appendChild(option);
+    
+      }
+    }
+
+    populateDropdown();
+
+    function processSelectedValue() {
+      var WgName = document.getElementById('WgName');
+      console.log(WgName.value);
+
+      var filteredReports = everyReports.filter(function (report) {
+        return report.watergate_ID == WgName.value;
+      });
+      tableData = filteredReports;
+      loadTable(filteredReports);
+
+      }
+
+
 
   </script> 
 
