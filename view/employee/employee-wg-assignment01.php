@@ -100,6 +100,10 @@
                 <td><?php echo $result['cmd_ID']; ?></td>
               </tr>
               <tr>
+                <td><b>Order</b></td>
+                <td><?php echo $result['cmd_order']; ?></td>
+              </tr>
+              <tr>
                 <td><b>ชื่อประตู</b></td>
                 <td><?php echo $result['gate_name']; ?></td>
               </tr>

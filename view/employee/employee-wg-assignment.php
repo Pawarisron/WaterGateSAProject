@@ -85,15 +85,13 @@
           <table class="table table-striped table-bordered templatemo-user-table" style="text-align: center;">
             <thead>
               <tr>
-                <th data-column="cmd_ID" data-order="desc">ID Command</th>
-                <th data-column="cmd_time" data-order="desc">วันที่</th>
-                <th data-column="gate_name" data-order="desc">ประตูน้ำ</th>
-                <th>คำสั่ง</th>
+                <td data-column="cmd_ID" data-order="desc">ID Command</td>
+                <td data-column="cmd_time" data-order="desc">วันที่</td>
+                <td data-column="gate_name" data-order="desc">ประตูน้ำ</td>
+                <td>คำสั่ง</td>
               </tr>
             </thead>
-            <tbody id="tableBody">
-
-
+           <tbody id="tableBody">
 
             </tbody>
           </table>    
@@ -109,7 +107,7 @@
     var tableData = <?php echo $jsonData; ?>; 
 
 
-    $('th').on('click', function(){
+    $('td').on('click', function(){
         var column = $(this).data('column')
         var order = $(this).data('order')
         // var tempoData = tableData;

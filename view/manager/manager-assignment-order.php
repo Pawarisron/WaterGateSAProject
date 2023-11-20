@@ -91,13 +91,13 @@
           <table class="table table-striped table-bordered templatemo-user-table">
             <thead style="text-align: center;">
               <tr>
-                <th data-column="id" data-order="desc">ID</th>
-                <th data-column="gate_name" data-order="desc">ชื่อประตูระบายน้ำ</th>
-                <th data-column="status" data-order="desc">สถานะปัจจุบัน</th>
-                <th data-column="upstream" data-order="desc">ระดับน้ำเหนือน้ำ(ม.รทก.)</th>
-                <th data-column="downstream" data-order="desc">ระดับน้ำท้ายน้ำ(ม.รทก.)</th>
-                <th data-column="criterion" data-order="desc">เกณฑ์ควบคุมระดับน้ำเหนือน้ำ (ม.รทก.)</th>
-                <th>ดำเนินการแก้ไข</th>
+                <td data-column="id" data-order="desc">ID</td>
+                <td data-column="gate_name" data-order="desc">ชื่อประตูระบายน้ำ</td>
+                <td data-column="status" data-order="desc">สถานะปัจจุบัน</td>
+                <td data-column="upstream" data-order="desc">ระดับน้ำเหนือน้ำ(ม.รทก.)</td>
+                <td data-column="downstream" data-order="desc">ระดับน้ำท้ายน้ำ(ม.รทก.)</td>
+                <td data-column="criterion" data-order="desc">เกณฑ์ควบคุมระดับน้ำเหนือน้ำ (ม.รทก.)</td>
+                <td>ดำเนินการแก้ไข</td>
               </tr>
             </thead>
             <tbody id="tableBody" style="text-align: center;">
@@ -115,7 +115,7 @@
     var tableData = <?php echo $jsonData; ?>; 
 
 
-    $('th').on('click', function(){
+    $('td').on('click', function(){
         var column = $(this).data('column')
         var order = $(this).data('order')
         // var tempoData = tableData;

@@ -24,6 +24,9 @@
 
     $stmt = $conn->prepare($sql);
     $stmt->execute();
+
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $jsonData = json_encode($rows);
 ?>
 
 
@@ -79,23 +82,14 @@
           <table class="table table-striped table-bordered templatemo-user-table" style="text-align: center;">
             <thead>
               <tr>
-                <td>ID</td>
-                <td>วันที่</td>
-                <td>ชื่อผู้ออกคำสั่ง</td>
+                <td data-column="cmd_ID" data-order="desc">ID</td>
+                <td data-column="cmd_time" data-order="desc">วันที่</td>
+                <td data-column="employee_Fname" data-order="desc">ชื่อผู้ออกคำสั่ง</td>
                 <td>การจัดการ</td>
               </tr>
             </thead>
-            <tbody>
-            <?php
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                    echo '<tr>';
-                    echo '<td>' . $row['cmd_ID'] .        '</td>';
-                    echo '<td>' . $row['cmd_time'] .      '</td>';
-                    echo '<td>' . $row['employee_Fname'] ." ". $row['employee_Lname'].     '</td>';        
-                    echo "<td><a href=manager-assignment-check01.php?cmd_ID=".$row["cmd_ID"].">รายละเอียดคำสั่ง</a></td>";
-                    echo '</tr>';
-                }
-                ?>      
+            <tbody id = "tableBody">
+    
             </tbody>
           </table>    
         </div>
@@ -103,8 +97,83 @@
     </div>
 
   </div>
-  
-  <script src="../../js/script.js"></script> 
+  <!-- echo "<td><a href=manager-assignment-check01.php?cmd_ID=".$row["cmd_ID"].">รายละเอียดคำสั่ง</a></td>"; -->
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script> 
+    var tableData = <?php echo $jsonData; ?>; 
+
+
+    $('td').on('click', function(){
+        var column = $(this).data('column')
+        var order = $(this).data('order')
+        // var tempoData = tableData;
+        console.log(order, " + ", column)
+        if(order == 'desc'){
+          $(this).data('order', "asc")
+        }
+        else{
+          $(this).data('order', "desc")
+        }
+        sortFunction(order, column, tableData);
+
+      })
+      function sortFunction(order, column , tempoData){
+        tempoData.sort(function(a, b) {
+         if (column === 'cmd_time') {
+          var dateA = new Date(a.cmd_time);
+          var dateB = new Date(b.cmd_time);
+          return order === 'desc' ? dateB - dateA : dateA - dateB;
+        }
+        else if (column === 'cmd_ID') {
+            var idA = a.cmd_ID;
+            var idB = b.cmd_ID;
+            return order === 'desc' ? idB.localeCompare(idA) : idA.localeCompare(idB);
+          }
+        else if (column === 'employee_Fname') {
+            var employee_FnameA = a.employee_Fname;
+            var employee_FnameB = b.employee_Fname;
+            return order === 'desc' ? employee_FnameB.localeCompare(employee_FnameA) : employee_FnameA.localeCompare(employee_FnameB);
+        }
+
+        return 0;
+        });
+
+
+        tableData = tempoData;
+        loadTable(tableData);
+        }
+
+
+    function loadTable(data) {
+        var tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = '';
+
+        for (var i = 0; i < data.length; i++) {
+          var row = tableBody.insertRow(i);
+          var cell0 = row.insertCell(0);
+          var cell1 = row.insertCell(1);
+          var cell2 = row.insertCell(2);
+          var cell3 = row.insertCell(3);
+
+
+          cell0.innerHTML = data[i].cmd_ID;
+          cell1.innerHTML = data[i].cmd_time;
+
+          cell2.innerHTML = data[i].employee_Fname + " " + data[i].employee_Lname;
+
+          var checkLink = document.createElement('a');
+          checkLink.href =
+              'manager-assignment-check01.php?cmd_ID=' +
+              data[i].cmd_ID;
+          checkLink.innerHTML = 'รายละเอียดคำสั่ง (Manager)';
+          
+          cell3.appendChild(checkLink);
+        }
+    }
+    loadTable(tableData);
+  </script>
+
 
 </body>
 </html>
