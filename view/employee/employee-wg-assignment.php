@@ -28,6 +28,9 @@
     
     $stmt = $conn->prepare($sql);
     $stmt->execute();
+
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $jsonData = json_encode($rows);
 ?>
 
 <!DOCTYPE html>
@@ -82,24 +85,16 @@
           <table class="table table-striped table-bordered templatemo-user-table" style="text-align: center;">
             <thead>
               <tr>
-                <td>ID Command</td>
-                
-                <td>วันที่</td>
-                <td>ประตูน้ำ</td>
-                <td>คำสั่ง</td>
+                <th data-column="cmd_ID" data-order="desc">ID Command</th>
+                <th data-column="cmd_time" data-order="desc">วันที่</th>
+                <th data-column="gate_name" data-order="desc">ประตูน้ำ</th>
+                <th>คำสั่ง</th>
               </tr>
             </thead>
-            <tbody>
-              <?php
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                    echo '<tr>';
-                    echo '<td>' . $row['cmd_ID'] . '</td>';
-                    echo '<td>' . $row['cmd_time'] . '</td>';
-                    echo '<td>' . $row['gate_name'] . '</td>';
-                    echo '<td><a href="employee-wg-assignment01.php?cmd_ID=' . $row['cmd_ID'] . '&watergate_ID=' . $row['watergate_ID'] .'&cmd_order=' . $row['cmd_order'] . '">รายละเอียดคำสั่ง</a></td>';
+            <tbody id="tableBody">
 
-                }
-              ?>       
+
+
             </tbody>
           </table>    
         </div>
@@ -108,7 +103,89 @@
 
   </div>
   
-  <script src="../../js/script.js"></script> 
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <script> 
+    var tableData = <?php echo $jsonData; ?>; 
+
+
+    $('th').on('click', function(){
+        var column = $(this).data('column')
+        var order = $(this).data('order')
+        // var tempoData = tableData;
+        console.log(order, " + ", column)
+        if(order == 'desc'){
+          $(this).data('order', "asc")
+        }
+        else{
+          $(this).data('order', "desc")
+        }
+        sortFunction(order, column, tableData);
+
+      })
+
+    function sortFunction(order, column , tempoData){
+      tempoData.sort(function(a, b) {
+        if (column === 'cmd_time') {
+          var dateA = new Date(a.cmd_time);
+          var dateB = new Date(b.cmd_time);
+          return order === 'desc' ? dateB - dateA : dateA - dateB;
+        } else if (column === 'cmd_ID') {
+          console.log(a.cmd_ID , " กับ " , b.cmd_ID);
+          var cmd_ID_A = a.cmd_ID;
+          var cmd_ID_B = b.cmd_ID;
+          return order === 'desc' ? cmd_ID_B.localeCompare(cmd_ID_A) : cmd_ID_A.localeCompare(cmd_ID_B);
+        }
+        else if (column === 'gate_name') {
+          var gate_nameA = a.gate_name;
+          var gate_nameB = b.gate_name;
+          return order === 'desc' ? gate_nameB.localeCompare(gate_nameA) : gate_nameA.localeCompare(gate_nameB);
+        }
+
+        return 0;
+      });
+
+
+      tableData = tempoData;
+      loadTable(tableData);
+    }
+
+
+    function loadTable(data) {
+        var tableBody = document.getElementById('tableBody');
+
+        tableBody.innerHTML = '';
+
+        for (var i = 0; i < data.length; i++) {
+          
+          var row = tableBody.insertRow(i);
+          var cell0 = row.insertCell(0);
+          var cell1 = row.insertCell(1);
+          var cell2 = row.insertCell(2);
+          var cell3 = row.insertCell(3);
+
+
+          cell0.innerHTML = data[i].cmd_ID;
+          cell1.innerHTML = data[i].cmd_time;
+          cell2.innerHTML = data[i].gate_name;
+
+          var link = document.createElement('a');
+          link.href =
+              'employee-wg-assignment01.php?cmd_ID=' +
+              data[i].cmd_ID +
+              '&watergate_ID=' +
+              data[i].watergate_ID +
+              '&cmd_order=' +
+              data[i].cmd_order;
+          link.innerHTML = 'รายละเอียดคำสั่ง';
+
+          cell3.appendChild(link);          
+
+            
+        }
+    }
+    loadTable(tableData);
+  </script>
 
 </body>
 </html>

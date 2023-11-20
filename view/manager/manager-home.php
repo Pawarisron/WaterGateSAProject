@@ -98,7 +98,7 @@
             <thead>
               <tr>
                 <th data-column="id" data-order="desc">ID</th>
-                <th>ชื่อประตูระบายน้ำ</th>
+                <th data-column="gate_name" data-order="desc">ชื่อประตูระบายน้ำ</th>
                 <th data-column="status" data-order="desc" >สถานะปัจจุบัน</th>
                 <th data-column="date" data-order="desc">วันที่บันทึกผลล่าสุด</th>
                 <th data-column="flow_rate" data-order="desc">อัตราการไหล (ลบ.ม./วินาที)</th>
@@ -168,6 +168,11 @@
           var idA = a.watergate_ID;
           var idB = b.watergate_ID;
           return order === 'desc' ? idB.localeCompare(idA) : idA.localeCompare(idB);
+        }
+        else if (column === 'gate_name') {
+          var gate_nameA = a.gate_name;
+          var gate_nameB = b.gate_name;
+          return order === 'desc' ? gate_nameB.localeCompare(gate_nameA) : gate_nameA.localeCompare(gate_nameB);
         }
 
         return 0;
