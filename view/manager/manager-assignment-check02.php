@@ -21,7 +21,6 @@
 
   
     $cmd_ID = $_GET["cmd_ID"];
-    $watergate_ID = $_GET["watergate_ID"];
 
 
 
