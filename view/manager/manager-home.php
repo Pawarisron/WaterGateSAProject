@@ -242,15 +242,21 @@
       wgDropdown = document.getElementById('WgName');
       wgDropdown.innerHTML = '';
       for (var i = 0; i < watergateName.length; i++) {
+        if(i === 0){
+          var option = document.createElement('option');
+          option.value = "ตารางวันที่บันทึกผลล่าสุด";
+          option.textContent = "ตารางวันที่บันทึกผลล่าสุด";
+          wgDropdown.appendChild(option);
+        }
+        else{
           var gateName = watergateName[i].gate_name;
           var watergate_ID = watergateName[i].watergate_ID;
-
           var option = document.createElement('option');
           option.value = watergate_ID;
           option.textContent = gateName;
           // console.log(option);
           wgDropdown.appendChild(option);
-    
+        }
       }
     }
 
@@ -259,13 +265,17 @@
     function processSelectedValue() {
       var WgName = document.getElementById('WgName');
       console.log(WgName.value);
-
-      var filteredReports = everyReports.filter(function (report) {
-        return report.watergate_ID == WgName.value;
-      });
-      tableData = filteredReports;
-      loadTable(filteredReports);
-
+      if(WgName.value === "ตารางวันที่บันทึกผลล่าสุด"){
+        tableData = originalTable.slice();
+        loadTable(tableData);
+      }
+      else{
+        var filteredReports = everyReports.filter(function (report) {
+          return report.watergate_ID == WgName.value;
+        });
+        tableData = filteredReports;
+        loadTable(tableData);
+      }
       }
 
 
