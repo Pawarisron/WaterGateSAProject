@@ -140,12 +140,12 @@
                   if ($water['d_up'] <= 0 || $water['d_down'] <= 0){
                     //เกินเกณ
                     $newStatus = 1;
-                    echo $row["from_ID_gate"] . "-" . $newStatus;
+                    // echo $row["from_ID_gate"] . "-" . $newStatus;
                   }
                   else{
                     //ไม่เกินเกณ
                     $newStatus = 0;
-                    echo $row["from_ID_gate"] . "-" . $newStatus;
+                    // echo $row["from_ID_gate"] . "-" . $newStatus;
                   }
                   $u1SQL = "UPDATE watergate set gate_status = :newStatus WHERE watergate_ID = :watergate_ID";
                     $stmt = $conn->prepare($u1SQL);
