@@ -98,16 +98,73 @@
           </form>
           <?php  
           if ($_SERVER["REQUEST_METHOD"] == "POST"){
+
+              //## อัพเดทค่าประตูให้เก็บเป็นก่อนจะสั่งCMD ##
+              $eSql = "SELECT * FROM cmd_route WHERE cmd_ID = :cmd_ID";
+              $stmt = $conn->prepare($eSql);
+              $stmt->bindParam(":cmd_ID", $cmd_ID);
+              $stmt->execute();
+              $result = $stmt->fetchAll();
+
+              // $editGateArray = array();
+
+              $nSql = "SELECT from_ID_gate FROM cmd_route WHERE cmd_ID <> :cmd_ID";
+                $stmt = $conn->prepare($nSql);
+                $stmt->bindParam(":cmd_ID", $cmd_ID);
+                $stmt->execute();
+                $gateInCommand = $stmt->fetchAll();
               
+              function in_array_2d($value, $array) {
+                foreach ($array as $subarray) {
+                    if (in_array($value, $subarray)) {
+                        return true;
+                    }
+                }
+                return false;
+              }
+
+              foreach ($result as $row){
+                $watergate_ID = $row["from_ID_gate"];
+
+                $wSql = "SELECT * , (criterion - upstream) as 'd_up', ( criterion - downstream) as d_down 
+                FROM watergate JOIN (SELECT upstream,downstream FROM `daily_report` WHERE watergate_ID = :watergate_ID ORDER by report_time DESC LIMIT 1) as R
+                WHERE watergate_ID = :watergate_ID";
+
+                $stmt = $conn->prepare($wSql);
+                $stmt->bindParam(":watergate_ID", $watergate_ID);
+                $stmt->execute();
+                $water = $stmt->fetch();
+                
+                //เช็ค gate ต้องไม่ใช้ gate ที่ถูก CMD อื่นๆสั่งอยู่
+                if(! in_array_2d($watergate_ID, $gateInCommand)){
+                  if ($water['d_up'] <= 0 || $water['d_down'] <= 0){
+                    //เกินเกณ
+                    $newStatus = 1;
+                    echo $row["from_ID_gate"] . "-" . $newStatus;
+                  }
+                  else{
+                    //ไม่เกินเกณ
+                    $newStatus = 0;
+                    echo $row["from_ID_gate"] . "-" . $newStatus;
+                  }
+                  $u1SQL = "UPDATE watergate set gate_status = :newStatus WHERE watergate_ID = :watergate_ID";
+                    $stmt = $conn->prepare($u1SQL);
+                    $stmt->bindParam(':newStatus', $newStatus, PDO::PARAM_INT);
+                    $stmt->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
+                    $stmt->execute();
+                }
+              }
               // ทำการลบข้อมูลหรือกระทำที่เกี่ยวข้องที่นี่
               $dSql = "DELETE FROM commands_log Where cmd_ID = :cmd_ID";
               
                 $stmt = $conn->prepare($dSql);
                 $stmt->bindParam(":cmd_ID", $cmd_ID);
                 $stmt->execute();
-              
-              header("location: manager-assignment-check.php");
+                
+                header("location: manager-assignment-check.php");
             }
+              
+              
           
           ?>
           <form action="manager-assignment-check.php">
