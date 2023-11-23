@@ -33,7 +33,7 @@
     $stmt->bindParam(":cmd_ID", $cmd_ID);
     
     $stmt->execute();
-    $result = $stmt->fetch();
+    $result = $stmt->fetchAll();
 // ?>
 
 
@@ -86,53 +86,64 @@
       <div class="panel panel-default margin-10" style="text-align: center; margin: 20px; padding: 20px;">
         <h2 style="text-align: left;"><a href="manager-assignment-check.php" class="templatemo-link"><i class='bx bx-arrow-back'></i></a></h2>
         <h2>บันทึกการสั่งงาน</h2>
+        
+        
+
+       
         <div class="table-responsive" style="padding: 20px;">
           <table class="table">
-            <tbody style="text-align: left; padding-left: 40px;">
-              <tr>
-                <td><b>Command ID</b></td>
-                <td><?php echo $result['cmd_ID']; ?></td>
-              </tr>
-              <tr>
-                <td><b>Command order</b></td>
-                <td><?php echo $result['cmd_order']; ?></td>
-              </tr>
-              <tr>
-                <td><b>ชื่อประตูปล่อยน้ำ</b></td>
-                <td><?php echo $result['out_gate']; ?></td>
-              </tr>
-              <tr>
-                <td><b>ชื่อประตูรับน้ำ</b></td>
-                <td><?php echo $result['in_gate']; ?></td>
-              </tr>
-              <tr>
-                <td><b>สถานะ</b></td>
-                <td><?php echo $result['cmd_status'] == 0 ? "อยู่ระหว่างการดำเนินการ" : "ดำเนินการแล้ว"; ?></td>
-              </tr>
-              <tr>
-                <td><b>วันที่ออกคำสั่ง</b></td>
-                <td><?php echo $result['cmd_time']; ?></td>
-              </tr>
-              <tr>
-                <td><b>วันเวลาเปิด</b></td>
-                <td><?php echo $result['open_time'] == null ? "ยังไม่ลงเวลา" : $result['open_time']; ?></td>
-              </tr>
-              <tr>
-                <td><b>วันเวลาปิด</b></td>
-                <td><?php echo $result['close_time'] == null ? "ยังไม่ลงเวลา" : $result['close_time']; ?></td>
-              </tr>
-              <tr>
-                <td><b>ปริมาณน้ำระบายออก</b></td>
-                <td><?php echo $result['amount']; ?></td>
-              </tr>
-              <tr>
-                <td><b>หมายเหตุ</b></td>
-                <td><?php echo $result['note']; ?></td>
-              </tr>
-            </tbody>
+            <?php foreach($result as $row): ?>
+              <tbody style="text-align: left; padding-left: 40px;">
+                <tr>
+                  <td><b>Command ID</b></td>
+                  <td><?php echo $row['cmd_ID']; ?></td>
+                </tr>
+                <tr>
+                  <td><b>Command order</b></td>
+                  <td><?php echo $row['cmd_order']; ?></td>
+                </tr>
+                <tr>
+                  <td><b>ชื่อประตูปล่อยน้ำ</b></td>
+                  <td><?php echo $row['out_gate']; ?></td>
+                </tr>
+                <tr>
+                  <td><b>ชื่อประตูรับน้ำ</b></td>
+                  <td><?php echo $row['in_gate']; ?></td>
+                </tr>
+                <tr>
+                  <td><b>สถานะ</b></td>
+                  <td><?php echo $row['cmd_status'] == 0 ? "อยู่ระหว่างการดำเนินการ" : "ดำเนินการแล้ว"; ?></td>
+                </tr>
+                <tr>
+                  <td><b>วันที่ออกคำสั่ง</b></td>
+                  <td><?php echo $row['cmd_time']; ?></td>
+                </tr>
+                <tr>
+                  <td><b>วันเวลาเปิด</b></td>
+                  <td><?php echo $row['open_time'] == null ? "ยังไม่ลงเวลา" : $row['open_time']; ?></td>
+                </tr>
+                <tr>
+                  <td><b>วันเวลาปิด</b></td>
+                  <td><?php echo $row['close_time'] == null ? "ยังไม่ลงเวลา" : $row['close_time']; ?></td>
+                </tr>
+                <tr>
+                  <td><b>ปริมาณน้ำระบายออก</b></td>
+                  <td><?php echo $row['amount']; ?> ม.รทก.</td>
+                </tr>
+                <tr>
+                  <td><b>หมายเหตุ</b></td>
+                  <td><?php echo $row['note']; ?></td>
+                </tr>
+                <tr>
+                  <td> </td>
+                  <td> </td>
+                </tr>
+              </tbody>
+            <?php endforeach; ?> 
           </table>
         </div>
-        
+
+      
 
         <div class="form-group" style="text-align: right; padding-top: 20px;">
         

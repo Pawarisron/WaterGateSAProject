@@ -177,7 +177,7 @@
                 
                 
                 <div class="col-lg-12 col-md-12 form-group">
-                  <label for="waterQuantity">ปริมาณน้ำระบายออก</label>
+                  <label for="waterQuantity">ปริมาณน้ำระบายออก (ม.รทก.)</label>
                   <input name='waterQuantity' type="number" step="0.000001" class="form-control" id="waterQuantity" placeholder="" >
                 </div>
                 <div class="col-lg-12 col-md-12 form-group">

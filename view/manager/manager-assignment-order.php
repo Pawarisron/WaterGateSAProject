@@ -32,6 +32,9 @@
     
     $stmt = $conn->prepare($sql);
     $stmt->execute();
+
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $jsonData = json_encode($rows);
 ?>
 
 
@@ -88,55 +91,17 @@
           <table class="table table-striped table-bordered templatemo-user-table">
             <thead style="text-align: center;">
               <tr>
-                <td>ID</td>
-                <td>ชื่อประตูระบายน้ำ</td>
-                <td>สถานะปัจจุบัน</td>
-                <td>ระดับน้ำเหนือน้ำ(ม.รทก.)</td>
-                <td>ระดับน้ำท้ายน้ำ(ม.รทก.)</td>
-                <td>เกณฑ์ควบคุมระดับน้ำเหนือน้ำ (ม.รทก.)</td>
+                <td data-column="id" data-order="desc">ID</td>
+                <td data-column="gate_name" data-order="desc">ชื่อประตูระบายน้ำ</td>
+                <td data-column="status" data-order="desc">สถานะปัจจุบัน</td>
+                <td data-column="upstream" data-order="desc">ระดับน้ำเหนือน้ำ(ม.รทก.)</td>
+                <td data-column="downstream" data-order="desc">ระดับน้ำท้ายน้ำ(ม.รทก.)</td>
+                <td data-column="criterion" data-order="desc">เกณฑ์ควบคุมระดับน้ำเหนือน้ำ (ม.รทก.)</td>
                 <td>ดำเนินการแก้ไข</td>
               </tr>
             </thead>
-            <tbody style="text-align: center;">
-              <?php
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                    echo '<tr>';
-                    echo '<td>' . $row['watergate_ID'] . '</td>';
-                    echo '<td>' . $row['gate_name'] . '</td>';
-                    $gateStatus = $row['gate_status'];
-                    $statusLabel = '';
-                    switch ($gateStatus) {
-                        case 0:
-                            $statusLabel = "ปกติ";
-                            break;
-                        case 1:
-                            $statusLabel = "วิกฤติ";
-                            break;
-                        case 2:
-                            $statusLabel = "กำลังแก้ไข";
-                            break;
-                        case 3:
-                            $statusLabel = "รอตรวจสอบ";
-                            break;
-                        default:
-                            $statusLabel = "ปกติ";
-                    }
-                    echo '<td>' . $statusLabel . '</td>';
-                    echo '<td>' . $row['upstream'] . '</td>';
-                    echo '<td>' . $row['downstream'] . '</td>';
-                    echo '<td>' . $row["criterion"] . '</td>';
-                    // $_SESSION['watergate_ID'] = $row['watergate_ID'];
-                    
-                    // echo '<td><a href="manager-assignment-order01.php">สั่งการ</a></td>';
-                    echo '<td><a href="manager-assignment-order01.php?watergate_ID=' . $row['watergate_ID'] . '">สั่งการ</a></td>';
+            <tbody id="tableBody" style="text-align: center;">
 
-                    
-
-                    
-                    
-                    echo '</tr>';
-                }
-                ?>      
             </tbody>
           </table>    
         </div>
@@ -144,8 +109,112 @@
     </div>
 
   </div>
+  <!-- echo '<td><a href="manager-assignment-order01.php?watergate_ID=' . $row['watergate_ID'] . '">สั่งการ</a></td>'; -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script> 
+    var tableData = <?php echo $jsonData; ?>; 
+
+
+    $('td').on('click', function(){
+        var column = $(this).data('column')
+        var order = $(this).data('order')
+        // var tempoData = tableData;
+        console.log(order, " + ", column)
+        if(order == 'desc'){
+          $(this).data('order', "asc")
+        }
+        else{
+          $(this).data('order', "desc")
+        }
+        sortFunction(order, column, tableData);
+
+      })
+      function sortFunction(order, column , tempoData){
+        tempoData.sort(function(a, b) {
+          if (column === 'status') {
+            var statusA = a.gate_status;
+            var statusB = b.gate_status;
+            return order === 'desc' ? statusB - statusA : statusA - statusB;
+          }
+          else if (column === 'criterion') {
+            var criterionA = a.criterion;
+            var criterionB = b.criterion;
+            return order === 'desc' ? criterionB - criterionA : criterionA - criterionB;
+          }
+          else if (column === 'upstream') {
+            var upstreamA = a.upstream;
+            var upstreamB = b.upstream;
+            return order === 'desc' ? upstreamB - upstreamA : upstreamA - upstreamB;
+          }
+          else if (column === 'downstream') {
+            var downstreamA = a.downstream;
+            var downstreamB = b.downstream;
+            return order === 'desc' ? downstreamB - downstreamA : downstreamA - downstreamB;
+          }
+          else if (column === 'id') {
+            var idA = a.watergate_ID;
+            var idB = b.watergate_ID;
+            return order === 'desc' ? idB.localeCompare(idA) : idA.localeCompare(idB);
+          }
+          else if (column === 'gate_name') {
+            var gate_nameA = a.gate_name;
+            var gate_nameB = b.gate_name;
+            return order === 'desc' ? gate_nameB.localeCompare(gate_nameA) : gate_nameA.localeCompare(gate_nameB);
+          }
+
+          return 0;
+        });
+
+
+        tableData = tempoData;
+        loadTable(tableData);
+        }
+
+
+    function loadTable(data) {
+        var tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = '';
+
+        for (var i = 0; i < data.length; i++) {
+          var row = tableBody.insertRow(i);
+          var cell0 = row.insertCell(0);
+          var cell1 = row.insertCell(1);
+          var cell2 = row.insertCell(2);
+          var cell3 = row.insertCell(3);
+          var cell4 = row.insertCell(4);
+          var cell5 = row.insertCell(5);
+          var cell6 = row.insertCell(6);
+
+          cell0.innerHTML = data[i].watergate_ID;
+          cell1.innerHTML = data[i].gate_name;
+
+          if (data[i].gate_status == 0) {
+              cell2.innerHTML = "ปกติ";
+          } else if (data[i].gate_status == 1) {
+              cell2.innerHTML = "วิกฤติ";
+          } else if (data[i].gate_status == 2) {
+              cell2.innerHTML = "กำลังแก้ไข";
+          } else {
+              cell2.innerHTML = "Unknown Status";
+          }
+
+
+
+          cell3.innerHTML = data[i].upstream;
+          cell4.innerHTML = data[i].downstream;
+          cell5.innerHTML = data[i].criterion;
+          var managerLink = document.createElement('a');
+          managerLink.href =
+              'manager-assignment-order01.php?watergate_ID=' +
+              data[i].watergate_ID;
+          managerLink.innerHTML = 'สั่งการ';
+          cell6.appendChild(managerLink);
+        }
+    }
+    loadTable(tableData);
+  </script>
+
   
-  <script src="../../js/script.js"></script> 
 
 </body>
 </html>
