@@ -113,15 +113,27 @@
         var order = $(this).data('order')
         // var tempoData = tableData;
         console.log(order, " + ", column)
-        if(order == 'desc'){
-          $(this).data('order', "asc")
-        }
-        else{
-          $(this).data('order', "desc")
+        if(column !== undefined){
+        
+        var originalText = $(this).data('original-text');
+
+        if (order == 'desc') {
+          $(this).data('order', 'asc');
+          $(this).html(originalText + ' ▼');
+        } else {
+          $(this).data('order', 'desc');
+          $(this).html(originalText + ' ▲');
         }
         sortFunction(order, column, tableData);
+      }
+    })
 
-      })
+
+    $('td').each(function() {
+      if (!$(this).data('original-text')) {
+        $(this).data('original-text', $(this).text());
+      }
+    });
 
     function sortFunction(order, column , tempoData){
       tempoData.sort(function(a, b) {

@@ -137,19 +137,27 @@
     //console.log(tableData);
 
       $('td').on('click', function(){
-        var column = $(this).data('column')
-        var order = $(this).data('order')
+        var column = $(this).data('column');
+        var order = $(this).data('order');
         // var tempoData = tableData;
         console.log(order, " + ", column)
-        if(order == 'desc'){
-          $(this).data('order', "asc")
-        }
-        else{
-          $(this).data('order', "desc")
+        var originalText = $(this).data('original-text');
+
+        if (order == 'desc') {
+          $(this).data('order', 'asc');
+          $(this).html(originalText + ' ▼');
+        } else {
+          $(this).data('order', 'desc');
+          $(this).html(originalText + ' ▲');
         }
         sortFunction(order, column, tableData);
 
       })
+      $('td').each(function() {
+        if (!$(this).data('original-text')) {
+          $(this).data('original-text', $(this).text());
+        }
+      });
 
     function sortFunction(order, column , tempoData){
 
@@ -247,6 +255,7 @@
           option.value = "ตารางวันที่บันทึกผลล่าสุด";
           option.textContent = "ตารางวันที่บันทึกผลล่าสุด";
           wgDropdown.appendChild(option);
+
         }
         else{
           var gateName = watergateName[i].gate_name;
@@ -265,10 +274,19 @@
     function processSelectedValue() {
       var WgName = document.getElementById('WgName');
       console.log(WgName.value);
-      if(WgName.value === "ตารางวันที่บันทึกผลล่าสุด"){
-        tableData = originalTable.slice();
-        loadTable(tableData);
-      }
+      if (WgName.value === "ตารางวันที่บันทึกผลล่าสุด") {
+          // Reset the text to plain text without triangle up or down
+          $('td').each(function() {
+            $(this).html($(this).data('original-text'));
+          });
+
+          // Reset the order data
+          $('td').data('order', 'desc');
+          
+          // Load the original table data
+          tableData = originalTable.slice();
+          loadTable(tableData);
+        }
       else{
         var filteredReports = everyReports.filter(function (report) {
           return report.watergate_ID == WgName.value;
