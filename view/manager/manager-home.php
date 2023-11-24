@@ -13,8 +13,8 @@
     }
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    // require_once '../../controller/updateTable.php';
-    // updateGateStatus($conn);
+    require_once '../../controller/updateTable.php';
+    updateGateStatus($conn);
 
     $sql = "
     SELECT w.*, r.*
@@ -257,7 +257,7 @@
           wgDropdown.appendChild(option);
 
         }
-        else{
+
           var gateName = watergateName[i].gate_name;
           var watergate_ID = watergateName[i].watergate_ID;
           var option = document.createElement('option');
@@ -265,7 +265,7 @@
           option.textContent = gateName;
           // console.log(option);
           wgDropdown.appendChild(option);
-        }
+        
       }
     }
 
