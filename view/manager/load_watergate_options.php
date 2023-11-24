@@ -4,7 +4,7 @@ require_once '../../db.php';
 if (isset($_GET['watergate_ID'])) {
     $watergate_ID = $_GET['watergate_ID'];
 
-    $sql = "SELECT to_ID_gate FROM route WHERE from_ID_gate = :watergate_ID";
+    $sql = "SELECT r.*, w.* FROM route as r JOIN watergate as w ON w.watergate_ID = r.to_ID_gate WHERE from_ID_gate = :watergate_ID;";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
     $stmt->execute();
@@ -13,13 +13,14 @@ if (isset($_GET['watergate_ID'])) {
 
     while ($row = $stmt->fetch()) {
         $option = array(
-            "value" => $row['to_ID_gate'],
-            "text" => $row['to_ID_gate']
+            "gate_name" => $row['gate_name'],
+            "value" => $row['to_ID_gate']
         );
 
         $options[] = $option;
     }
 
-    echo json_encode($options);
+    $json = json_encode($options, JSON_UNESCAPED_UNICODE);
+    echo $json;
 }
 ?>

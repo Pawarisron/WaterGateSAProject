@@ -29,7 +29,7 @@
           echo  $_SESSION['watergate_ID'];
     }
 
-    $sql = "SELECT watergate_ID FROM watergate";
+    $sql = "SELECT * FROM watergate";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -204,10 +204,8 @@
                   <button name="finishRoute" type="button" class="btn-primary" style="font-size: 16px; margin-left: 55%" onclick="sendDataToPHP()">Finish</button>
 
 
-                  <!-- <button name="finishRoute" type="submit" class="btn-primary" style="font-size: 16px; margin-left: 55%" formnovalidate >Finish</button> -->
                 </div>
               
-              <!-- <input type="submit" name="finishRoute" value="finish" class="btn-primary" style="font-size: 16px; margin-left: 55%"> -->
 
             </div>
           </div>
@@ -457,7 +455,7 @@
               // }
               const optionElement = document.createElement("option");
               optionElement.value = option.value;
-              optionElement.textContent = option.text;
+              optionElement.textContent = option.value + " " + option.gate_name;
               toWgNameSelect.appendChild(optionElement);
 
             }
@@ -481,7 +479,7 @@
         for (var i = 0; i < fromWgNameOptions.length; i++) {
             var option = document.createElement("option");
             option.value = fromWgNameOptions[i].watergate_ID;
-            option.textContent = fromWgNameOptions[i].watergate_ID;
+            option.textContent = fromWgNameOptions[i].watergate_ID + " " + fromWgNameOptions[i].gate_name;
             fromWgNameSelect.appendChild(option);
         }
       }
