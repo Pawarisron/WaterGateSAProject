@@ -247,8 +247,11 @@
         var waterQuantity = document.getElementById('waterQuantity').value;
         var inputNote = document.getElementById('inputNote').value;
 
-        if (fromWgNameSelect.options[fromWgNameSelect.selectedIndex].value === '' || toWgNameSelect.options[toWgNameSelect.selectedIndex].value === '' || waterQuantity === '' || inputNote === '') {
-          alert('Please fill in all fields');
+        if (!fromWgNameSelect.options[fromWgNameSelect.selectedIndex] ||
+      !toWgNameSelect.options[toWgNameSelect.selectedIndex] ||
+      waterQuantity === '' ||
+      inputNote === '') {
+          alert('โปรดใส่ข้อมูลลงทุกช่อง');
           return; 
         }
         if (waterQuantity <= 0){
@@ -298,7 +301,6 @@
             var selectedValue = fromWgNameSelect.value;
             // var additionalVariable = watergate.watergate_ID;
             console.log('loadSecondDataTable ทำงานกับ ID: ' + selectedValue);
-ผ_
             var xhr = new XMLHttpRequest();
             var url = `load_SecondDataTable_options.php?watergate_ID=${selectedValue}`;
 
