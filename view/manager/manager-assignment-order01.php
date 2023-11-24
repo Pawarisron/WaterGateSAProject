@@ -34,7 +34,7 @@
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $allWatergates = json_encode($rows);
-    echo $allWatergates;
+    // echo $allWatergates;
 
 ?>
 
