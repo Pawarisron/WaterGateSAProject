@@ -292,6 +292,12 @@
           return report.watergate_ID == WgName.value;
         });
         tableData = filteredReports;
+        
+        tableData.sort(function(a, b) {
+          var dateA = new Date(a.report_time);
+          var dateB = new Date(b.report_time);
+          return dateB - dateA;
+        });
         loadTable(tableData);
       }
       }
