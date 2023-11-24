@@ -263,6 +263,8 @@
           }
         }
 
+    
+
         var dataTable = document.getElementById('dataTable');
             
 
@@ -296,9 +298,8 @@
             var selectedValue = fromWgNameSelect.value;
             // var additionalVariable = watergate.watergate_ID;
             console.log('loadSecondDataTable ทำงานกับ ID: ' + selectedValue);
-
+ผ_
             var xhr = new XMLHttpRequest();
-            
             var url = `load_SecondDataTable_options.php?watergate_ID=${selectedValue}`;
 
             xhr.open("GET", url, true);
@@ -369,7 +370,10 @@
         var dataRows = dataTable.getElementsByTagName('tr');
 
         var dataToSend = [];
-        
+        if(dataRows.length <= 0){
+          alert('โปรด Add เส้นทางปล่อยน้ำ');
+          return; 
+        }
         for (var i = 0; i < dataRows.length; i++) {  // เริ่มต้นที่ 1 เพื่อข้ามแถวหัวตาราง
             var cells = dataRows[i].getElementsByTagName('td');
             
