@@ -378,9 +378,9 @@ ALTER TABLE `assign_time`
 -- Constraints for table `cmd_route`
 --
 ALTER TABLE `cmd_route`
-  ADD CONSTRAINT `cmd_route_fk1` FOREIGN KEY (`cmd_ID`,`cmd_order`) REFERENCES `commands_log` (`cmd_ID`, `cmd_order`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `cmd_route_fk2` FOREIGN KEY (`from_ID_gate`) REFERENCES `route` (`from_ID_gate`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `cmd_route_fk3` FOREIGN KEY (`to_ID_gate`) REFERENCES `route` (`to_ID_gate`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `cmd_route_fk1` FOREIGN KEY (`cmd_ID`,`cmd_order`) REFERENCES `commands_log` (`cmd_ID`, `cmd_order`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `cmd_route_fk2` FOREIGN KEY (`from_ID_gate`) REFERENCES `route` (`from_ID_gate`)ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `cmd_route_fk3` FOREIGN KEY (`to_ID_gate`) REFERENCES `route` (`to_ID_gate`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `commands_log`

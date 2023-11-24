@@ -160,7 +160,7 @@
               <!--เพิ่มมาใหม่ง้าบ-->
               <tr>
                 <td><b>ปริมาณน้ำระบายออก</b></td>
-                <td><?php echo $result['amount'] ?></td>
+                <td><?php echo $result['amount'] ?> ม.รทก.</td>
               </tr>
               <!---->
               <tr>
