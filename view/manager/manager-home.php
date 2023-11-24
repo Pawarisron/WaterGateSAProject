@@ -13,8 +13,8 @@
     }
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    // require_once '../../controller/updateTable.php';
-    // updateGateStatus($conn);
+    require_once '../../controller/updateTable.php';
+    updateGateStatus($conn);
 
     $sql = "
     SELECT w.*, r.*
@@ -33,7 +33,6 @@
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $jsonData = json_encode($rows);
-
     ////////////////////////////////////////////////
     $sql2 = "SELECT * FROM watergate";
     $stmt2 = $conn->prepare($sql2);
@@ -257,7 +256,7 @@
           wgDropdown.appendChild(option);
 
         }
-        else{
+
           var gateName = watergateName[i].gate_name;
           var watergate_ID = watergateName[i].watergate_ID;
           var option = document.createElement('option');
@@ -265,7 +264,7 @@
           option.textContent = gateName;
           // console.log(option);
           wgDropdown.appendChild(option);
-        }
+        
       }
     }
 
@@ -274,14 +273,15 @@
     function processSelectedValue() {
       var WgName = document.getElementById('WgName');
       console.log(WgName.value);
-      if (WgName.value === "ตารางวันที่บันทึกผลล่าสุด") {
-          // Reset the text to plain text without triangle up or down
-          $('td').each(function() {
+      $('td').each(function() {
             $(this).html($(this).data('original-text'));
           });
 
           // Reset the order data
-          $('td').data('order', 'desc');
+      $('td').data('order', 'desc');
+      if (WgName.value === "ตารางวันที่บันทึกผลล่าสุด") {
+          // Reset the text to plain text without triangle up or down
+
           
           // Load the original table data
           tableData = originalTable.slice();
@@ -292,6 +292,12 @@
           return report.watergate_ID == WgName.value;
         });
         tableData = filteredReports;
+        
+        tableData.sort(function(a, b) {
+          var dateA = new Date(a.report_time);
+          var dateB = new Date(b.report_time);
+          return dateB - dateA;
+        });
         loadTable(tableData);
       }
       }

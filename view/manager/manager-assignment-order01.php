@@ -29,8 +29,12 @@
           echo  $_SESSION['watergate_ID'];
     }
 
-    
-
+    $sql = "SELECT * FROM watergate";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $allWatergates = json_encode($rows);
+    // echo $allWatergates;
 
 ?>
 
@@ -98,8 +102,19 @@
         <h2 style="text-align: left;"><a href="manager-assignment-order.php" class="templatemo-link"><i class='bx bx-arrow-back'></i></a></h2>
         <h2>สร้างเส้นทางระบายน้ำ</h2>
         <div class="table-responsive" style="padding: 20px;">
-          <table name = "dataTable" id="dataTable" class="table">
-            <tbody style="text-align: left; padding-left: 40px;">
+          <table  class="table">
+          <thead>
+              <tr>
+              <td style="text-align: center; font-weight: bold;">ประตูปล่อยน้ำ</td>
+              <td style="text-align: center; font-weight: bold;">ประตูรับน้ำ</td>
+              <td style="text-align: center; font-weight: bold;">ปริมาณน้ำระบายออก (ม.รทก.)</td>
+              <td style="text-align: center; font-weight: bold;">หมายเหตุ</td>
+
+                
+                
+              </tr>
+            </thead>
+            <tbody name = "dataTable" id="dataTable" style="text-align: center; padding-left: 40px;">
               
 
 
@@ -164,7 +179,7 @@
             <div class="panel-body">
                <div class="col-lg-12 col-md-12 form-group">
                     <label for="fromWgName">ประตูปล่อยน้ำ</label>
-                    <select id="fromWgName" class="form-control" onchange="updateToWgNameOptions(this.value)">
+                    <select id="fromWgName" class="form-control" onchange="updateToWgNameOptions()">
                     </select>
                 </div>
 
@@ -189,10 +204,8 @@
                   <button name="finishRoute" type="button" class="btn-primary" style="font-size: 16px; margin-left: 55%" onclick="sendDataToPHP()">Finish</button>
 
 
-                  <!-- <button name="finishRoute" type="submit" class="btn-primary" style="font-size: 16px; margin-left: 55%" formnovalidate >Finish</button> -->
                 </div>
               
-              <!-- <input type="submit" name="finishRoute" value="finish" class="btn-primary" style="font-size: 16px; margin-left: 55%"> -->
 
             </div>
           </div>
@@ -223,13 +236,12 @@
     }
     };
 
-    const fromWgNameOptions = [];
+    const fromWgNameOptions = <?php echo $allWatergates; ?>; 
     const toWgNameOptions = [];
+    const alreadySelected = [];
 
     
     function addData() {
-        // var fromWgNameSelect = document.getElementById('fromWgName');
-        // var tempo = fromWgNameSelect.options[fromWgNameSelect.selectedIndex].value;
         var fromWgNameSelect = document.getElementById('fromWgName');
         var toWgNameSelect = document.getElementById('toWgName');
         var waterQuantity = document.getElementById('waterQuantity').value;
@@ -239,6 +251,18 @@
           alert('Please fill in all fields');
           return; 
         }
+        if (waterQuantity <= 0){
+          alert('ค่าน้ำจะต้องไม่ต่ำกว่าหรือเท่ากับ 0');
+          return; 
+        }
+        
+        for (let i = 0; i < alreadySelected.length; i++) {
+          if (alreadySelected[i][0] === fromWgNameSelect.options[fromWgNameSelect.selectedIndex].value && alreadySelected[i][1] === toWgNameSelect.options[toWgNameSelect.selectedIndex].value) {
+            alert('มี Order นี้แล้วอยู่ในตาราง');
+            return;
+          }
+        }
+
         var dataTable = document.getElementById('dataTable');
             
 
@@ -259,10 +283,10 @@
         document.getElementById('waterQuantity').value = '';
         document.getElementById('inputNote').value = '';
 
-
-        fromWgNameOptions.push(toWgNameSelect.options[toWgNameSelect.selectedIndex].value);
-        updateFromWgOptions();
-        updateToWgNameOptions(fromWgNameSelect.options[toWgNameSelect.selectedIndex].value);
+        alreadySelected.push([fromWgNameSelect.options[fromWgNameSelect.selectedIndex].value, toWgNameSelect.options[toWgNameSelect.selectedIndex].value]);
+        // console.log(alreadySelected[0][0]); // Log the first value in the last inner array
+        // console.log(alreadySelected[0][1]); // Log the second value in the last inner array
+        updateToWgNameOptions();
         
 
     }
@@ -270,12 +294,12 @@
             
             var fromWgNameSelect = document.getElementById('fromWgName');
             var selectedValue = fromWgNameSelect.value;
-            var additionalVariable = watergate.watergate_ID;
-            console.log('loadSecondDataTable ทำงานกับ ID: ' + selectedValue + ' และมี original ID เป็น: '  + additionalVariable);
+            // var additionalVariable = watergate.watergate_ID;
+            console.log('loadSecondDataTable ทำงานกับ ID: ' + selectedValue);
 
             var xhr = new XMLHttpRequest();
             
-            var url = `load_SecondDataTable_options.php?watergate_ID=${selectedValue}&additional_variable=${additionalVariable}`;
+            var url = `load_SecondDataTable_options.php?watergate_ID=${selectedValue}`;
 
             xhr.open("GET", url, true);
             //console.log(watergate.watergate_ID + ' นอกบน');
@@ -292,7 +316,7 @@
                   }
 
 
-                  if(options.length == 0){
+                  if(options.length == 1){
                     
                       var row = secondDataTable.insertRow(0);
                       var cell1 = row.insertCell(0);
@@ -385,12 +409,12 @@
 
     // เพื่อโหลดข้อมูลใน Dropdown เมื่อหน้าเว็บโหลด
     document.addEventListener("DOMContentLoaded", function () {
-        fromWgNameOptions.push(<?php echo json_encode($watergate_ID); ?>);
         
+  
         updateFromWgOptions();
         
         //console.log(fromWgNameOptions);
-        updateToWgNameOptions(<?php echo json_encode($watergate_ID); ?>);
+        updateToWgNameOptions();
       })
 
 
@@ -401,46 +425,43 @@
 
       function updateToWgNameOptions(selectedValue) {
         const toWgNameSelect = document.getElementById('toWgName');
+        var fromWgNameSelect = document.getElementById('fromWgName');
+        // console.log(fromWgNameSelect.options[fromWgNameSelect.selectedIndex].value);
         toWgNameSelect.innerHTML = '';
-    
+        var selectedFrom = fromWgNameSelect.options[fromWgNameSelect.selectedIndex].value;
+
         loadSecondDataTable();
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", `load_watergate_options.php?watergate_ID=${selectedValue}`, true);
+        xhr.open("GET", `load_watergate_options.php?watergate_ID=${selectedFrom}`, true);
 
         xhr.onload = function () {
           if (xhr.status === 200) {
             const options = JSON.parse(xhr.responseText);
 
-            
-            
-            
-
-            toWgNameOptions.length = 0;
             for (const option of options) {
-              const isOptionInFromWgName = fromWgNameOptions.includes(option.text);
+              // const isOptionInFromWgName = fromWgNameOptions.includes(option.text);
               // console.log(option.value + ' สถานะคือ ' + isOptionInFromWgName  );
+              // var isOptionInSelected = 0;
+              // for (let i = 0; i < alreadySelected.length; i++) {
+              //   if (alreadySelected[i][0] === selectedFrom && alreadySelected[i][1] === option.text) {
+              //     isOptionInSelected = 1;
+              //   }
+              // }
+              // if (!isOptionInSelected) {
+              //     const optionElement = document.createElement("option");
+              //     optionElement.value = option.value;
+              //     optionElement.textContent = option.text;
+              //     toWgNameSelect.appendChild(optionElement);
+              // }
+              const optionElement = document.createElement("option");
+              optionElement.value = option.value;
+              optionElement.textContent = option.value + " " + option.gate_name;
+              toWgNameSelect.appendChild(optionElement);
 
-              
-
-
-
-              // console.log(fromWgNameOptions);
-              if (!isOptionInFromWgName) {
-                  const optionElement = document.createElement("option");
-                  optionElement.value = option.value;
-                  optionElement.textContent = option.text;
-                  toWgNameSelect.appendChild(optionElement);
-                  toWgNameOptions.push(optionElement.value);
-              }
-              else{
-                console.log("เจอแล้ววว  " + option.value);
-              }
             }
             
           }
-          // console.log('to: ' + toWgNameOptions);
-          // console.log('from: ' + fromWgNameOptions);
-          // console.log('แบ่งรอบแบ่งรอบแบ่งรอบแบ่งรอบแบ่งรอบแบ่งรอบแบ่งรอบแบ่งรอบแบ่งรอบแบ่งรอบแบ่งรอบ');
+
         };
 
         xhr.send();
@@ -457,8 +478,8 @@
         // Loop through fromWgNameOptions and create options
         for (var i = 0; i < fromWgNameOptions.length; i++) {
             var option = document.createElement("option");
-            option.value = fromWgNameOptions[i];
-            option.textContent = fromWgNameOptions[i];
+            option.value = fromWgNameOptions[i].watergate_ID;
+            option.textContent = fromWgNameOptions[i].watergate_ID + " " + fromWgNameOptions[i].gate_name;
             fromWgNameSelect.appendChild(option);
         }
       }
