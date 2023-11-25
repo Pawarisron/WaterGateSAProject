@@ -112,7 +112,9 @@
                 </tr>
                 <tr>
                   <td><b>สถานะ</b></td>
-                  <td><?php echo $row['cmd_status'] == 0 ? "อยู่ระหว่างการดำเนินการ" : "ดำเนินการแล้ว"; ?></td>
+                  <td style="color: <?php echo $row['cmd_status'] == 0 ? 'red' : 'green'; ?>">
+                    <?php echo $row['cmd_status'] == 0 ? "อยู่ระหว่างการดำเนินการ" : "ดำเนินการแล้ว"; ?>
+                  </td>
                 </tr>
                 <tr>
                   <td><b>วันที่ออกคำสั่ง</b></td>

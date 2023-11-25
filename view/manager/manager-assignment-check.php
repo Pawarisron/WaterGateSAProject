@@ -182,7 +182,13 @@
           
           cell3.appendChild(checkLink);
         }
+        
     }
+    function initializeSorting() {
+      // Trigger a click event on the date column to sort in descending order
+      $('td[data-column="cmd_time"]').click();
+    }
+    initializeSorting();
     loadTable(tableData);
   </script>
 
