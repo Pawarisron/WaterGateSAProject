@@ -28,7 +28,7 @@
                 $to_ID_gate = $row['to_ID_gate'];
                 $waterQuantity = $row['waterQuantity'];
                 $inputNote = $row['inputNote'];
-                $cmd_status = 1;
+                $cmd_status = 0;
 
                 // ใส่ข้อมูลเข้าตาราง commands_log
                 $sql = "INSERT INTO commands_log(cmd_ID, cmd_order, note, open_time, close_time, staff_ID, cmd_status) 
