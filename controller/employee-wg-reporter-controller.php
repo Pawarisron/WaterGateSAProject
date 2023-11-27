@@ -66,7 +66,7 @@ if (isset($_POST['submitReport'])) {
             JOIN commands_log ON cmd_route.cmd_ID = commands_log.cmd_ID AND cmd_route.cmd_order = commands_log.cmd_order
             WHERE cmd_route.from_ID_gate = :watergate_ID AND commands_log.cmd_status = 0;";
 
-            $stmt = $pdo->prepare($condition);
+            $stmt = $conn->prepare($condition);
             $stmt->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
             $stmt->execute();
 
