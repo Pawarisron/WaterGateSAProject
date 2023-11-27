@@ -16,8 +16,8 @@
     $cmd_order = $_GET['cmd_order'];
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    // require_once '../../controller/updateTable.php';
-    // updateGateStatus($conn);
+    require_once '../../controller/updateTable.php';
+    updateGateStatus($conn);
 
     $sql = "SELECT c.*, w.*, att.*, cr.amount
       FROM commands_log as c

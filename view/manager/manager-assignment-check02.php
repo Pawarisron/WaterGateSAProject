@@ -14,8 +14,8 @@
 
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    // require_once '../../controller/updateTable.php';
-    // updateGateStatus($conn);
+    require_once '../../controller/updateTable.php';
+    updateGateStatus($conn);
 
     
 
@@ -108,7 +108,8 @@
 
               // $editGateArray = array();
 
-              $nSql = "SELECT from_ID_gate FROM cmd_route WHERE cmd_ID <> :cmd_ID";
+              $nSql = "SELECT from_ID_gate FROM commands_log  JOIN  cmd_route on cmd_route.cmd_ID = commands_log.cmd_ID and cmd_route.cmd_order = commands_log.cmd_order 
+              WHERE commands_log.cmd_ID <> :cmd_ID and open_time IS NULL and close_time IS NULL";
                 $stmt = $conn->prepare($nSql);
                 $stmt->bindParam(":cmd_ID", $cmd_ID);
                 $stmt->execute();

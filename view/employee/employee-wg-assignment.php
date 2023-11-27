@@ -14,8 +14,8 @@
 
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    // require_once '../../controller/updateTable.php';
-    // updateGateStatus($conn);
+    require_once '../../controller/updateTable.php';
+    updateGateStatus($conn);
 
     $sql = "SELECT assi.cmd_ID, cmd_time, watergate.watergate_ID, watergate.gate_name, c.cmd_order
     FROM assign_time AS assi
