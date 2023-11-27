@@ -200,13 +200,21 @@
             function validateForm() {
                 var openTimestamp = new Date(document.getElementById('openTimestamp').value);
                 var closeTimestamp = new Date(document.getElementById('closeTimestamp').value);
+                var currentTimestamp = new Date();
 
                 if (closeTimestamp <= openTimestamp) {
                     alert("เวลาปิดประตูน้ำจะไม่เกิดก่อนเวลาเปิด โปรดตรวจสอบการบันทึกของคุณ");
                     return false; 
                 }
+
+                if (openTimestamp > currentTimestamp || closeTimestamp > currentTimestamp) {
+                    alert("เวลาเปิดหรือปิดประตูน้ำไม่สามารถเกินเวลาปัจจุบันได้");
+                    return false;
+                }
+
                 return true; 
-}
+            }
+
            </script>     
 
 
