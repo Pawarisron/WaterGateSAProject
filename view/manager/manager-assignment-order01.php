@@ -376,6 +376,18 @@
           alert('โปรด Add เส้นทางปล่อยน้ำ');
           return; 
         }
+
+        var watergateIDExists = Array.from(dataRows).some(function(row) {
+            var cells = row.getElementsByTagName('td');
+            var from_ID_gate = cells[0].textContent;
+            return from_ID_gate.includes(watergate.watergate_ID);
+        });
+
+        if (!watergateIDExists) {
+            alert('ไม่เจอ "' + watergate.watergate_ID + '" ในการสั่งงาน โปรดแก้ไข');
+            return;
+        }
+
         for (var i = 0; i < dataRows.length; i++) {  // เริ่มต้นที่ 1 เพื่อข้ามแถวหัวตาราง
             var cells = dataRows[i].getElementsByTagName('td');
             

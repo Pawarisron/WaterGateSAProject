@@ -50,13 +50,38 @@ if (isset($_POST['submitReport'])) {
             $criterion_statement->execute();
 
             $criterion_result = $criterion_statement->fetch(PDO::FETCH_ASSOC);
-            $gate_status = ($upstream <= $criterion_result['criterion']) ? 0 : 1;
 
-            $update_gate_status_query = "UPDATE watergate SET gate_status = :gate_status WHERE watergate_ID = :watergate_ID";
-            $update_gate_status_statement = $conn->prepare($update_gate_status_query);
-            $update_gate_status_statement->bindParam(':gate_status', $gate_status, PDO::PARAM_INT);
-            $update_gate_status_statement->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
-            $update_gate_status_statement->execute();
+            $condition = "SELECT *
+            FROM cmd_route
+            JOIN commands_log ON cmd_route.cmd_ID = commands_log.cmd_ID AND cmd_route.cmd_order = commands_log.cmd_order
+            WHERE cmd_route.from_ID_gate = :watergate_ID AND commands_log.cmd_status = 0;";
+
+            $stmt = $conn->prepare($condition);
+            $stmt->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
+            $stmt->execute();            
+
+
+            $condition = "SELECT COUNT(*) as count
+            FROM cmd_route
+            JOIN commands_log ON cmd_route.cmd_ID = commands_log.cmd_ID AND cmd_route.cmd_order = commands_log.cmd_order
+            WHERE cmd_route.from_ID_gate = :watergate_ID AND commands_log.cmd_status = 0;";
+
+            $stmt = $pdo->prepare($condition);
+            $stmt->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($result['count'] == 0) {
+                $gate_status = ($upstream <= $criterion_result['criterion']) ? 0 : 1;
+                $update_gate_status_query = "UPDATE watergate SET gate_status = :gate_status WHERE watergate_ID = :watergate_ID";
+                $update_gate_status_statement = $conn->prepare($update_gate_status_query);
+                $update_gate_status_statement->bindParam(':gate_status', $gate_status, PDO::PARAM_INT);
+                $update_gate_status_statement->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
+                $update_gate_status_statement->execute();
+            }
+
+
 
             // Redirect after successful operations
             header('location: ../view/employee/employee-wg-reporter.php');

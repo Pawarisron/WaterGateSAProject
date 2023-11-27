@@ -32,12 +32,12 @@
             $data->execute();
 
 
-            $gate_status = 0;
-            $update_gate_status_query = "UPDATE watergate SET gate_status = :gate_status WHERE watergate_ID = :watergate_ID";
-            $update_gate_status_statement = $conn->prepare($update_gate_status_query);
-            $update_gate_status_statement->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
-            $update_gate_status_statement->bindParam(':gate_status', $gate_status, PDO::PARAM_INT);
-            $update_gate_status_statement->execute();
+            // $gate_status = 0;
+            // $update_gate_status_query = "UPDATE watergate SET gate_status = :gate_status WHERE watergate_ID = :watergate_ID";
+            // $update_gate_status_statement = $conn->prepare($update_gate_status_query);
+            // $update_gate_status_statement->bindParam(':watergate_ID', $watergate_ID, PDO::PARAM_STR);
+            // $update_gate_status_statement->bindParam(':gate_status', $gate_status, PDO::PARAM_INT);
+            // $update_gate_status_statement->execute();
 
 
 
