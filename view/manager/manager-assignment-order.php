@@ -14,8 +14,8 @@
     
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    // require_once '../../controller/updateTable.php';
-    // updateGateStatus($conn);
+    require_once '../../controller/updateTable.php';
+    updateGateStatus($conn);
 
     $sql = "SELECT w.*, r.*
     FROM watergate w
